@@ -1,4 +1,4 @@
-package com.cqvip.zlfassist;
+package com.cqvip.zlfassist.activity;
 
 import java.util.ArrayList;
 
@@ -7,12 +7,12 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
 import android.view.Menu;
-import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 
+import com.cqvip.zlfassist.R;
 import com.cqvip.zlfassist.bean.ChannelItem;
 import com.cqvip.zlfassist.tools.BaseTools;
 import com.cqvip.zlfassist.view.ColumnHorizontalScrollView;
