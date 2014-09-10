@@ -13,21 +13,27 @@
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
-      
         <activity
             android:name="com.cqvip.zlfassist.activity.WelcomActivity"
             android:label="@string/title_activity_welcom" >
-             <intent-filter>
+            <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-          <activity
+        <activity
             android:name="com.cqvip.zlfassist.activity.MainActivity"
-            android:label="@string/app_name" 
-            android:theme="@android:style/Theme.Light.NoTitleBar"
-            >
+            android:label="@string/app_name"
+            android:theme="@android:style/Theme.Light.NoTitleBar" >
+        </activity>
+        <activity
+            android:name="com.cqvip.zlfassist.activity.MyFollowActivity"
+            android:label="@string/subscribe_my_category"
+            android:parentActivityName=".activity.MainActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.cqvip.zlfassist.activity.MainActivity" />
         </activity>
     </application>
 

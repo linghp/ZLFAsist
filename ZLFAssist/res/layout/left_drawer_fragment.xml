@@ -3,54 +3,58 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical" >
-    <include layout="@layout/title_bar"
+
+    <include
         android:layout_width="fill_parent"
         android:layout_height="48dp"
-        />
-   <RelativeLayout
-                android:id="@+id/favor_btn"
-                style="@style/left_drawer_item_layout" >
+        layout="@layout/title_bar" />
 
-                <TextView
-                    style="@style/left_drawer_item_text"
-                    android:drawableLeft="@drawable/ic_drawer_search_normal"
-                    android:text="我的收藏" />
-            </RelativeLayout>
+    <RelativeLayout
+        android:id="@+id/favor_btn"
+        style="@style/left_drawer_item_layout" >
 
-            <ImageView style="@style/left_drawer_item_line" />
-<RelativeLayout
-                android:id="@+id/add_btn"
-                style="@style/left_drawer_item_layout" >
+        <TextView
+            style="@style/left_drawer_item_text"
+            android:drawableLeft="@drawable/ic_drawer_search_normal"
+            android:text="我的收藏" />
+    </RelativeLayout>
 
-                <TextView
-                    style="@style/left_drawer_item_text"
-                    android:drawableLeft="@drawable/ic_drawer_search_normal"
-                    android:text="我的关注" />
-            </RelativeLayout>
+    <ImageView style="@style/left_drawer_item_line" />
 
-            <ImageView style="@style/left_drawer_item_line" />
-            <RelativeLayout
-                android:id="@+id/down_btn"
-                style="@style/left_drawer_item_layout" >
+    <RelativeLayout
+        android:id="@+id/add_btn"
+        style="@style/left_drawer_item_layout" >
 
-                <TextView
-                    style="@style/left_drawer_item_text"
-                    android:drawableLeft="@drawable/ic_drawer_search_normal"
-                    android:text="我的下载" />
-            </RelativeLayout>
+        <TextView
+            style="@style/left_drawer_item_text"
+            android:drawableLeft="@drawable/ic_drawer_search_normal"
+            android:text="我的关注" />
+    </RelativeLayout>
 
-            <ImageView style="@style/left_drawer_item_line" />
-            <RelativeLayout
-                android:id="@+id/mes_btn"
-                style="@style/left_drawer_item_layout" >
+    <ImageView style="@style/left_drawer_item_line" />
 
-                <TextView
-                    style="@style/left_drawer_item_text"
-                    android:drawableLeft="@drawable/ic_drawer_search_normal"
-                    android:text="我的通知" />
-            </RelativeLayout>
+    <RelativeLayout
+        android:id="@+id/down_btn"
+        style="@style/left_drawer_item_layout" >
 
-            <ImageView style="@style/left_drawer_item_line" />
-          
+        <TextView
+            style="@style/left_drawer_item_text"
+            android:drawableLeft="@drawable/ic_drawer_search_normal"
+            android:text="我的下载" />
+    </RelativeLayout>
+
+    <ImageView style="@style/left_drawer_item_line" />
+
+    <RelativeLayout
+        android:id="@+id/mes_btn"
+        style="@style/left_drawer_item_layout" >
+
+        <TextView
+            style="@style/left_drawer_item_text"
+            android:drawableLeft="@drawable/ic_drawer_search_normal"
+            android:text="我的通知" />
+    </RelativeLayout>
+
+    <ImageView style="@style/left_drawer_item_line" />
 
 </LinearLayout>
