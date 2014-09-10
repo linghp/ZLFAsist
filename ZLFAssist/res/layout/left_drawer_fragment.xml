@@ -7,6 +7,17 @@
         android:layout_width="fill_parent"
         android:layout_height="48dp"
         />
+    <RelativeLayout
+                android:id="@+id/add_btn"
+                style="@style/left_drawer_item_layout" >
+
+                <TextView
+                    style="@style/left_drawer_item_text"
+                    android:drawableLeft="@drawable/ic_drawer_search_normal"
+                    android:text="@string/follow" />
+            </RelativeLayout>
+
+            <ImageView style="@style/left_drawer_item_line" />
    <RelativeLayout
                 android:id="@+id/favor_btn"
                 style="@style/left_drawer_item_layout" >
@@ -14,19 +25,9 @@
                 <TextView
                     style="@style/left_drawer_item_text"
                     android:drawableLeft="@drawable/ic_drawer_search_normal"
-                    android:text="我的收藏" />
+                    android:text="@string/favor" />
             </RelativeLayout>
 
-            <ImageView style="@style/left_drawer_item_line" />
-<RelativeLayout
-                android:id="@+id/add_btn"
-                style="@style/left_drawer_item_layout" >
-
-                <TextView
-                    style="@style/left_drawer_item_text"
-                    android:drawableLeft="@drawable/ic_drawer_search_normal"
-                    android:text="我的关注" />
-            </RelativeLayout>
 
             <ImageView style="@style/left_drawer_item_line" />
             <RelativeLayout
@@ -36,7 +37,7 @@
                 <TextView
                     style="@style/left_drawer_item_text"
                     android:drawableLeft="@drawable/ic_drawer_search_normal"
-                    android:text="我的下载" />
+                    android:text="@string/download" />
             </RelativeLayout>
 
             <ImageView style="@style/left_drawer_item_line" />
@@ -47,7 +48,7 @@
                 <TextView
                     style="@style/left_drawer_item_text"
                     android:drawableLeft="@drawable/ic_drawer_search_normal"
-                    android:text="我的通知" />
+                    android:text="@string/notification" />
             </RelativeLayout>
 
             <ImageView style="@style/left_drawer_item_line" />
