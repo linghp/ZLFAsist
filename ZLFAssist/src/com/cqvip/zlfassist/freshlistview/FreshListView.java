@@ -20,7 +20,7 @@ import android.view.animation.AnimationUtils;
 import android.widget.ListAdapter;
 
 /**
- * @author Zaric
+ * @author
  *
  */
 public class FreshListView extends ZrcAbsListView {

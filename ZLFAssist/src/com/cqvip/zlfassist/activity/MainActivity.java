@@ -23,7 +23,7 @@ import android.widget.Toast;
 import com.cqvip.zlfassist.R;
 import com.cqvip.zlfassist.adapter.NewsFragmentPagerAdapter;
 import com.cqvip.zlfassist.bean.ChannelItem;
-import com.cqvip.zlfassist.fragment.NewsFragment;
+import com.cqvip.zlfassist.fragment.PeriodicalListFragment;
 import com.cqvip.zlfassist.tools.BaseTools;
 import com.cqvip.zlfassist.view.ColumnHorizontalScrollView;
 import com.cqvip.zlfassist.view.DrawerView;
@@ -242,7 +242,7 @@ public class MainActivity extends FragmentActivity {
 			Bundle data = new Bundle();
     		data.putString("text", userChannelList.get(i).getName());
     		data.putInt("id", userChannelList.get(i).getId());
-			NewsFragment newfragment = new NewsFragment();
+			PeriodicalListFragment newfragment = new PeriodicalListFragment();
 			newfragment.setArguments(data);
 			fragments.add(newfragment);
 		}

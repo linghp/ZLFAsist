@@ -10,7 +10,11 @@ import com.android.volley.toolbox.Volley;
 import com.cqvip.zlfassist.exception.ErrorVolleyThrow;
 import com.cqvip.zlfassist.view.CustomProgressDialog;
 
-
+/**
+ * Activity基类
+ * @author luojiang
+ *
+ */
 public class BaseActivity extends Activity {
 	/**网络模块*/
 	protected RequestQueue mQueue;
