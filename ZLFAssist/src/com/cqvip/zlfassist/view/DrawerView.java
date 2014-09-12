@@ -10,6 +10,8 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.cqvip.zlfassist.R;
+import com.cqvip.zlfassist.activity.DisplayFollowActivity;
+import com.cqvip.zlfassist.activity.MyFollowActivity;
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu.OnClosedListener;
 /** 
@@ -19,6 +21,7 @@ public class DrawerView implements OnClickListener{
 	private final Activity activity;
 	SlidingMenu localSlidingMenu;
 	//private SwitchButton night_mode_btn;
+	private View add_btn;
 	private TextView night_mode_text;
 	private RelativeLayout setting_btn;
 	public DrawerView(Activity activity) {
@@ -58,6 +61,9 @@ public class DrawerView implements OnClickListener{
 	}
 
 	private void initView() {
+		add_btn=localSlidingMenu.findViewById(R.id.add_btn);
+		add_btn.setOnClickListener(this);
+		
 		//night_mode_btn = (SwitchButton)localSlidingMenu.findViewById(R.id.night_mode_btn);
 //		night_mode_text = (TextView)localSlidingMenu.findViewById(R.id.night_mode_text);
 //		night_mode_btn.setOnCheckedChangeListener(new OnCheckedChangeListener() {
@@ -85,14 +91,18 @@ public class DrawerView implements OnClickListener{
 
 	@Override
 	public void onClick(View v) {
-//		switch (v.getId()) {
+		switch (v.getId()) {
+		case R.id.add_btn:
+			activity.startActivity(new Intent(activity,DisplayFollowActivity.class));
+			activity.overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+			break;
 //		case R.id.setting_btn:
 //			activity.startActivity(new Intent(activity,SettingsActivity.class));
 //			activity.overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
 //			break;
-//
-//		default:
-//			break;
-//		}
+
+		default:
+			break;
+		}
 	}
 }

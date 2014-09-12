@@ -51,8 +51,15 @@
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.cqvip.zlfassist.activity.MainActivity" />
+            </activity>
+        <activity
+            android:name=".activity.DisplayFollowActivity"
+            android:label="@string/title_activity_display_follow"
+            android:parentActivityName=".activity.MainActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.cqvip.zlfassist.activity.MainActivity" />
         </activity>
-       
     </application>
 
 </manifest>

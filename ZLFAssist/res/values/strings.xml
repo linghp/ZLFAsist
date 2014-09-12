@@ -20,6 +20,7 @@
     <string name="title_activity_down_load">DownLoadActivity</string>
     
     <string name="subscribe_my_category">订阅</string>
+    <string name="title_activity_display_follow">已订阅</string>
 
        <!-- 异常 -->
     <string name="generic_server_down">server no response</string>

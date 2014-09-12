@@ -8,4 +8,9 @@
     	               <color name="left_drawer_item_text_normal">#ffd4d4d4</color>
     <color name="left_drawer_item_text_pressed">#ff4e4e4e</color>
     <color name="title_bg">#30A8C8</color>
+    <color name="color1">#ff0f9d58</color>
+    <color name="color2">#ffdb4437</color>
+    <color name="color3">#ff4285f4</color>
+    <color name="color4">#fff4b400</color>
+
 </resources>
