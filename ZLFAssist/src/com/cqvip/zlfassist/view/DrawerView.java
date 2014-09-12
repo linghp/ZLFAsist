@@ -10,6 +10,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.cqvip.zlfassist.R;
+import com.cqvip.zlfassist.activity.DisplayFollowActivity;
 import com.cqvip.zlfassist.activity.MyFollowActivity;
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu.OnClosedListener;
@@ -92,7 +93,7 @@ public class DrawerView implements OnClickListener{
 	public void onClick(View v) {
 		switch (v.getId()) {
 		case R.id.add_btn:
-			activity.startActivity(new Intent(activity,MyFollowActivity.class));
+			activity.startActivity(new Intent(activity,DisplayFollowActivity.class));
 			activity.overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
 			break;
 //		case R.id.setting_btn:

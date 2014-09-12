@@ -1,0 +1,17 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.cqvip.zlfassist.DisplayFollowActivity" >
+
+    <item
+        android:id="@+id/follow_add"
+        android:icon="@drawable/displayfollow_add"
+        app:showAsAction="ifRoom"
+        android:title="add"/>
+    <item
+        android:id="@+id/force_refresh"
+        android:icon="@drawable/displayfollow_refresh_selector"
+        app:showAsAction="ifRoom"
+        android:title="Refresh"/>
+
+</menu>

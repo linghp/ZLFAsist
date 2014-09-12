@@ -14,7 +14,7 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity
-            android:name="com.cqvip.zlfassist.activity.WelcomActivity"
+            android:name=".activity.WelcomActivity"
             android:label="@string/title_activity_welcom" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -23,17 +23,25 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.cqvip.zlfassist.activity.MainActivity"
+            android:name=".activity.MainActivity"
             android:label="@string/app_name"
             android:theme="@android:style/Theme.Light.NoTitleBar" >
         </activity>
         <activity
-            android:name="com.cqvip.zlfassist.activity.MyFollowActivity"
-            android:label="@string/subscribe_my_category"
+            android:name=".activity.DisplayFollowActivity"
+            android:label="@string/title_activity_display_follow"
             android:parentActivityName=".activity.MainActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.cqvip.zlfassist.activity.MainActivity" />
+        </activity>
+        <activity
+            android:name=".activity.MyFollowActivity"
+            android:label="@string/subscribe_my_category"
+            android:parentActivityName=".activity.DisplayFollowActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.cqvip.zlfassist.activity.DisplayFollowActivity" />
         </activity>
     </application>
 
