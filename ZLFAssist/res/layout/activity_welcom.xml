@@ -21,5 +21,12 @@
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
         android:text="Button" />
+    <Button
+        android:id="@+id/button2"
+        android:onClick="json"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+    android:layout_below="@+id/button1"
+        android:text="解析json" />
 
 </RelativeLayout>
