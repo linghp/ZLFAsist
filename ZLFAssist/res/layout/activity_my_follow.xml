@@ -1,0 +1,80 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical" >
+
+    <FrameLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent" >
+
+        <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10.0dip"
+            android:visibility="gone" >
+
+            <ImageView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/search_box" />
+
+            <EditText
+                android:id="@+id/search_edit"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="33.0dip"
+                android:layout_marginRight="20.0dip"
+                android:background="@null"
+                android:cursorVisible="true"
+                android:hint="搜索宝贝"
+                android:imeOptions="actionDone"
+                android:maxEms="100"
+                android:maxLength="100"
+                android:singleLine="true"
+                android:textColor="#ff000000"
+                android:textCursorDrawable="@null"
+                android:textSize="14.0sp" />
+        </RelativeLayout>
+
+        <View
+            android:layout_width="fill_parent"
+            android:layout_height="1.0dip"
+            android:background="#ffbfbfbf"
+            android:visibility="gone" />
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:baselineAligned="false"
+            android:scrollbars="none" >
+
+            <ListView
+                android:id="@+id/lv_category"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="4.0"
+                android:divider="@null"
+                android:scrollbars="none" />
+
+            <View
+                android:layout_width="1.0dip"
+                android:layout_height="fill_parent"
+                android:background="#ffbfbfbf" />
+
+            <ListView
+                android:id="@+id/lv_subcategory"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_weight="1.0" />
+        </LinearLayout>
+
+        <ListView
+            android:id="@+id/lv_search"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:padding="8dp"
+            android:visibility="gone" android:background="@android:color/white"/>
+    </FrameLayout>
+
+</LinearLayout>

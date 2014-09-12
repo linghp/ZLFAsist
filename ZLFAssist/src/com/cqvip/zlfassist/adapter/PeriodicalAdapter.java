@@ -12,7 +12,7 @@ import android.widget.TextView;
 
 import com.android.volley.toolbox.ImageLoader;
 import com.cqvip.zlfassist.R;
-import com.cqvip.zlfassist.bean.PeriodicalResult.Periodical;
+import com.cqvip.zlfassist.bean.Periodical;
 
 /**
  * 期刊列表

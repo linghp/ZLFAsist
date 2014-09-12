@@ -96,7 +96,7 @@ public class WelcomActivity extends BaseActivity {
 	private void requestVolley(final Map<String, String> gparams, String url,
 			Listener<String> listener, int post) {
 		StringRequest mys = new StringRequest(post, url, listener,
-				volleyErrorListener) {
+				errorListener) {
 			protected Map<String, String> getParams()
 					throws com.android.volley.AuthFailureError {
 				return gparams;

@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_height="wrap_content"
+	android:orientation="vertical"
+	android:background="@android:color/white"
+	android:layout_width="fill_parent">
+	
+	<TextView
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_gravity="center_horizontal|top"
+		android:layout_marginTop="10.0dip"
+		android:gravity="top"
+		android:textSize="22sp"
+		android:text="@string/dialog_pick_title"/>
+	
+	<LinearLayout
+		android:layout_height="wrap_content"
+		android:layout_gravity="center_horizontal"
+		android:layout_width="fill_parent"
+		android:paddingLeft="12dp"
+		android:paddingRight="12dp"
+		android:paddingTop="4dp"
+		android:layout_marginTop="8dp"
+		android:orientation="horizontal">
+   <com.cqvip.zlfassist.view.picker.WheelView android:id="@+id/country"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:layout_gravity="top"
+        android:layout_weight="1"/>
+	
+	<com.cqvip.zlfassist.view.picker.WheelView android:id="@+id/city"
+		android:layout_height="wrap_content"
+		android:layout_width="wrap_content"
+		android:layout_marginLeft="10dp"
+		android:layout_weight="1.5"/>
+		
+	</LinearLayout>
+	
+	<Button
+	    android:id="@+id/btn_date_confirm"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_gravity="center_horizontal"
+		android:layout_marginTop="18dp"
+		android:textSize="16sp"
+		android:text="@string/dialog_pick_confirm" 
+		android:paddingTop="2.0dip"
+		android:paddingBottom="2.0dip"
+		android:layout_marginBottom="5.0dip"
+		/>  
+
+</LinearLayout>

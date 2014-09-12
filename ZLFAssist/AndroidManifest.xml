@@ -45,14 +45,26 @@
             android:theme="@android:style/Theme.Light.NoTitleBar" >
         </activity>
         <activity
+            android:name="com.cqvip.zlfassist.activity.PeriodicalInfoActivity"
+            android:label="@string/app_name"
+            android:theme="@android:style/Theme.Light.NoTitleBar" >
+        </activity>
+        <activity
             android:name="com.cqvip.zlfassist.activity.MyFollowActivity"
             android:label="@string/subscribe_my_category"
             android:parentActivityName=".activity.MainActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.cqvip.zlfassist.activity.MainActivity" />
+            </activity>
+        <activity
+            android:name=".activity.DisplayFollowActivity"
+            android:label="@string/title_activity_display_follow"
+            android:parentActivityName=".activity.MainActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.cqvip.zlfassist.activity.MainActivity" />
         </activity>
-       
     </application>
 
 </manifest>
