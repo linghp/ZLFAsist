@@ -31,7 +31,7 @@ import android.widget.Toast;
 
 import com.cqvip.zlfassist.R;
 
-public class MyFollowActivity extends ActionBarActivity implements
+public class AddFollowActivity extends ActionBarActivity implements
 		OnItemClickListener,OnClickListener {
 	private ListView lv_category,lv_subcategory,lv_search;
 	private Lv_subcategory_adapter lv_subcategory_adapter;
@@ -39,7 +39,7 @@ public class MyFollowActivity extends ActionBarActivity implements
 	private String[] categoryNames = { "1", "2", "2", "2", "2", "2", "2", "2",
 			"2", "2", "2", "2", "2", "2", "2", "2", "2", "2", "2", "2", "2",
 			"2", "2", "2", "2", "2", "2", "2", "2", "2", "2" };
-	public final static String TAG = "MyFollowActivity";
+	public final static String TAG = "AddFollowActivity";
 	private List<String> subcategoryNameList;
 	private SearchView searchView;
 	//private boolean isfirstsearch_searchview=true;
@@ -78,7 +78,7 @@ public class MyFollowActivity extends ActionBarActivity implements
 			public boolean onClose() {
 				lv_search.setVisibility(View.GONE);
 				lv_search.startAnimation(AnimationUtils.loadAnimation(
-			    		MyFollowActivity.this, R.anim.header_disappear));
+			    		AddFollowActivity.this, R.anim.header_disappear));
 				return false;
 			}
 		});
@@ -91,18 +91,18 @@ public class MyFollowActivity extends ActionBarActivity implements
             new SearchView.OnQueryTextListener() {
         @Override
         public boolean onQueryTextChange(String newText) {
-        lv_search.setAdapter(new Lv_search_adapter(MyFollowActivity.this, subcategoryNameList));   
+        lv_search.setAdapter(new Lv_search_adapter(AddFollowActivity.this, subcategoryNameList));   
         if(lv_search.getVisibility()==View.GONE){
         lv_search.setVisibility(View.VISIBLE);
 		lv_search.startAnimation(AnimationUtils.loadAnimation(
-	    		MyFollowActivity.this, R.anim.header_appear));
+	    		AddFollowActivity.this, R.anim.header_appear));
         }
             return true;
         }
 
         @Override
         public boolean onQueryTextSubmit(String query) {
-            Toast.makeText(MyFollowActivity.this,
+            Toast.makeText(AddFollowActivity.this,
                     "Searching for: " + query + "...", Toast.LENGTH_SHORT).show();
             return true;
         }
@@ -225,7 +225,7 @@ public class MyFollowActivity extends ActionBarActivity implements
 				holder = new ViewHolder();
 				holder.title = (TextView) convertView.findViewById(R.id.tv_subcategory);
 				holder.iv_add=(ImageView) convertView.findViewById(R.id.iv_add);
-				holder.iv_add.setOnClickListener((MyFollowActivity)context);
+				holder.iv_add.setOnClickListener((AddFollowActivity)context);
 				convertView.setTag(holder);
 			} else {
 				holder = (ViewHolder) convertView.getTag();

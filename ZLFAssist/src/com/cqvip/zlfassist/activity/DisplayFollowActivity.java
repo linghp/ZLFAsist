@@ -85,7 +85,7 @@ public class DisplayFollowActivity extends ActionBarActivity implements
 			refresh();
 			return true;
 		case R.id.follow_add:
-			startActivity(new Intent(this, MyFollowActivity.class));
+			startActivity(new Intent(this, AddFollowActivity.class));
 			overridePendingTransition(R.anim.slide_in_right,
 					R.anim.slide_out_left);
 			return true;
@@ -102,7 +102,7 @@ public class DisplayFollowActivity extends ActionBarActivity implements
 	public void onItemClick(AdapterView<?> parent, View view, int position,
 			long id) {
 		if (position == TITLES.length) {
-			startActivity(new Intent(this, MyFollowActivity.class));
+			startActivity(new Intent(this, AddFollowActivity.class));
 			overridePendingTransition(R.anim.slide_in_right,
 					R.anim.slide_out_left);
 		}
