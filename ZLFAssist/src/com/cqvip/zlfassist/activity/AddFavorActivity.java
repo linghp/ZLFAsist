@@ -13,6 +13,7 @@ public class AddFavorActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_welcom);
 	}
+	
 	public void begin(View v){
 		startActivity(new Intent(AddFavorActivity.this,MainActivity.class));
 		finish();
