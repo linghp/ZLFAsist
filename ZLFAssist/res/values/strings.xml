@@ -21,16 +21,7 @@
     
     <string name="subscribe_my_category">订阅</string>
     <string name="title_activity_display_follow">已订阅</string>
-    
-    <string name="dialog_pick_confirm">确  定</string>
-    <string name="dialog_pick_title">请选择期刊期数</string>
- 	<string name="title_cnno">国内统一刊号：</string>
-    <string name="title_issn">国际标准刊号：</string>
-    <string name="title_perio_chiefdept">主管单位：</string>
-    <string name="title_perio_publisher">主办单位：</string>
-    <string name="title_perio_chiefeditor">主　　编：</string>
-    <string name="title_perio_type">期刊/开本：</string>
-    <string name="title_perio_remark">简介：</string>
+
        <!-- 异常 -->
     <string name="generic_server_down">server no response</string>
     <string name="need_pwd">请输入用户名</string>

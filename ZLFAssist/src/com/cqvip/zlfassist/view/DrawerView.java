@@ -11,7 +11,7 @@ import android.widget.TextView;
 
 import com.cqvip.zlfassist.R;
 import com.cqvip.zlfassist.activity.DisplayFollowActivity;
-import com.cqvip.zlfassist.activity.MyFollowActivity;
+import com.cqvip.zlfassist.activity.AddFollowActivity;
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu.OnClosedListener;
 /** 

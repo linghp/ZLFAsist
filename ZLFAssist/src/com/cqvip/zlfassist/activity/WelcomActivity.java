@@ -37,6 +37,7 @@ public class WelcomActivity extends BaseActivity {
 		startActivity(new Intent(WelcomActivity.this,MainActivity.class));
 		finish();
 	}
+	
 	public void json(View v) throws JSONException{
 		JSONObject json = new JSONObject();
 		json.put("id", 1000);
@@ -95,7 +96,7 @@ public class WelcomActivity extends BaseActivity {
 	private void requestVolley(final Map<String, String> gparams, String url,
 			Listener<String> listener, int post) {
 		StringRequest mys = new StringRequest(post, url, listener,
-				errorListener) {
+				volleyErrorListener) {
 			protected Map<String, String> getParams()
 					throws com.android.volley.AuthFailureError {
 				return gparams;

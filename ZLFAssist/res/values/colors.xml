@@ -12,6 +12,13 @@
     <color name="color2">#ffdb4437</color>
     <color name="color3">#ff4285f4</color>
     <color name="color4">#fff4b400</color>
+    
+        <!-- scan -->
+    <color name="transparent">#00000000</color>
+    <color name="viewfinder_frame">#ff000000</color>
+    <color name="viewfinder_laser">#ffff0000</color>
+    <color name="viewfinder_mask">#60000000</color>
+    <color name="result_view">#b0000000</color>
+    <color name="possible_result_points">#c0ffff00</color>
 
-      <color name="blue_title">#FF0099CC</color>
 </resources>

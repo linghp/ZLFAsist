@@ -63,38 +63,4 @@
         <item name="android:windowBackground">@android:color/transparent</item>
         <item name="android:windowNoTitle">true</item>
     </style>
-    
-        <!-- 	   搜索结果字体 -->
-	<style name="TextContentSmallStyle">
-        <item name="android:textSize">12.0sp</item>
-    </style>
-	<style name="TextTitleBlueStyle">
-        <item name="android:textColor">@color/blue_title</item>
-        <item name="android:textSize">16.0sp</item>
-    </style>
-	<style name="TextTitleBigBlueStyle">
-        <item name="android:textColor">@color/blue_title</item>
-        <item name="android:textSize">16.0sp</item>
-        <item name="android:textStyle">bold</item>
-    </style>
-	<style name="TextTitleSmallgBlueStyle">
-        <item name="android:textColor">@color/blue_title</item>
-        <item name="android:textSize">14.0sp</item>
-        <item name="android:textStyle">bold</item>
-    </style>
-
-	<style name="TextContentMiddleStyle">
-        <item name="android:textSize">14.0sp</item>
-    </style>
-	<style name="TextContentBigStyle">
-        <item name="android:textSize">16.0sp</item>
-    </style>
-	<style name="TextTitleMiddleBlueStyle">
-        <item name="android:textColor">@color/blue_title</item>
-        <item name="android:textSize">16.0sp</item>
-    </style>
-     <style name="dialog_fullscreen">
-        <item name="android:windowNoTitle">true</item>
-        <item name="android:windowBackground">@android:color/transparent</item>
-    </style>
 </resources>
