@@ -8,7 +8,6 @@ import android.view.View;
 import com.cqvip.zlfassist.R;
 
 public class AddFavorActivity extends Activity {
-
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
