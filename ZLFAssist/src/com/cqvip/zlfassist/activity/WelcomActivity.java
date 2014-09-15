@@ -49,7 +49,6 @@ public class WelcomActivity extends BaseActivity {
 		Foo foo = gson.fromJson(jsondata, Foo.class);
 		request();
 	}
-
 	public class Foo {
 	    public int id;
 	    public String body;

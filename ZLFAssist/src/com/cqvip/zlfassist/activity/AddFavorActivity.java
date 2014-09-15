@@ -18,6 +18,8 @@ public class AddFavorActivity extends Activity {
 		startActivity(new Intent(AddFavorActivity.this,MainActivity.class));
 		finish();
 	}
+	
+	
 
 	
 }
