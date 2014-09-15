@@ -59,6 +59,10 @@
             android:theme="@android:style/Theme.Light.NoTitleBar" >
         </activity>
         <activity
+            android:name=".activity.PeriodicalInfoActivity"
+            android:theme="@android:style/Theme.Light.NoTitleBar" >
+        </activity>
+        <activity
             android:name=".activity.DisplayFollowActivity"
             android:label="@string/title_activity_display_follow"
             android:parentActivityName=".activity.MainActivity" >
