@@ -24,6 +24,7 @@ import com.cqvip.zlfassist.R;
 import com.cqvip.zlfassist.adapter.NewsFragmentPagerAdapter;
 import com.cqvip.zlfassist.bean.ChannelItem;
 import com.cqvip.zlfassist.fragment.PeriodicalListFragment;
+import com.cqvip.zlfassist.scan.CaptureActivity;
 import com.cqvip.zlfassist.tools.BaseTools;
 import com.cqvip.zlfassist.view.ColumnHorizontalScrollView;
 import com.cqvip.zlfassist.view.DrawerView;
@@ -62,7 +63,7 @@ public class MainActivity extends FragmentActivity {
 	/** head 头部 的左侧菜单 按钮*/
 	private ImageView top_head;
 	/** head 头部 的右侧菜单 按钮*/
-	private ImageView top_more;
+	private ImageView top_right;
 	/** 请求CODE */
 	public final static int CHANNELREQUEST = 1;
 	/** 调整返回的RESULTCODE */
@@ -87,7 +88,7 @@ public class MainActivity extends FragmentActivity {
 		shade_left = (ImageView) findViewById(R.id.shade_left);
 		shade_right = (ImageView) findViewById(R.id.shade_right);
 		top_head = (ImageView) findViewById(R.id.top_head);
-		top_more = (ImageView) findViewById(R.id.top_more);
+		top_right = (ImageView) findViewById(R.id.top_right);
 		top_refresh = (ImageView) findViewById(R.id.top_refresh);
 		top_progress = (ProgressBar) findViewById(R.id.top_progress);
 		button_more_columns.setOnClickListener(new OnClickListener() {
@@ -111,18 +112,16 @@ public class MainActivity extends FragmentActivity {
 				}
 			}
 		});
-		top_more.setOnClickListener(new OnClickListener() {
+		
+		top_right.setOnClickListener(new OnClickListener() {
 			
 			@Override
 			public void onClick(View v) {
-				// TODO Auto-generated method stub
-				if(side_drawer.isSecondaryMenuShowing()){
-					side_drawer.showContent();
-				}else{
-					side_drawer.showSecondaryMenu();
-				}
+				Intent intent=new Intent(MainActivity.this, CaptureActivity.class);
+				startActivity(intent);
 			}
 		});
+		
 		setChangelView();
 	}
 	/** 

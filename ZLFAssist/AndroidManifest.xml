@@ -8,8 +8,26 @@
     <uses-sdk
         android:minSdkVersion="10"
         android:targetSdkVersion="19" />
-<uses-permission android:name="android.permission.INTERNET" />
+
+    <supports-screens
+        android:anyDensity="true"
+        android:largeScreens="true"
+        android:normalScreens="true"
+        android:resizeable="true"
+        android:smallScreens="false"
+        android:xlargeScreens="true" />
+
+    <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <!-- scan -->
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.FLASHLIGHT" />
+
+    <uses-feature android:name="android.hardware.camera" />
+    <uses-feature android:name="android.hardware.camera.autofocus" />
+
     <application
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
@@ -29,35 +47,18 @@
             android:theme="@android:style/Theme.Light.NoTitleBar" >
         </activity>
         <activity
-            android:name=".activity.AddFollowActivity"
-            android:theme="@android:style/Theme.Light.NoTitleBar" >
-        </activity>
-        <activity
             android:name=".activity.AddDownloadActivity"
             android:theme="@android:style/Theme.Light.NoTitleBar" >
         </activity>
         <activity
             android:name=".activity.AddNotificationActivity"
             android:theme="@android:style/Theme.Light.NoTitleBar" >
-         </activity>
+        </activity>
         <activity
-            android:name="com.cqvip.zlfassist.activity.MainActivity"
+            android:name=".activity.MainActivity"
             android:label="@string/app_name"
             android:theme="@android:style/Theme.Light.NoTitleBar" >
         </activity>
-        <activity
-            android:name="com.cqvip.zlfassist.activity.PeriodicalInfoActivity"
-            android:label="@string/app_name"
-            android:theme="@android:style/Theme.Light.NoTitleBar" >
-        </activity>
-        <activity
-            android:name="com.cqvip.zlfassist.activity.MyFollowActivity"
-            android:label="@string/subscribe_my_category"
-            android:parentActivityName=".activity.MainActivity" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.cqvip.zlfassist.activity.MainActivity" />
-            </activity>
         <activity
             android:name=".activity.DisplayFollowActivity"
             android:label="@string/title_activity_display_follow"
@@ -66,6 +67,18 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.cqvip.zlfassist.activity.MainActivity" />
         </activity>
+        <activity
+            android:name=".activity.AddFollowActivity"
+            android:label="@string/subscribe_my_category"
+            android:parentActivityName=".activity.DisplayFollowActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.cqvip.zlfassist.activity.DisplayFollowActivity" />
+        </activity>
+        <activity
+            android:name="com.cqvip.zlfassist.scan.CaptureActivity"
+            android:screenOrientation="landscape"
+            android:theme="@android:style/Theme.NoTitleBar" />
     </application>
 
 </manifest>
