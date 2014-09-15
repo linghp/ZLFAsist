@@ -37,7 +37,6 @@ public class WelcomActivity extends BaseActivity {
 		startActivity(new Intent(WelcomActivity.this,MainActivity.class));
 		finish();
 	}
-	
 	public void json(View v) throws JSONException{
 		JSONObject json = new JSONObject();
 		json.put("id", 1000);
