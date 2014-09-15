@@ -7,4 +7,7 @@
      <dimen name="head_size">28.0dip</dimen> 
     <dimen name="slidingmenu_offset">50.0dip</dimen>
     <dimen name="shadow_width">15.0dip</dimen>
+    
+     <dimen name="search_detail_txtsize_tv">14sp</dimen>
+    <dimen name="search_detail_txtsize_btn">16sp</dimen>
 </resources>

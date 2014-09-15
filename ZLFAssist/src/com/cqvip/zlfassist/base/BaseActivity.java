@@ -18,7 +18,7 @@ import com.cqvip.zlfassist.view.CustomProgressDialog;
 public class BaseActivity extends Activity {
 	/**网络模块*/
 	protected RequestQueue mQueue;
-	protected ErrorListener volleyErrorListener;// 错误处理
+	protected ErrorListener errorListener;// 错误处理
 	protected CustomProgressDialog customProgressDialog;// 对话框
 
 	@Override
@@ -28,6 +28,6 @@ public class BaseActivity extends Activity {
 		
 		mQueue = Volley.newRequestQueue(this);
 		customProgressDialog = CustomProgressDialog.createDialog(this);
-		volleyErrorListener = new ErrorVolleyThrow(this, customProgressDialog);
+		errorListener = new ErrorVolleyThrow(this, customProgressDialog);
 	}
 }
