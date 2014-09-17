@@ -33,7 +33,7 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity
-            android:name="com.cqvip.zlfassist.activity.WelcomActivity"
+            android:name=".activity.WelcomActivity"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -79,9 +79,17 @@
                 android:value="com.cqvip.zlfassist.activity.DisplayFollowActivity" />
         </activity>
         <activity
-            android:name="com.cqvip.zlfassist.scan.CaptureActivity"
+            android:name=".scan.CaptureActivity"
             android:screenOrientation="landscape"
             android:theme="@android:style/Theme.NoTitleBar" />
+        <activity
+            android:name=".activity.DetailContentActivity"
+            android:label="@string/title_activity_detail_content"
+            android:parentActivityName=".activity.PeriodicalInfoActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.cqvip.zlfassist.activity.PeriodicalInfoActivity" />
+        </activity>
     </application>
 
 </manifest>
