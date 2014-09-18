@@ -7,6 +7,7 @@ import java.util.Map;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Paint;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -28,6 +29,7 @@ import com.android.volley.Response.Listener;
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.ImageLoader.ImageListener;
 import com.android.volley.toolbox.StringRequest;
+import com.cqvip.zlfassist.activity.DetailContentActivity;
 import com.cqvip.zlfassist.R;
 import com.cqvip.zlfassist.base.BaseActivity;
 import com.cqvip.zlfassist.bean.EBook;
@@ -61,7 +63,12 @@ public class PeriodicalInfoActivity extends BaseActivity {
 	private boolean isFirstFlag = false;
 	private RelativeLayout rlFromAndDate;
 	
-	
+	@Override
+	protected void onSaveInstanceState(Bundle outState) {
+		// TODO Auto-generated method stub
+		super.onSaveInstanceState(outState);
+		
+	}
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -251,6 +258,7 @@ public class PeriodicalInfoActivity extends BaseActivity {
 //				}
 //			  }
 //			}
+				startActivity(new Intent(PeriodicalInfoActivity.this,DetailContentActivity.class));
 		  }
 		});
 		
