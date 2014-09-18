@@ -1,10 +1,56 @@
-<android.support.v4.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/swipe_refresh_widget"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
-    <!-- some full screen pullable view that will be the offsetable content -->
-    <ListView
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent" >
+
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/swipe_refresh_widget"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/Lv_followcontent"/>
-</android.support.v4.widget.SwipeRefreshLayout>
+        android:layout_height="match_parent" >
+
+        <!-- some full screen pullable view that will be the offsetable content -->
+
+        <ListView
+            android:id="@+id/Lv_followcontent"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </android.support.v4.widget.SwipeRefreshLayout>
+    
+        <!-- The selection menu that pops up from the bottom of the screen -->
+
+    <LinearLayout
+        android:id="@+id/selection_menu"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:background="@color/color1"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:paddingBottom="8dip"
+        android:paddingLeft="16dip"
+        android:paddingRight="16dip"
+        android:paddingTop="8dip"
+        android:visibility="gone"
+         >
+
+        <Button
+            android:id="@+id/selection_delete"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textSize="16sp"
+             android:textColor="@color/default_text"
+             android:text="@string/delete"
+             />
+
+        <Button
+            android:id="@+id/deselect_all"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textSize="16sp"
+            android:textColor="@color/default_text"
+            android:layout_marginLeft="16dp"
+            android:text="@string/cancel" />
+    </LinearLayout>
+
+</FrameLayout>

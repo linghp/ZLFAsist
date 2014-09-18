@@ -2,18 +2,21 @@ package com.cqvip.zlfassist.view;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.net.Uri;
+import android.os.Environment;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.CompoundButton;
-import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.cqvip.zlfassist.R;
 import com.cqvip.zlfassist.activity.DisplayFollowActivity;
-import com.cqvip.zlfassist.activity.AddFollowActivity;
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu.OnClosedListener;
+import com.mozillaonline.providers.DownloadManager;
+import com.mozillaonline.providers.DownloadManager.Request;
+import com.mozillaonline.providers.downloads.DownloadService;
+import com.mozillaonline.providers.downloads.ui.DownloadList;
 /** 
  * 自定义SlidingMenu 测拉菜单类
  * */
@@ -21,13 +24,23 @@ public class DrawerView implements OnClickListener{
 	private final Activity activity;
 	SlidingMenu localSlidingMenu;
 	//private SwitchButton night_mode_btn;
-	private View add_btn;
+	private View add_btn,down_btn;
 	private TextView night_mode_text;
 	private RelativeLayout setting_btn;
+	DownloadManager mDownloadManager;
 	public DrawerView(Activity activity) {
 		this.activity = activity;
+		mDownloadManager = new DownloadManager(activity.getContentResolver(),
+				activity.getPackageName());
+		startDownloadService();
 	}
-
+	
+    private void startDownloadService() {
+	Intent intent = new Intent();
+	intent.setClass(activity, DownloadService.class);
+	activity.startService(intent);
+    }
+    
 	public SlidingMenu initSlidingMenu() {
 		localSlidingMenu = new SlidingMenu(activity);
 		localSlidingMenu.setMode(SlidingMenu.LEFT);//设置左右滑菜单
@@ -62,7 +75,9 @@ public class DrawerView implements OnClickListener{
 
 	private void initView() {
 		add_btn=localSlidingMenu.findViewById(R.id.add_btn);
+		down_btn=localSlidingMenu.findViewById(R.id.down_btn);
 		add_btn.setOnClickListener(this);
+		down_btn.setOnClickListener(this);
 		
 		//night_mode_btn = (SwitchButton)localSlidingMenu.findViewById(R.id.night_mode_btn);
 //		night_mode_text = (TextView)localSlidingMenu.findViewById(R.id.night_mode_text);
@@ -96,6 +111,11 @@ public class DrawerView implements OnClickListener{
 			activity.startActivity(new Intent(activity,DisplayFollowActivity.class));
 			activity.overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
 			break;
+		case R.id.down_btn:
+			startDownload("");
+			activity.startActivity(new Intent(activity,DownloadList.class));
+			activity.overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+			break;
 //		case R.id.setting_btn:
 //			activity.startActivity(new Intent(activity,SettingsActivity.class));
 //			activity.overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
@@ -105,4 +125,18 @@ public class DrawerView implements OnClickListener{
 			break;
 		}
 	}
+	
+	   private void startDownload(String url) {
+			//String url = "http://www.pptok.com/wp-content/uploads/2012/06/huanbao-1.jpg";
+			url = "http://www.it.com.cn/dghome/img/2009/06/23/17/090623_tv_tf2_13h.jpg";
+			//String url = "http://down.mumayi.com/41052/mbaidu";
+			Uri srcUri = Uri.parse(url);
+			DownloadManager.Request request = new Request(srcUri);
+			request.setDestinationInExternalPublicDir(
+				Environment.DIRECTORY_DOWNLOADS, "/");
+			request.setDescription("test!!!");
+			 DownloadManager mDownloadManager = new DownloadManager(activity.getContentResolver(),
+					 activity.getPackageName());
+			mDownloadManager.enqueue(request);
+		    }
 }

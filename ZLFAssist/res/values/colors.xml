@@ -1,24 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-      <color name="activity_bg_color">#fff5f5f5</color>
-    	<color name="activity_bg_color_night">#ff1a1a1a</color>
-    	    <color name="left_drawer_item_bg_normal">#ff393939</color>
-    	        <color name="left_drawer_item_bg_pressed">#ff292929</color>
-    	            <color name="left_drawer_item_line">#ff272727</color>
-    	               <color name="left_drawer_item_text_normal">#ffd4d4d4</color>
+
+    <color name="default_text">#ff454545</color>
+    <color name="activity_bg_color">#fff5f5f5</color>
+    <color name="activity_bg_color_night">#ff1a1a1a</color>
+    <color name="left_drawer_item_bg_normal">#ff393939</color>
+    <color name="left_drawer_item_bg_pressed">#ff292929</color>
+    <color name="left_drawer_item_line">#ff272727</color>
+    <color name="left_drawer_item_text_normal">#ffd4d4d4</color>
     <color name="left_drawer_item_text_pressed">#ff4e4e4e</color>
     <color name="title_bg">#30A8C8</color>
     <color name="color1">#ff0f9d58</color>
     <color name="color2">#ffdb4437</color>
     <color name="color3">#ff4285f4</color>
     <color name="color4">#fff4b400</color>
-
-      <color name="blue_title">#FF0099CC</color>
-              <!-- scan -->
+    <color name="blue_title">#FF0099CC</color>
+    <!-- scan -->
     <color name="transparent">#00000000</color>
     <color name="viewfinder_frame">#ff000000</color>
     <color name="viewfinder_laser">#ffff0000</color>
     <color name="viewfinder_mask">#60000000</color>
     <color name="result_view">#b0000000</color>
     <color name="possible_result_points">#c0ffff00</color>
+
 </resources>
