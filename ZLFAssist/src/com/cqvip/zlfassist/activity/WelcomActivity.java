@@ -21,6 +21,7 @@ import com.android.volley.Response.Listener;
 import com.android.volley.toolbox.StringRequest;
 import com.cqvip.zlfassist.R;
 import com.cqvip.zlfassist.base.BaseActivity;
+import com.cqvip.zlfassist.bean.Periodical;
 import com.cqvip.zlfassist.bean.PeriodicalResult;
 import com.cqvip.zlfassist.constant.C;
 import com.google.gson.Gson;
@@ -109,7 +110,8 @@ public class WelcomActivity extends BaseActivity {
 		@Override
 		public void onResponse(String response) {
 			customProgressDialog.dismiss();
-			PeriodicalResult result = new Gson().fromJson(response, PeriodicalResult.class);
+			PeriodicalResult<Periodical>	pp = new PeriodicalResult<Periodical>();
+			PeriodicalResult<Periodical> result = new Gson().fromJson(response,pp.getClass());
 			
 			System.out.println(result.getQklist().get(1));
 		}

@@ -139,26 +139,14 @@ public class MainActivity extends FragmentActivity {
 
 	private ArrayList<ChannelItem> getUserItems() {
 		ArrayList<ChannelItem> lists = new ArrayList<ChannelItem>();
-		lists.add(new ChannelItem(1, "推荐", 1, 1));
-		lists.add(new ChannelItem(2, "热点", 2, 1));
-		lists.add(new ChannelItem(3, "杭州", 3, 1));
-		lists.add(new ChannelItem(4, "时尚", 4, 1));
-		lists.add(new ChannelItem(5, "科技", 5, 1));
-		lists.add(new ChannelItem(6, "体育", 6, 1));
-		lists.add(new ChannelItem(7, "军事", 7, 1));
-		lists.add(new ChannelItem(8, "财经", 1, 0));
-		lists.add(new ChannelItem(9, "汽车", 2, 0));
-		lists.add(new ChannelItem(10, "房产", 3, 0));
-		lists.add(new ChannelItem(11, "社会", 4, 0));
-		lists.add(new ChannelItem(12, "情感", 5, 0));
-		lists.add(new ChannelItem(13, "女人", 6, 0));
-		lists.add(new ChannelItem(14, "旅游", 7, 0));
-		lists.add(new ChannelItem(15, "健康", 8, 0));
-		lists.add(new ChannelItem(16, "美女", 9, 0));
-		lists.add(new ChannelItem(17, "游戏", 10, 0));
-		lists.add(new ChannelItem(18, "数码", 11, 0));
-		lists.add(new ChannelItem(19, "娱乐", 12, 0));
-
+		lists.add(new ChannelItem(1, "文章", 1, 1));
+		lists.add(new ChannelItem(2, "期刊", 2, 1));
+		lists.add(new ChannelItem(3, "主题", 3, 1));
+		lists.add(new ChannelItem(4, "作者", 4, 1));
+		lists.add(new ChannelItem(5, "机构", 5, 1));
+		lists.add(new ChannelItem(6, "基金", 6, 1));
+		lists.add(new ChannelItem(7, "学科", 7, 1));
+		lists.add(new ChannelItem(8, "地区", 1, 0));
 		return lists;
 	}
 	/** 
