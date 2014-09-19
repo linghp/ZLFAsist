@@ -139,10 +139,10 @@ public class MainActivity extends FragmentActivity {
 
 	private ArrayList<ChannelItem> getUserItems() {
 		ArrayList<ChannelItem> lists = new ArrayList<ChannelItem>();
-		lists.add(new ChannelItem(1, "推荐", 1, 1));
-		lists.add(new ChannelItem(2, "热点", 2, 1));
-		lists.add(new ChannelItem(3, "杭州", 3, 1));
-		lists.add(new ChannelItem(4, "时尚", 4, 1));
+		lists.add(new ChannelItem(1, "文章", 1, 1));
+		lists.add(new ChannelItem(2, "期刊", 2, 1));
+		lists.add(new ChannelItem(3, "主题", 3, 1));
+		lists.add(new ChannelItem(4, "作者", 4, 1));
 		lists.add(new ChannelItem(5, "科技", 5, 1));
 		lists.add(new ChannelItem(6, "体育", 6, 1));
 		lists.add(new ChannelItem(7, "军事", 7, 1));

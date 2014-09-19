@@ -9,17 +9,47 @@
     tools:context="com.cqvip.zlfassist.DetailContentActivity" >
 
     <TextView
-        android:id="@+id/title"
+        android:id="@+id/tv_title"
         style="@style/TextTitleBigBlueStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/hello_world" />
+        android:text="计算机科学技术" />
 
     <TextView
-        android:id="@+id/tv_detail"
+        android:id="@+id/tv_detail_author"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/title"
-        android:text="TextView" />
+        android:layout_below="@+id/tv_title"
+        android:text="作者：图灵" />
+    <TextView
+        android:id="@+id/tv_detail_orgniziton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_detail_author"
+        android:text="机构地区：北京工业大学" />
+    <TextView
+        android:id="@+id/tv_detail_comefrom"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_detail_orgniziton"
+        android:text="出处：《图灵计算机科学系列》" />
+    <TextView
+        android:id="@+id/tv_detail_abstract"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_detail_comefrom"
+        android:text="摘要：计算机科学是一门现代科学，计算机科学是一门现代科学计算机科学是一门现代科学" />
+    <TextView
+        android:id="@+id/tv_detail_keyword"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_detail_abstract"
+        android:text="关键词：计算机" />
+    <TextView
+        android:id="@+id/tv_detail_classno"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_detail_keyword"
+        android:text="分类号：TK019" />
 
 </RelativeLayout>
