@@ -22,6 +22,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 
+import android.R.anim;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.ActivityNotFoundException;
@@ -35,6 +36,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
+import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -45,6 +47,7 @@ import android.view.ViewGroup;
 import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.Button;
 import android.widget.ExpandableListView;
 import android.widget.ExpandableListView.OnChildClickListener;
@@ -57,25 +60,23 @@ import com.mozillaonline.providers.downloads.ui.DownloadItem.DownloadSelectListe
 
 /**
  * View showing a list of all downloads the Download Manager knows about.
+ * 没有暂停下载
  */
-public class DownloadList extends Activity implements OnChildClickListener,
+public class DownloadList extends ActionBarActivity implements 
 	OnItemClickListener, DownloadSelectListener, OnClickListener,
-	OnCancelListener {
+	OnCancelListener,OnItemLongClickListener{
     private static final String LOG_TAG = "DownloadList";
 
-    private ExpandableListView mDateOrderedListView;
-    private ListView mSizeOrderedListView;
+    private ListView mListView;
     private View mEmptyView;
     private ViewGroup mSelectionMenuView;
     private Button mSelectionDeleteButton;
 
     private DownloadManager mDownloadManager;
-    private Cursor mDateSortedCursor;
-    private DateSortedDownloadAdapter mDateSortedAdapter;
-    private Cursor mSizeSortedCursor;
-    private DownloadAdapter mSizeSortedAdapter;
-    private MyContentObserver mContentObserver = new MyContentObserver();
-    private MyDataSetObserver mDataSetObserver = new MyDataSetObserver();
+    private Cursor mCursor;
+    private DownloadAdapter mAdapter;
+//    private MyContentObserver mContentObserver = new MyContentObserver();
+//    private MyDataSetObserver mDataSetObserver = new MyDataSetObserver();
 
     private int mStatusColumnId;
     private int mIdColumnId;
@@ -83,7 +84,7 @@ public class DownloadList extends Activity implements OnChildClickListener,
     private int mMediaTypeColumnId;
     private int mReasonColumndId;
 
-    private boolean mIsSortedBySize = false;
+    //private boolean mIsSortedBySize = false;
     private Set<Long> mSelectedIds = new HashSet<Long>();
 
     /**
@@ -94,99 +95,56 @@ public class DownloadList extends Activity implements OnChildClickListener,
     private Long mQueuedDownloadId = null;
     private AlertDialog mQueuedDialog;
 
-    private class MyContentObserver extends ContentObserver {
-	public MyContentObserver() {
-	    super(new Handler());
-	}
-
-	@Override
-	public void onChange(boolean selfChange) {
-	    handleDownloadsChanged();
-	}
-    }
-
-    private class MyDataSetObserver extends DataSetObserver {
-	@Override
-	public void onChanged() {
-	    // may need to switch to or from the empty view
-	    chooseListToShow();
-	    ensureSomeGroupIsExpanded();
-	}
-    }
-
+    private boolean[] isEditStatus={false};
+    
     @Override
     public void onCreate(Bundle icicle) {
 	super.onCreate(icicle);
 	setupViews();
+	getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
 	mDownloadManager = new DownloadManager(getContentResolver(),
 		getPackageName());
 	mDownloadManager.setAccessAllDownloads(true);
 	DownloadManager.Query baseQuery = new DownloadManager.Query()
 		.setOnlyIncludeVisibleInDownloadsUi(true);
-	mDateSortedCursor = mDownloadManager.query(baseQuery);
-	mSizeSortedCursor = mDownloadManager.query(baseQuery.orderBy(
-		DownloadManager.COLUMN_TOTAL_SIZE_BYTES,
-		DownloadManager.Query.ORDER_DESCENDING));
+	mCursor = mDownloadManager.query(baseQuery);
 
 	// only attach everything to the listbox if we can access the download
 	// database. Otherwise,
 	// just show it empty
 	if (haveCursors()) {
-	    startManagingCursor(mDateSortedCursor);
-	    startManagingCursor(mSizeSortedCursor);
+	    startManagingCursor(mCursor);
 
-	    mStatusColumnId = mDateSortedCursor
+	    mStatusColumnId = mCursor
 		    .getColumnIndexOrThrow(DownloadManager.COLUMN_STATUS);
-	    mIdColumnId = mDateSortedCursor
+	    mIdColumnId = mCursor
 		    .getColumnIndexOrThrow(DownloadManager.COLUMN_ID);
-	    mLocalUriColumnId = mDateSortedCursor
+	    mLocalUriColumnId = mCursor
 		    .getColumnIndexOrThrow(DownloadManager.COLUMN_LOCAL_URI);
-	    mMediaTypeColumnId = mDateSortedCursor
+	    mMediaTypeColumnId = mCursor
 		    .getColumnIndexOrThrow(DownloadManager.COLUMN_MEDIA_TYPE);
-	    mReasonColumndId = mDateSortedCursor
+	    mReasonColumndId = mCursor
 		    .getColumnIndexOrThrow(DownloadManager.COLUMN_REASON);
 
-	    mDateSortedAdapter = new DateSortedDownloadAdapter(this,
-		    mDateSortedCursor, this);
-	    mDateOrderedListView.setAdapter(mDateSortedAdapter);
-	    mSizeSortedAdapter = new DownloadAdapter(this, mSizeSortedCursor,
-		    this);
-	    mSizeOrderedListView.setAdapter(mSizeSortedAdapter);
+	    mAdapter = new DownloadAdapter(this, mCursor,
+		    this,isEditStatus);
+	    mListView.setAdapter(mAdapter);
 
-	    ensureSomeGroupIsExpanded();
 	}
 
 	chooseListToShow();
     }
 
-    /**
-     * If no group is expanded in the date-sorted list, expand the first one.
-     */
-    private void ensureSomeGroupIsExpanded() {
-	mDateOrderedListView.post(new Runnable() {
-	    public void run() {
-		if (mDateSortedAdapter.getGroupCount() == 0) {
-		    return;
-		}
-		for (int group = 0; group < mDateSortedAdapter.getGroupCount(); group++) {
-		    if (mDateOrderedListView.isGroupExpanded(group)) {
-			return;
-		    }
-		}
-		mDateOrderedListView.expandGroup(0);
-	    }
-	});
-    }
 
     private void setupViews() {
 	setContentView(R.layout.download_list);
 	setTitle(getText(R.string.download_title));
 
-	mDateOrderedListView = (ExpandableListView) findViewById(R.id.date_ordered_list);
-	mDateOrderedListView.setOnChildClickListener(this);
-	mSizeOrderedListView = (ListView) findViewById(R.id.size_ordered_list);
-	mSizeOrderedListView.setOnItemClickListener(this);
+
+	mListView = (ListView) findViewById(R.id.size_ordered_list);
+	mListView.setOnItemClickListener(this);
+	mListView.setOnItemLongClickListener(this);
 	mEmptyView = findViewById(R.id.empty);
 
 	mSelectionMenuView = (ViewGroup) findViewById(R.id.selection_menu);
@@ -197,15 +155,15 @@ public class DownloadList extends Activity implements OnChildClickListener,
     }
 
     private boolean haveCursors() {
-	return mDateSortedCursor != null && mSizeSortedCursor != null;
+	return  mCursor != null;
     }
 
     @Override
     protected void onResume() {
 	super.onResume();
 	if (haveCursors()) {
-	    mDateSortedCursor.registerContentObserver(mContentObserver);
-	    mDateSortedCursor.registerDataSetObserver(mDataSetObserver);
+//	    mCursor.registerContentObserver(mContentObserver);
+//	    mCursor.registerDataSetObserver(mDataSetObserver);
 	    refresh();
 	}
     }
@@ -214,15 +172,15 @@ public class DownloadList extends Activity implements OnChildClickListener,
     protected void onPause() {
 	super.onPause();
 	if (haveCursors()) {
-	    mDateSortedCursor.unregisterContentObserver(mContentObserver);
-	    mDateSortedCursor.unregisterDataSetObserver(mDataSetObserver);
+//		mCursor.unregisterContentObserver(mContentObserver);
+//		mCursor.unregisterDataSetObserver(mDataSetObserver);
 	}
     }
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
 	super.onSaveInstanceState(outState);
-	outState.putBoolean("isSortedBySize", mIsSortedBySize);
+	//outState.putBoolean("isSortedBySize", mIsSortedBySize);
 	outState.putLongArray("selection", getSelectionAsArray());
     }
 
@@ -238,7 +196,7 @@ public class DownloadList extends Activity implements OnChildClickListener,
     @Override
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
 	super.onRestoreInstanceState(savedInstanceState);
-	mIsSortedBySize = savedInstanceState.getBoolean("isSortedBySize");
+	//mIsSortedBySize = savedInstanceState.getBoolean("isSortedBySize");
 	mSelectedIds.clear();
 	for (long selectedId : savedInstanceState.getLongArray("selection")) {
 	    mSelectedIds.add(selectedId);
@@ -259,9 +217,9 @@ public class DownloadList extends Activity implements OnChildClickListener,
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
 	menu.findItem(R.id.download_menu_sort_by_size).setVisible(
-		!mIsSortedBySize);
+		false);
 	menu.findItem(R.id.download_menu_sort_by_date).setVisible(
-		mIsSortedBySize);
+			false);
 	return super.onPrepareOptionsMenu(menu);
     }
 
@@ -269,13 +227,15 @@ public class DownloadList extends Activity implements OnChildClickListener,
     public boolean onOptionsItemSelected(MenuItem item) {
 	int itemId = item.getItemId();
 	if (itemId == R.id.download_menu_sort_by_size) {
-		mIsSortedBySize = true;
+		//mIsSortedBySize = true;
 		chooseListToShow();
 		return true;
 	} else if (itemId == R.id.download_menu_sort_by_date) {
-		mIsSortedBySize = false;
+		//mIsSortedBySize = false;
 		chooseListToShow();
 		return true;
+	}else if(itemId == android.R.id.home){
+		finish();
 	}
 	return false;
     }
@@ -285,26 +245,15 @@ public class DownloadList extends Activity implements OnChildClickListener,
      * empty view.
      */
     private void chooseListToShow() {
-	mDateOrderedListView.setVisibility(View.GONE);
-	mSizeOrderedListView.setVisibility(View.GONE);
+	mListView.setVisibility(View.GONE);
 
-	if (mDateSortedCursor == null || mDateSortedCursor.getCount() == 0) {
+	if (mCursor == null || mCursor.getCount() == 0) {
 	    mEmptyView.setVisibility(View.VISIBLE);
 	} else {
 	    mEmptyView.setVisibility(View.GONE);
-	    activeListView().setVisibility(View.VISIBLE);
-	    activeListView().invalidateViews(); // ensure checkboxes get updated
+	    mListView.setVisibility(View.VISIBLE);
+	    mListView.invalidateViews(); // ensure checkboxes get updated
 	}
-    }
-
-    /**
-     * @return the ListView that should currently be visible.
-     */
-    private ListView activeListView() {
-	if (mIsSortedBySize) {
-	    return mSizeOrderedListView;
-	}
-	return mDateOrderedListView;
     }
 
     /**
@@ -330,7 +279,7 @@ public class DownloadList extends Activity implements OnChildClickListener,
 	return new DialogInterface.OnClickListener() {
 	    @Override
 	    public void onClick(DialogInterface dialog, int which) {
-		mDownloadManager.pauseDownload(downloadId);
+		//mDownloadManager.pauseDownload(downloadId);
 	    }
 	};
     }
@@ -510,22 +459,13 @@ public class DownloadList extends Activity implements OnChildClickListener,
 			getRestartClickHandler(downloadId)).show();
     }
 
-    // handle a click from the date-sorted list
-    @Override
-    public boolean onChildClick(ExpandableListView parent, View v,
-	    int groupPosition, int childPosition, long id) {
-	mDateSortedAdapter.moveCursorToChildPosition(groupPosition,
-		childPosition);
-	handleItemClick(mDateSortedCursor);
-	return true;
-    }
 
     // handle a click from the size-sorted list
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position,
 	    long id) {
-	mSizeSortedCursor.moveToPosition(position);
-	handleItemClick(mSizeSortedCursor);
+	mCursor.moveToPosition(position);
+	handleItemClick(mCursor);
     }
 
     // handle a click on one of the download item checkboxes
@@ -599,6 +539,8 @@ public class DownloadList extends Activity implements OnChildClickListener,
 		clearSelection();
 	} else if (id == R.id.deselect_all) {
 		clearSelection();
+		isEditStatus[0]=false;
+		mListView.invalidateViews();
 	}
     }
 
@@ -606,8 +548,7 @@ public class DownloadList extends Activity implements OnChildClickListener,
      * Requery the database and update the UI.
      */
     private void refresh() {
-	mDateSortedCursor.requery();
-	mSizeSortedCursor.requery();
+	mCursor.requery();
 	// Adapters get notification of changes and update automatically
     }
 
@@ -621,10 +562,10 @@ public class DownloadList extends Activity implements OnChildClickListener,
      */
     private void deleteDownload(long downloadId) {
 	if (moveToDownload(downloadId)) {
-	    int status = mDateSortedCursor.getInt(mStatusColumnId);
+	    int status = mCursor.getInt(mStatusColumnId);
 	    boolean isComplete = status == DownloadManager.STATUS_SUCCESSFUL
 		    || status == DownloadManager.STATUS_FAILED;
-	    String localUri = mDateSortedCursor.getString(mLocalUriColumnId);
+	    String localUri = mCursor.getString(mLocalUriColumnId);
 	    if (isComplete && localUri != null) {
 		String path = Uri.parse(localUri).getPath();
 		if (path.startsWith(Environment.getExternalStorageDirectory()
@@ -649,8 +590,8 @@ public class DownloadList extends Activity implements OnChildClickListener,
 	checkSelectionForDeletedEntries();
 
 	if (mQueuedDownloadId != null && moveToDownload(mQueuedDownloadId)) {
-	    if (mDateSortedCursor.getInt(mStatusColumnId) != DownloadManager.STATUS_PAUSED
-		    || !isPausedForWifi(mDateSortedCursor)) {
+	    if (mCursor.getInt(mStatusColumnId) != DownloadManager.STATUS_PAUSED
+		    || !isPausedForWifi(mCursor)) {
 		mQueuedDialog.cancel();
 	    }
 	}
@@ -667,9 +608,9 @@ public class DownloadList extends Activity implements OnChildClickListener,
     private void checkSelectionForDeletedEntries() {
 	// gather all existing IDs...
 	Set<Long> allIds = new HashSet<Long>();
-	for (mDateSortedCursor.moveToFirst(); !mDateSortedCursor.isAfterLast(); mDateSortedCursor
+	for (mCursor.moveToFirst(); !mCursor.isAfterLast(); mCursor
 		.moveToNext()) {
-	    allIds.add(mDateSortedCursor.getLong(mIdColumnId));
+	    allIds.add(mCursor.getLong(mIdColumnId));
 	}
 
 	// ...and check if any selected IDs are now missing
@@ -682,14 +623,14 @@ public class DownloadList extends Activity implements OnChildClickListener,
     }
 
     /**
-     * Move {@link #mDateSortedCursor} to the download with the given ID.
+     * Move {@link #mCursor} to the download with the given ID.
      * 
      * @return true if the specified download ID was found; false otherwise
      */
     private boolean moveToDownload(long downloadId) {
-	for (mDateSortedCursor.moveToFirst(); !mDateSortedCursor.isAfterLast(); mDateSortedCursor
+	for (mCursor.moveToFirst(); !mCursor.isAfterLast(); mCursor
 		.moveToNext()) {
-	    if (mDateSortedCursor.getLong(mIdColumnId) == downloadId) {
+	    if (mCursor.getLong(mIdColumnId) == downloadId) {
 		return true;
 	    }
 	}
@@ -704,4 +645,13 @@ public class DownloadList extends Activity implements OnChildClickListener,
 	mQueuedDownloadId = null;
 	mQueuedDialog = null;
     }
+
+
+	@Override
+	public boolean onItemLongClick(AdapterView<?> parent, View view,
+			int position, long id) {
+		isEditStatus[0]=true;
+		mListView.invalidateViews();
+		return true;
+	}
 }

@@ -900,8 +900,10 @@ public class DownloadThread extends Thread {
 	    values.put(Downloads.COLUMN_URI, uri);
 	}
 	values.put(Downloads.COLUMN_MIME_TYPE, mimeType);
-	values.put(Downloads.COLUMN_LAST_MODIFICATION,
-		mSystemFacade.currentTimeMillis());
+	//下载管理中显示的时间是开始下载的时间，不是完成下载时的时间，故注释掉
+//	values.put(Downloads.COLUMN_LAST_MODIFICATION,
+//		mSystemFacade.currentTimeMillis());
+
 	values.put(Constants.RETRY_AFTER_X_REDIRECT_COUNT, retryAfter);
 	if (!countRetry) {
 	    values.put(Constants.FAILED_CONNECTIONS, 0);

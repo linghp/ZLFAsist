@@ -2,5 +2,7 @@
 <resources>
 
     <string name="app_name">DownloadProvider</string>
-
+<color name="blue_title">#FF0099CC</color>
+<color name="default_text">#ff454545</color>
+    <color name="color1">#ff0f9d58</color>
 </resources>

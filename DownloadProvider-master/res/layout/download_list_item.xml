@@ -16,34 +16,38 @@
 ** limitations under the License.
 */
 -->
-
 <com.mozillaonline.providers.downloads.ui.DownloadItem xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
     android:descendantFocusability="blocksDescendants"
     android:gravity="center_vertical"
-    android:paddingRight="?android:attr/scrollbarSize" >
+    android:paddingTop="6dp"
+    android:paddingBottom="6dp"
+    android:paddingLeft="8dp"
+    android:paddingRight="8dp"
+
+    >
 
     <!-- Clicks are handled directly by DownloadItem -->
 
     <CheckBox
         android:id="@+id/download_checkbox"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="@dimen/checkmark_area"
+        android:layout_height="@dimen/checkmark_area"
         android:layout_alignParentLeft="true"
         android:layout_centerVertical="true"
         android:clickable="false"
-        android:paddingLeft="8dip"
-        android:scaleType="fitCenter" />
+        />
 
     <ImageView
         android:id="@+id/download_icon"
-        android:layout_width="@android:dimen/app_icon_size"
-        android:layout_height="@android:dimen/app_icon_size"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:layout_margin="4dp"
         android:layout_centerVertical="true"
         android:layout_toRightOf="@id/download_checkbox"
-        android:paddingLeft="8dip"
-        android:scaleType="fitCenter" />
+        android:scaleType="fitXY"
+        android:src="@drawable/ic_download_misc_file_type" />
 
     <TextView
         android:id="@+id/download_title"
@@ -51,46 +55,48 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_toRightOf="@id/download_icon"
+        android:ellipsize="end"
         android:maxLines="1"
-        android:paddingLeft="8dip"
-        android:textAppearance="?android:attr/textAppearanceSmall"
-        android:textStyle="bold" />
+        android:textColor="@color/blue_title"
+        android:paddingLeft="8dip" />
 
     <ProgressBar
         android:id="@+id/download_progress"
         style="?android:attr/progressBarStyleHorizontal"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="5dp"
         android:layout_below="@id/download_title"
         android:layout_toRightOf="@id/download_icon"
-        android:max="100" />
+        android:paddingLeft="8dip"
+         />
 
     <TextView
         android:id="@+id/last_modified_date"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
         android:layout_below="@id/download_progress"
         android:maxLines="1"
-        android:textAppearance="?android:attr/textAppearanceSmall" />
+        android:paddingLeft="8dip" />
 
     <TextView
         android:id="@+id/status_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
         android:layout_below="@id/download_progress"
         android:layout_toRightOf="@id/download_icon"
-        android:paddingLeft="8dip"
-        android:textAppearance="?android:attr/textAppearanceSmall" />
+        android:paddingLeft="8dip" />
 
     <TextView
         android:id="@+id/size_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
         android:layout_below="@id/download_progress"
         android:layout_toRightOf="@id/status_text"
         android:maxLines="1"
-        android:paddingLeft="15dp"
-        android:textAppearance="?android:attr/textAppearanceSmall" />
+        android:paddingLeft="15dp" />
 
 </com.mozillaonline.providers.downloads.ui.DownloadItem>
