@@ -21,12 +21,17 @@ public class C {
 	
 	public static final String BASE = "http://mobile.cqvip.com/qk/search.aspx?classid=2";
 	public final static   String SERVER_URL = "http://mobile.cqvip.com";
-	
+	/**
+	 * 以下是测试接口
+	 */
 	public final static   String SERVER_TOP = "http://192.168.20.214:8080/web/AServlet";
 	public final static   String SERVER_Content = "http://192.168.20.214:8080/web/BServlet";
+	public final static   String SERVER_getWriter = "http://192.168.20.214:8080/web/CServlet";
+	public final static   String SERVER_getOrgan = "http://192.168.20.214:8080/web/DServlet";
+	
+	
+	
 	
 	public static final int DEFAULT_COUNT = 20;//默认20条
-	
-	
 	public static final int SOCKET_TIMEOUT = 20000;//操时20s
 }
