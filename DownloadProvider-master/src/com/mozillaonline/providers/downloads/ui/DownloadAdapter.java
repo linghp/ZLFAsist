@@ -63,12 +63,15 @@ public class DownloadAdapter extends CursorAdapter {
     final private int mMediaTypeColumnId;
     final private int mDateColumnId;
     final private int mIdColumnId;
+    
+    private boolean[] isEditStatus;
 
     public DownloadAdapter(Context context, Cursor cursor,
-	    DownloadSelectListener selectionListener) {
+	    DownloadSelectListener selectionListener,boolean[] isEditStatus) {
 	super(context, cursor);
 	mContext = context;
 	mCursor = cursor;
+	this.isEditStatus=isEditStatus;
 	mResources = mContext.getResources();
 	mDownloadSelectionListener = selectionListener;
 	mDateFormat = DateFormat.getDateInstance(DateFormat.SHORT);
@@ -142,6 +145,12 @@ public class DownloadAdapter extends CursorAdapter {
 
 	CheckBox checkBox = (CheckBox) convertView
 		.findViewById(R.id.download_checkbox);
+	if(isEditStatus[0]){
+		checkBox.setVisibility(View.VISIBLE);
+	}else{
+		checkBox.setVisibility(View.GONE);
+		checkBox.setChecked(false);
+	}
 	checkBox.setChecked(mDownloadSelectionListener
 		.isDownloadSelected(downloadId));
     }
