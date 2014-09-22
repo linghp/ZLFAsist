@@ -11,7 +11,7 @@ public class VolleyManager {
 
 	public static  void requestVolley(final Map<String, String> gparams,String addr,int method ,Listener<String> bl, ErrorListener el,RequestQueue mQueue) {
 		try {
-			StringRequest mys = new StringRequest(method, addr, bl, el) {
+			VersStringRequest mys = new VersStringRequest(method, addr, bl, el) {
 				protected Map<String, String> getParams()
 						throws com.android.volley.AuthFailureError {
 					return gparams;
