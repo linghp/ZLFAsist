@@ -1,5 +1,6 @@
 package com.cqvip.zlfassist.activity;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -8,9 +9,7 @@ import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.view.MenuItemCompat;
-import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.SearchView;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -34,11 +33,16 @@ import com.android.volley.Response.Listener;
 import com.cqvip.zlfassist.R;
 import com.cqvip.zlfassist.base.BaseActionBarActivity;
 import com.cqvip.zlfassist.bean.TopItem;
+import com.cqvip.zlfassist.bean.TopSubItem;
 import com.cqvip.zlfassist.constant.C;
+import com.cqvip.zlfassist.db.DatabaseHelper;
 import com.cqvip.zlfassist.http.VolleyManager;
+import com.j256.ormlite.android.apptools.OpenHelperManager;
+import com.j256.ormlite.dao.Dao;
 
 public class AddFollowActivity extends BaseActionBarActivity implements
 		OnItemClickListener,OnClickListener {
+	private final String LOG_TAG = getClass().getSimpleName();
 	private ListView lv_category,lv_subcategory,lv_search;
 	private Lv_subcategory_adapter lv_subcategory_adapter;
 	private Lv_category_adapter lv_category_adapter;
@@ -51,6 +55,8 @@ public class AddFollowActivity extends BaseActionBarActivity implements
 	private Context context;
 	//private boolean isfirstsearch_searchview=true;
 	private ArrayList<TopItem> topItems =new ArrayList<TopItem>() ;
+	
+	private DatabaseHelper databaseHelper = null;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -73,6 +79,22 @@ public class AddFollowActivity extends BaseActionBarActivity implements
 		lv_subcategory.setAdapter(lv_subcategory_adapter);
 		lv_category_adapter.setSelectItem(0);
 		lv_category.setOnItemClickListener(this);
+	}
+	
+	private DatabaseHelper getHelper() {
+		if (databaseHelper == null) {
+			databaseHelper = OpenHelperManager.getHelper(this, DatabaseHelper.class);
+		}
+		return databaseHelper;
+	}
+	
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+		if (databaseHelper != null) {
+			OpenHelperManager.releaseHelper();
+			databaseHelper = null;
+		}
 	}
 	
 	private void getDate() {
@@ -410,12 +432,25 @@ public class AddFollowActivity extends BaseActionBarActivity implements
 				@Override
 				public void onAnimationEnd(Animation animation) {
 					temp_v.setBackgroundResource(R.drawable.biz_news_column_subscribe_cancel);
+					saveDB();
 				}
 			});
 			break;
 
 		default:
 			break;
+		}
+	}
+
+	protected void saveDB() {
+		try {
+			Dao<TopSubItem, Integer> topSubItemDao = getHelper().getTopSubItemDao();
+			TopSubItem topSubItem = new TopSubItem();
+			// store it in the database
+			topSubItemDao.create(topSubItem);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 	}
 }
