@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import android.content.Context;
@@ -12,7 +13,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v4.widget.SwipeRefreshLayout.OnRefreshListener;
-import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -27,14 +27,21 @@ import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
-import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.android.volley.Request.Method;
+import com.android.volley.Response.Listener;
 import com.cqvip.zlfassist.R;
+import com.cqvip.zlfassist.base.BaseActionBarActivity;
+import com.cqvip.zlfassist.bean.GeneralResult;
+import com.cqvip.zlfassist.bean.TopicContent;
+import com.cqvip.zlfassist.constant.C;
+import com.cqvip.zlfassist.http.VolleyManager;
+import com.google.gson.Gson;
 
-public class DisplayFollowActivity extends ActionBarActivity implements
+public class DisplayFollowActivity extends BaseActionBarActivity implements
 		OnRefreshListener, OnItemClickListener, OnItemLongClickListener,
 		OnClickListener {
 	private Context context;
@@ -51,7 +58,7 @@ public class DisplayFollowActivity extends ActionBarActivity implements
 			"88" };
 	private SwipeRefreshLayout mSwipeRefreshWidget;
 	private ListView mList;
-
+	private Map<String, String> gparams;
 	private Handler mHandler = new Handler();
 	private final Runnable mRefreshDone = new Runnable() {
 
@@ -76,6 +83,12 @@ public class DisplayFollowActivity extends ActionBarActivity implements
 		mSwipeRefreshWidget.setColorSchemeResources(R.color.color1,
 				R.color.color2, R.color.color3, R.color.color4);
 		mList = (ListView) findViewById(R.id.Lv_followcontent);
+		
+		
+		getDate();
+		
+		
+		
 		list = new ArrayList<String>(Arrays.asList(TITLES));
 		context = this;
 		adapter = new Adapter(context, list);
@@ -87,6 +100,30 @@ public class DisplayFollowActivity extends ActionBarActivity implements
 		mSwipeRefreshWidget.setOnRefreshListener(this);
 	}
 
+	private void getDate() {
+		customProgressDialog.show();
+			VolleyManager.requestVolley(null, C.SERVER+C.URL_TOP,Method.GET, backlistener, errorListener, mQueue);
+		
+	}
+	Listener<String> backlistener = new Listener<String>() {
+		@Override
+		public void onResponse(String response) {
+			// TODO Auto-generated method stub
+			if(customProgressDialog!=null&&customProgressDialog.isShowing())
+			customProgressDialog.dismiss();
+			
+			try {
+				
+				
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				Toast.makeText(context,"解析错误", 1).show();
+			} 
+			
+		}
+
+	};
 	@Override
 	public void onRefresh() {
 		refresh();
