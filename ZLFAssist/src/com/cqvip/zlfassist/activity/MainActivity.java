@@ -225,6 +225,9 @@ public class MainActivity extends FragmentActivity {
 	private void initFragment() {
 		fragments.clear();//清空
 		int count =  userChannelList.size();
+		
+		
+		
 		for(int i = 0; i< count;i++){
 			Bundle data = new Bundle();
     		data.putString("text", userChannelList.get(i).getName());

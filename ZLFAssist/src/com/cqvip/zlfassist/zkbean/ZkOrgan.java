@@ -200,4 +200,17 @@ public void setZkhindex(String zkhindex) {
 this.zkhindex = zkhindex;
 }
 
+@Override
+public String toString() {
+	return "ZkOrgan [zkbyinfo=" + zkbyinfo + ", zkfwcount=" + zkfwcount
+			+ ", aliasid=" + aliasid + ", zkfwinfo=" + zkfwinfo
+			+ ", organidlevel=" + organidlevel + ", subjects=" + subjects
+			+ ", organlevel=" + organlevel + ", organtype=" + organtype
+			+ ", classtypes=" + classtypes + ", zkbycount=" + zkbycount
+			+ ", funds=" + funds + ", level=" + level + ", id=" + id
+			+ ", organ=" + organ + ", medias=" + medias + ", organs=" + organs
+			+ ", writers=" + writers + ", fwdetail=" + fwdetail + ", zkhindex="
+			+ zkhindex + "]";
+}
+
 }

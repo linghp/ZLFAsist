@@ -31,7 +31,13 @@ public class C {
 	public final static   String SERVER_getOrgan = "http://192.168.20.214:8080/web/DServlet";
 	
 	
-	
+	public static final String 	MEDIA = "media";
+	public static final String 	SUBJECT = "subject";
+	public static final String 	WRITER = "writer";
+	public static final String 	ORGAN = "organ";
+	public static final String 	FUND = "fund";
+	public static final String 	DOMAIN = "domain";
+	public static final String 	AREA = "are";
 	
 	public static final int DEFAULT_COUNT = 20;//默认20条
 	public static final int SOCKET_TIMEOUT = 20000;//操时20s
