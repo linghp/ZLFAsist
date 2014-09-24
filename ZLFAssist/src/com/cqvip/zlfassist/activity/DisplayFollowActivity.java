@@ -83,12 +83,9 @@ public class DisplayFollowActivity extends BaseActionBarActivity implements
 		mSwipeRefreshWidget.setColorSchemeResources(R.color.color1,
 				R.color.color2, R.color.color3, R.color.color4);
 		mList = (ListView) findViewById(R.id.Lv_followcontent);
-		
-		
+
 		getDate();
-		
-		
-		
+
 		list = new ArrayList<String>(Arrays.asList(TITLES));
 		context = this;
 		adapter = new Adapter(context, list);
@@ -102,28 +99,31 @@ public class DisplayFollowActivity extends BaseActionBarActivity implements
 
 	private void getDate() {
 		customProgressDialog.show();
-			VolleyManager.requestVolley(null, C.SERVER+C.URL_TOP,Method.GET, backlistener, errorListener, mQueue);
-		
+		VolleyManager.requestVolley(null, C.SERVER + C.URL_TOP, Method.GET,
+				backlistener, errorListener, mQueue);
+
 	}
+
 	Listener<String> backlistener = new Listener<String>() {
 		@Override
 		public void onResponse(String response) {
 			// TODO Auto-generated method stub
-			if(customProgressDialog!=null&&customProgressDialog.isShowing())
-			customProgressDialog.dismiss();
-			
+			if (customProgressDialog != null
+					&& customProgressDialog.isShowing())
+				customProgressDialog.dismiss();
+
 			try {
-				
-				
+
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
-				Toast.makeText(context,"解析错误", 1).show();
-			} 
-			
+				Toast.makeText(context, "解析错误", 1).show();
+			}
+
 		}
 
 	};
+
 	@Override
 	public void onRefresh() {
 		refresh();
@@ -165,9 +165,9 @@ public class DisplayFollowActivity extends BaseActionBarActivity implements
 	public void onClick(View v) {
 		switch (v.getId()) {
 		case R.id.selection_delete:
-//		for (String str : mSelectedIds) {
-//			list.remove(str);
-//		}
+			// for (String str : mSelectedIds) {
+			// list.remove(str);
+			// }
 			list.removeAll(mSelectedIds);
 			adapter.notifyDataSetChanged();
 			clearSelection();
@@ -175,7 +175,7 @@ public class DisplayFollowActivity extends BaseActionBarActivity implements
 
 		case R.id.deselect_all:
 			clearSelection();
-			isedit=false;
+			isedit = false;
 			break;
 
 		default:
@@ -206,7 +206,7 @@ public class DisplayFollowActivity extends BaseActionBarActivity implements
 			int position, long id) {
 		isedit = true;
 		mList.invalidateViews();
-		//mList.invalidate();
+		// mList.invalidate();
 		return true;
 	}
 
@@ -249,24 +249,24 @@ public class DisplayFollowActivity extends BaseActionBarActivity implements
 						.findViewById(R.id.tv_name);
 				holder.cb = (CheckBox) convertView.findViewById(R.id.check);
 
-//				holder.cb
-//						.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-//
-//							@Override
-//							public void onCheckedChanged(
-//									CompoundButton buttonView, boolean isChecked) {
-//								if(position>=mList.getFirstVisiblePosition()&&position<=mList.getLastVisiblePosition()){
-//								if (isChecked) {
-//									mSelectedIds.add(list.get(position));
-//									Log.i("onCheckedChanged", list.get(position));
-//								} else {
-//									mSelectedIds.remove(list.get(position));
-//								}
-//								delete.setText("删除("+mSelectedIds.size()+")");
-//								showOrHideSelectionMenu();
-//								}
-//							}
-//						});
+				// holder.cb
+				// .setOnCheckedChangeListener(new OnCheckedChangeListener() {
+				//
+				// @Override
+				// public void onCheckedChanged(
+				// CompoundButton buttonView, boolean isChecked) {
+				// if(position>=mList.getFirstVisiblePosition()&&position<=mList.getLastVisiblePosition()){
+				// if (isChecked) {
+				// mSelectedIds.add(list.get(position));
+				// Log.i("onCheckedChanged", list.get(position));
+				// } else {
+				// mSelectedIds.remove(list.get(position));
+				// }
+				// delete.setText("删除("+mSelectedIds.size()+")");
+				// showOrHideSelectionMenu();
+				// }
+				// }
+				// });
 				convertView.setTag(holder);
 			} else {
 				holder = (ViewHolder) convertView.getTag();
@@ -275,23 +275,23 @@ public class DisplayFollowActivity extends BaseActionBarActivity implements
 			holder.cb.setChecked(false);
 			if (isedit) {
 				holder.cb.setVisibility(View.VISIBLE);
-			}else{
+			} else {
 				holder.cb.setVisibility(View.GONE);
 			}
 			if (isedit && mSelectedIds.contains(list.get(position))) {
 				holder.cb.setChecked(true);
 			}
-			
+
 			holder.cb.setOnClickListener(new OnClickListener() {
-				
+
 				@Override
 				public void onClick(View v) {
 					holder.cb.toggle();
-					Log.i("getView", "onClick--"+position);
-					String str=list.get(position);
-					if(mSelectedIds.contains(str)){
+					Log.i("getView", "onClick--" + position);
+					String str = list.get(position);
+					if (mSelectedIds.contains(str)) {
 						mSelectedIds.remove(str);
-					}else{
+					} else {
 						mSelectedIds.add(str);
 					}
 					showOrHideSelectionMenu();

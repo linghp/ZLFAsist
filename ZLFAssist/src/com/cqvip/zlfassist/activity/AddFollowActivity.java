@@ -29,9 +29,15 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.Request.Method;
+import com.android.volley.Response.Listener;
 import com.cqvip.zlfassist.R;
+import com.cqvip.zlfassist.base.BaseActionBarActivity;
+import com.cqvip.zlfassist.bean.TopItem;
+import com.cqvip.zlfassist.constant.C;
+import com.cqvip.zlfassist.http.VolleyManager;
 
-public class AddFollowActivity extends ActionBarActivity implements
+public class AddFollowActivity extends BaseActionBarActivity implements
 		OnItemClickListener,OnClickListener {
 	private ListView lv_category,lv_subcategory,lv_search;
 	private Lv_subcategory_adapter lv_subcategory_adapter;
@@ -42,7 +48,9 @@ public class AddFollowActivity extends ActionBarActivity implements
 	public final static String TAG = "AddFollowActivity";
 	private List<String> subcategoryNameList;
 	private SearchView searchView;
+	private Context context;
 	//private boolean isfirstsearch_searchview=true;
+	private ArrayList<TopItem> topItems =new ArrayList<TopItem>() ;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -50,13 +58,15 @@ public class AddFollowActivity extends ActionBarActivity implements
 		setContentView(R.layout.activity_my_follow);
 		init();
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+		getDate();
 	}
 
 	private void init() {
+		context=this;
 		lv_category = (ListView) findViewById(R.id.lv_category);
 		lv_subcategory = (ListView) findViewById(R.id.lv_subcategory);
 		lv_search = (ListView) findViewById(R.id.lv_search);
-		lv_category_adapter = new Lv_category_adapter(this, categoryNames);
+		lv_category_adapter = new Lv_category_adapter(this, topItems);
 		subcategoryNameList=testData();
 		lv_subcategory_adapter = new Lv_subcategory_adapter(this, subcategoryNameList);
 		lv_category.setAdapter(lv_category_adapter);
@@ -64,6 +74,34 @@ public class AddFollowActivity extends ActionBarActivity implements
 		lv_category_adapter.setSelectItem(0);
 		lv_category.setOnItemClickListener(this);
 	}
+	
+	private void getDate() {
+		customProgressDialog.show();
+		VolleyManager.requestVolley(null, C.SERVER + C.URL_TOP, Method.GET,
+				backlistener, errorListener, mQueue);
+	}
+
+	Listener<String> backlistener = new Listener<String>() {
+		@Override
+		public void onResponse(String response) {
+			// TODO Auto-generated method stub
+			if (customProgressDialog != null
+					&& customProgressDialog.isShowing())
+				customProgressDialog.dismiss();
+
+			try {
+				topItems.clear();
+				topItems.addAll(TopItem.formList(response));
+				lv_category_adapter.notifyDataSetChanged();
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				Toast.makeText(context, "解析错误", 1).show();
+			}
+
+		}
+
+	};
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
@@ -122,10 +160,10 @@ public class AddFollowActivity extends ActionBarActivity implements
 
 	static class Lv_category_adapter extends BaseAdapter {
 		private Context context;
-		private String[] categoryNames;
+		private ArrayList<TopItem> categoryNames;
 		private int selectItem = -1;
 
-		public Lv_category_adapter(Context context, String[] categoryNames) {
+		public Lv_category_adapter(Context context, ArrayList<TopItem> categoryNames) {
 			this.context = context;
 			this.categoryNames = categoryNames;
 		}
@@ -133,13 +171,13 @@ public class AddFollowActivity extends ActionBarActivity implements
 		@Override
 		public int getCount() {
 			// TODO Auto-generated method stub
-			return categoryNames.length;
+			return categoryNames.size();
 		}
 
 		@Override
 		public Object getItem(int position) {
 			// TODO Auto-generated method stub
-			return categoryNames[position];
+			return categoryNames.get(position);
 		}
 
 		@Override
@@ -179,7 +217,7 @@ public class AddFollowActivity extends ActionBarActivity implements
 				title.setBackgroundColor(Color.WHITE);
 			}
 			//Log.i(TAG, position + "--lv_category_getView");
-			title.setText(categoryNames[position]);
+			title.setText(categoryNames.get(position).getName());
 			return convertView;
 		}
 
