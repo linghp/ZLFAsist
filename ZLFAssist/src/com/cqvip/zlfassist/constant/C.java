@@ -2,21 +2,22 @@ package com.cqvip.zlfassist.constant;
 
 
 public class C {
-	public final static   String SERVER= "http://192.168.20.57:9999";
+	public final static   String SERVER= "http://192.168.20.57:9999/";
 	//订阅模块
-	public final static   String URL_TOP= "/GetObjectSet.ashx ";
-	public final static   String URL_TOPLIST= "http://192.168.20.57:9999";
+	public final static   String URL_TOP= "GetObjectSet.ashx ";
+	public final static   String URL_TOPLIST= "GetSearch.ashx";
 	//文章模块
-	public final static   String URL_TOPIC= "http://192.168.20.57:9999";
-	public final static   String URL_TOPIC_DETAIL= "http://192.168.20.57:9999";
-	public final static   String URL_PERIDICAL_INFO= "http://192.168.20.57:9999";
-	public final static   String URL_PERIDICAL_LIST= "http://192.168.20.57:9999";
-	public final static   String URL_TOPIC_LIST= "http://192.168.20.57:9999";
+	public final static   String URL_TOPIC= "GetSearch.ashx";
+	public final static   String URL_TOPIC_DETAIL= "Getinfo.ashx";
+	public final static   String URL_PERIDICAL_INFO= "GetInfo.ashx";
+	public final static   String URL_PERIDICAL_LIST= "GetSearch.ashx";
+	public final static   String URL_TOPIC_INFO= "GetInfo.ashx";
+	public final static   String URL_TOPIC_LIST= "GetSearch.ashx";
 	//通知
-	public final static   String URL_UPDATE= "http://192.168.20.57:9999";
-	public final static   String URL_UPDATE_PERICAL= "http://192.168.20.57:9999";
+	public final static   String URL_UPDATE= "GetNotice.ashx";
+	public final static   String URL_UPDATE_PERICAL= "GetNotice.ashx";
 	//搜索
-	public final static   String URL_SEARCH= "http://192.168.20.57:9999";
+	public final static   String URL_SEARCH= "GetSearch.ashx";
 	
 	
 	public static final String BASE = "http://mobile.cqvip.com/qk/search.aspx?classid=2";
