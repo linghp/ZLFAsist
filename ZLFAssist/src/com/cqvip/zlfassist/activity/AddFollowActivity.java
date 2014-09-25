@@ -33,7 +33,7 @@ import com.android.volley.Response.Listener;
 import com.cqvip.zlfassist.R;
 import com.cqvip.zlfassist.base.BaseActionBarActivity;
 import com.cqvip.zlfassist.bean.TopItem;
-import com.cqvip.zlfassist.bean.TopSubItem;
+import com.cqvip.zlfassist.bean.ItemFollows;
 import com.cqvip.zlfassist.constant.C;
 import com.cqvip.zlfassist.db.DatabaseHelper;
 import com.cqvip.zlfassist.http.VolleyManager;
@@ -64,7 +64,7 @@ public class AddFollowActivity extends BaseActionBarActivity implements
 		setContentView(R.layout.activity_my_follow);
 		init();
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-		getDate();
+		getDate_left();
 	}
 
 	private void init() {
@@ -97,9 +97,14 @@ public class AddFollowActivity extends BaseActionBarActivity implements
 		}
 	}
 	
-	private void getDate() {
+	private void getDate_left() {
 		customProgressDialog.show();
 		VolleyManager.requestVolley(null, C.SERVER + C.URL_TOP, Method.GET,
+				backlistener, errorListener, mQueue);
+	}
+	private void getDate_right(String type) {
+		customProgressDialog.show();
+		VolleyManager.requestVolley(null, C.SERVER + C.URL_TOPLIST+"?object="+type+"&pageindex=1&pagesize=10&sort=score", Method.GET,
 				backlistener, errorListener, mQueue);
 	}
 
@@ -444,10 +449,10 @@ public class AddFollowActivity extends BaseActionBarActivity implements
 
 	protected void saveDB() {
 		try {
-			Dao<TopSubItem, Integer> topSubItemDao = getHelper().getTopSubItemDao();
-			TopSubItem topSubItem = new TopSubItem();
+			Dao<ItemFollows, Integer> itemFollowsDao = getHelper().getItemFollowsDao();
+			ItemFollows itemFollows = new ItemFollows();
 			// store it in the database
-			topSubItemDao.create(topSubItem);
+			itemFollowsDao.create(itemFollows);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
