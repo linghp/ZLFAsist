@@ -8,25 +8,26 @@
         android:id="@+id/tv_follow_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingLeft="5dip"
+        android:paddingLeft="2dip"
    		style="@style/TextTitleMiddleBlueStyle"
    		 />
+     <TextView
+        android:id="@+id/tv_follow_about"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="1dip"
+        style="@style/TextContentMiddleStyle"
+     	android:layout_below="@id/tv_follow_title"
+     	android:visibility="gone"
+         />
     <TextView
         android:id="@+id/tv_follow_topic"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingLeft="5dip"
+        android:paddingLeft="1dip"
         style="@style/TextContentMiddleStyle"
-     	android:layout_below="@id/tv_follow_title"
+     	android:layout_below="@id/tv_follow_about"
         />
-    <TextView
-        android:id="@+id/tv_follow_about"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingLeft="5dip"
-        style="@style/TextContentMiddleStyle"
-     	android:layout_below="@id/tv_follow_topic"
-     	android:visibility="gone"
-         />
+
 
 </RelativeLayout>
