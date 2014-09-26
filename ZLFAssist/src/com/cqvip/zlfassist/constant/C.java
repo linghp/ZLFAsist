@@ -37,7 +37,7 @@ public class C {
 	public static final String 	ORGAN = "organ";
 	public static final String 	FUND = "fund";
 	public static final String 	DOMAIN = "domain";
-	public static final String 	AREA = "are";
+	public static final String 	AREA = "area";
 	
 	public static final int DEFAULT_COUNT = 20;//默认20条
 	public static final int SOCKET_TIMEOUT = 20000;//操时20s

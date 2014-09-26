@@ -8,6 +8,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.View;
@@ -23,7 +24,10 @@ import android.widget.Toast;
 import com.cqvip.zlfassist.R;
 import com.cqvip.zlfassist.adapter.NewsFragmentPagerAdapter;
 import com.cqvip.zlfassist.bean.ChannelItem;
+import com.cqvip.zlfassist.constant.C;
+import com.cqvip.zlfassist.fragment.FollowsFragment;
 import com.cqvip.zlfassist.fragment.PeriodicalListFragment;
+import com.cqvip.zlfassist.fragment.ZKTopicListFragment;
 import com.cqvip.zlfassist.scan.CaptureActivity;
 import com.cqvip.zlfassist.tools.BaseTools;
 import com.cqvip.zlfassist.view.ColumnHorizontalScrollView;
@@ -39,7 +43,7 @@ public class MainActivity extends FragmentActivity {
 	RelativeLayout rl_column;
 	private ViewPager mViewPager;
 	private ImageView button_more_columns;
-	private static final String[] WORDS={"科技","社会","数码","健康","娱乐"};
+	private static final String[] WORDS={C.MEDIA,C.SUBJECT,C.WRITER,C.ORGAN,C.FUND,C.DOMAIN,C.AREA};
 	/** 用户选择的新闻分类列表*/
 	private ArrayList<ChannelItem> userChannelList=new ArrayList<ChannelItem>();
 	/** 当前选中的栏目*/
@@ -225,16 +229,23 @@ public class MainActivity extends FragmentActivity {
 	private void initFragment() {
 		fragments.clear();//清空
 		int count =  userChannelList.size();
+		Bundle txtdata = new Bundle();
+		txtdata.putString("text", "文章");
+		txtdata.putInt("id", 1);
+		ZKTopicListFragment zktopicfragment = new ZKTopicListFragment();
+		zktopicfragment.setArguments(txtdata);
+		fragments.add(zktopicfragment);
 		
 		
-		
-		for(int i = 0; i< count;i++){
+		for(int i =0; i< 7;i++){
 			Bundle data = new Bundle();
-    		data.putString("text", userChannelList.get(i).getName());
-    		data.putInt("id", userChannelList.get(i).getId());
-			PeriodicalListFragment newfragment = new PeriodicalListFragment();
-			newfragment.setArguments(data);
-			fragments.add(newfragment);
+    		data.putString("text", userChannelList.get(i+1).getName());
+    		data.putInt("id", userChannelList.get(i+1).getId());
+    		Log.i("WORDS",WORDS[i]);
+			FollowsFragment followsFragment = FollowsFragment.newInstance(WORDS[i]);
+    		//PeriodicalListFragment newfragment = new PeriodicalListFragment();
+		//	followsFragment.setArguments(data);
+			fragments.add(followsFragment);
 		}
 		NewsFragmentPagerAdapter mAdapetr = new NewsFragmentPagerAdapter(getSupportFragmentManager(), fragments);
 		//mViewPager.setOffscreenPageLimit(0);

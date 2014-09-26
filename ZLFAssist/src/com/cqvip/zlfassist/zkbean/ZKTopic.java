@@ -1,9 +1,27 @@
 package com.cqvip.zlfassist.zkbean;
 
+import java.io.Serializable;
+import java.lang.reflect.Type;
+import java.util.ArrayList;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import android.text.TextUtils;
+import android.util.Log;
+
+import com.cqvip.zlfassist.bean.GeneralResult;
+import com.google.gson.Gson;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+import com.google.gson.reflect.TypeToken;
 
-public class ZKTopic {
+public class ZKTopic implements Serializable{
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 2693691966425442702L;
 
 	public ZKTopic() {
 	}
@@ -423,5 +441,17 @@ public class ZKTopic {
 	public void setZkreferidsReal(String zkreferidsReal) {
 		this.zkreferidsReal = zkreferidsReal;
 	}
-
+	public   static ArrayList<ZKTopic> formList(String result) throws JSONException{
+		GeneralResult gr = new GeneralResult(result);
+		String res = gr.getResult();
+		Log.i("fromJson", res);
+		if(!TextUtils.isEmpty(res)){
+			JSONObject json = new JSONObject(gr.getResult());
+			Type listType = new TypeToken<ArrayList<ZKTopic>>(){}.getType();
+			ArrayList<ZKTopic> lists= new Gson().fromJson(json.getString("list"), listType);
+			Log.i("fromJson","lsits"+lists.size());
+			return lists;
+		}
+		return null;
+	}
 }

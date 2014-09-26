@@ -1,0 +1,58 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.cqvip.zlfassist.DetailContentActivity" >
+ <include
+      android:id="@+id/ly_title"
+        layout="@layout/title_bar"
+         android:layout_width="match_parent"
+        android:layout_height="48dp"
+         />
+    
+    <TextView
+        android:id="@+id/tv_folloup_title"
+        style="@style/TextTitleBigBlueStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/ly_title"
+        android:text="王磊" />
+
+    <TextView
+        android:id="@+id/tv_folloup_count"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_folloup_title"
+        style="@style/TextContentMiddleYellowStyle"
+        android:text="作品数：10247被引量：18515H指数：32" />
+    <TextView
+        android:id="@+id/tv_folloup_orgniziton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_folloup_count"
+        android:text="中国农业科学院" />
+    <TextView
+        android:id="@+id/tv_folloup_classtype"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_folloup_orgniziton"
+        android:text="医药卫生自动化与计算机技术" />
+    <TextView
+        android:id="@+id/tv_folloup_subject"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_folloup_classtype"
+        android:text="实证研究大肠杆菌特异" />
+    <TextView
+        android:id="@+id/tv_folloup_periodical"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_folloup_subject"
+        android:text="王旭东汪建平冯露赖" />
+    <TextView
+        android:id="@+id/tv_folloup_fund"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_folloup_periodical"
+        android:text="国家自然科学基金国家科技支撑计划" />
+</RelativeLayout>

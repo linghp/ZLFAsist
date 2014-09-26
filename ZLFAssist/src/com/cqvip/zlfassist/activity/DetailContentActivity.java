@@ -1,39 +1,55 @@
 package com.cqvip.zlfassist.activity;
 
-import org.json.JSONException;
+import java.util.HashMap;
+import java.util.Map;
 
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.TextureView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Request.Method;
 import com.android.volley.Response.Listener;
 import com.cqvip.zlfassist.R;
-import com.cqvip.zlfassist.R.id;
 import com.cqvip.zlfassist.base.BaseActionBarActivity;
 import com.cqvip.zlfassist.bean.GeneralResult;
-import com.cqvip.zlfassist.bean.TopicContent;
+import com.cqvip.zlfassist.bean.JudgeResult;
 import com.cqvip.zlfassist.constant.C;
 import com.cqvip.zlfassist.http.VolleyManager;
+import com.cqvip.zlfassist.zkbean.ZKContent;
+import com.cqvip.zlfassist.zkbean.ZKTopic;
 import com.google.gson.Gson;
-import com.google.gson.JsonSyntaxException;
 
 public class DetailContentActivity extends BaseActionBarActivity {
 
 	private TextView title,author,organ,comeform,abst,keyword,classid;
-	private TopicContent topic ;
+	private ZKContent topic ;
+	private String requestId;
+	private ZKTopic zkTopic;
 	private static final String[] SHOWTIPS = {"作者","机构地区","出处","摘要","关键词","分类号"};
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_detail_content);
 		getSupportActionBar().setTitle("详细");
+		Bundle bundle = getIntent().getBundleExtra("info");
+		zkTopic = (ZKTopic) bundle.getSerializable("item");
+		requestId = zkTopic.getId();
 		intiView();
-		getDate();
+		initfirstView();
+		getDate(requestId);
+	}
+
+	private void initfirstView() {
+		title.setText(zkTopic.getTitleC());
+		author.setText(SHOWTIPS[0]+zkTopic.getShowwriter());
+		organ.setText(SHOWTIPS[1]+zkTopic.getShoworgan());
+		comeform.setText(SHOWTIPS[2]+"《"+zkTopic.getMediaC()+"》"+zkTopic.getMediasQk());
+		abst.setText(SHOWTIPS[3]+zkTopic.getRemarkC());
+		keyword.setText(SHOWTIPS[4]+zkTopic.getKeywordC());
+		classid.setText(SHOWTIPS[5]+zkTopic.getClass_()+zkTopic.getClasstypes());
 	}
 
 	private void intiView() {
@@ -47,9 +63,13 @@ public class DetailContentActivity extends BaseActionBarActivity {
 		
 	}
 
-	private void getDate() {
+	private void getDate(String requestId2) {
 		customProgressDialog.show();
-			VolleyManager.requestVolley(null, C.SERVER_Content,Method.GET, backlistener, errorListener, mQueue);
+		//http://192.168.20.57:9999/getinfo.ashx?type=article&key=123
+			Map<String,String> gparams = new HashMap<>();
+			gparams.put("type", "article");
+			gparams.put("key", requestId2);
+			VolleyManager.requestVolley(gparams, C.SERVER+C.URL_TOPIC_DETAIL,Method.POST, backlistener, errorListener, mQueue);
 		
 	}
 
@@ -59,16 +79,18 @@ public class DetailContentActivity extends BaseActionBarActivity {
 			// TODO Auto-generated method stub
 			if(customProgressDialog!=null&&customProgressDialog.isShowing())
 			customProgressDialog.dismiss();
-			
 			try {
-				//GeneralResult result = new GeneralResult(response);
+				JudgeResult result = new JudgeResult(response);
 				Log.i("backlistener","response======="+response);
-				 topic = new Gson().fromJson(GeneralResult.formResult(response), TopicContent.class); 
-				// topic = new Gson().fromJson(GeneralResult.formResult(response), TopicContent.class);
-				 Log.i("topic", topic.toString());
-				 if(topic!=null){
-				 setView();
-			 }
+				if(result.getState().equals("00")){
+					 topic =  ZKContent.formObject(response);
+					 Log.i("topic", topic.toString());
+					 if(topic!=null){
+				//	 setView();
+					 }
+				}else{
+					Toast.makeText(DetailContentActivity.this, result.getMsg(), 1).show();	
+				}
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

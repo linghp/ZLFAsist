@@ -12,12 +12,22 @@ import android.widget.TextView;
 import com.cqvip.zlfassist.R;
 import com.cqvip.zlfassist.base.AdapterBase;
 import com.cqvip.zlfassist.bean.ItemFollows;
+import com.cqvip.zlfassist.zkbean.ZKTopic;
 
 public class ItemFollowsAdapter extends AdapterBase<ItemFollows> {
 	private Context context;
 	public ItemFollowsAdapter(Context context,List<ItemFollows> lists){
 		this.context = context;
 		mList =lists;
+	}
+	/**
+	 * 增加更多数据
+	 * 
+	 * @param moreStatus
+	 */
+	public void addMoreData(List<ItemFollows> moreStatus) {
+		this.mList.addAll(moreStatus);// 把新数据增加到原有集合
+		this.notifyDataSetChanged();
 	}
 	private static class ViewHolder{
 		private TextView title;
