@@ -9,6 +9,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.text.TextUtils;
+import android.util.Log;
 
 import com.cqvip.zlfassist.constant.C;
 import com.google.gson.JsonArray;
@@ -26,8 +27,13 @@ public class ItemFollows implements Serializable {
 	/**
 	 * 栏目对应ID
 	 * */
-	@DatabaseField
+	@DatabaseField(id=true)
 	private String id;
+	/**
+	 * 馆藏号
+	 * */
+	@DatabaseField
+	private String gch;
 	/**
 	 * 栏目对应NAME
 	 * */
@@ -59,7 +65,8 @@ public class ItemFollows implements Serializable {
 		this.type = type;
 		switch (type) {
 		case C.MEDIA:
-			id = result.getString("gch");
+			id = result.getString("_id");
+			gch = result.getString("gch");
 			name = result.getString("media");
 			subject = result.getString("subjects");
 			about = result.getString("publisher");
@@ -146,6 +153,11 @@ public class ItemFollows implements Serializable {
 		return type;
 	}
 
+	public String getGch() {
+		return gch;
+	}
+
+	
 	public long getDatetime() {
 		return datetime;
 	}
@@ -157,4 +169,13 @@ public class ItemFollows implements Serializable {
 				+ datetime + "]";
 	}
 
+	@Override
+	public boolean equals(Object o) {
+		if(o instanceof ItemFollows){
+			ItemFollows t=(ItemFollows) o;
+		//	Log.i("equals", this.id+"----"+t.getId());
+			return this.getId().equals(t.getId())&&this.getType().equals(t.getType());
+		}
+		return super.equals(o);
+	}
 }
