@@ -165,7 +165,8 @@ public class AddFollowActivity extends BaseActionBarActivity implements
 					allItemFollowMap.put(arrayList_temp.get(0).getType(),
 							arrayList_temp);
 				}
-				lv_subcategory_adapter.notifyDataSetChanged();
+				//lv_subcategory_adapter.notifyDataSetChanged();
+				lv_subcategory.setAdapter(lv_subcategory_adapter);
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -476,8 +477,9 @@ public class AddFollowActivity extends BaseActionBarActivity implements
 				if (arrayList_temp != null&&arrayList_temp.size() > 0) {
 					subcategoryNameList.clear();
 					subcategoryNameList.addAll(arrayList_temp);
-					lv_subcategory_adapter.notifyDataSetChanged();
-					lv_subcategory.invalidateViews();
+//					lv_subcategory_adapter.notifyDataSetChanged();
+//					lv_subcategory.invalidateViews();
+					lv_subcategory.setAdapter(lv_subcategory_adapter);
 				} else {
 					getDate_right(tag);
 				}

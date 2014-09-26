@@ -25,9 +25,14 @@ public class ItemFollows implements Serializable {
 	 */
 	private static final long serialVersionUID = -6465237897027410019L;
 	/**
-	 * 栏目对应ID
+	 * 栏目对应唯一标识type加上id
 	 * */
 	@DatabaseField(id=true)
+	private String type_id;
+	/**
+	 * 栏目对应ID
+	 * */
+	@DatabaseField
 	private String id;
 	/**
 	 * 馆藏号
@@ -105,6 +110,11 @@ public class ItemFollows implements Serializable {
 		default:
 			break;
 		}
+		type_id=type+"_"+id;
+	}
+
+	public String getType_id() {
+		return type_id;
 	}
 
 	public static List<ItemFollows> formList(String result)

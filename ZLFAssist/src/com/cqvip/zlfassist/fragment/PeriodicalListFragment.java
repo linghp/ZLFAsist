@@ -1,23 +1,31 @@
 
 package com.cqvip.zlfassist.fragment;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.android.volley.Request.Method;
 import com.android.volley.Response.Listener;
 import com.android.volley.toolbox.ImageLoader;
 import com.cqvip.zlfassist.R;
+import com.cqvip.zlfassist.activity.AddFollowActivity;
 import com.cqvip.zlfassist.activity.PeriodicalInfoActivity;
 import com.cqvip.zlfassist.adapter.PeriodicalAdapter;
 import com.cqvip.zlfassist.base.BaseFrgment;
+import com.cqvip.zlfassist.bean.ItemFollows;
 import com.cqvip.zlfassist.bean.PeriodicalResult;
 import com.cqvip.zlfassist.bean.Periodical;
 import com.cqvip.zlfassist.bitmap.BitmapCache;
@@ -36,6 +44,7 @@ public class PeriodicalListFragment extends BaseFrgment implements OnItemClickLi
 	private int page;
 	private RelativeLayout noResult_rl;
 	private PeriodicalAdapter adapter;
+	private ArrayList<ItemFollows> itemFollows_List;
 
 	
 	@Override
@@ -47,31 +56,33 @@ public class PeriodicalListFragment extends BaseFrgment implements OnItemClickLi
 		page = 1;
 		  // 设置默认偏移量，主要用于实现透明标题栏功能。（可选）
         ViewSetting.settingListview(listview,getActivity());
+      
+        itemFollows_List=(ArrayList<ItemFollows>) getArguments().getSerializable("itemfollows_list");
+        listview.setAdapter(new Lv_Mainsubcategory_adapter(getActivity(), itemFollows_List));
         
-
-        // 下拉刷新事件回调（可选）
-        listview.setOnRefreshStartListener(new OnStartListener() {
-            @Override
-            public void onStart() {
-            	page = 1;
-                refresh("",1,C.DEFAULT_COUNT);
-            }
-
-			
-        });
-
-        // 加载更多事件回调（可选）
-        listview.setOnLoadMoreStartListener(new OnStartListener() {
-            @Override
-            public void onStart() {
-            	page++;
-                loadMore("", page,C.DEFAULT_COUNT);
-            }
-
-			
-        });
-		listview.setOnItemClickListener(this);
-        refresh("",1,C.DEFAULT_COUNT);
+//        // 下拉刷新事件回调（可选）
+//        listview.setOnRefreshStartListener(new OnStartListener() {
+//            @Override
+//            public void onStart() {
+//            	page = 1;
+//                refresh("",1,C.DEFAULT_COUNT);
+//            }
+//
+//			
+//        });
+//
+//        // 加载更多事件回调（可选）
+//        listview.setOnLoadMoreStartListener(new OnStartListener() {
+//            @Override
+//            public void onStart() {
+//            	page++;
+//                loadMore("", page,C.DEFAULT_COUNT);
+//            }
+//
+//			
+//        });
+//		listview.setOnItemClickListener(this);
+//        refresh("",1,C.DEFAULT_COUNT);
 		return v;
 	}
 
@@ -188,4 +199,57 @@ if (lists != null && !lists.isEmpty()) {
 	}
 	}
 	
+	 class Lv_Mainsubcategory_adapter extends BaseAdapter {
+		private Context context;
+		private ArrayList<ItemFollows> subcategoryNames;
+
+		public Lv_Mainsubcategory_adapter(Context context,
+				ArrayList<ItemFollows> subcategoryNames) {
+			this.context = context;
+			this.subcategoryNames = subcategoryNames;
+		}
+
+		@Override
+		public int getCount() {
+			// TODO Auto-generated method stub
+			return subcategoryNames.size();
+		}
+
+		@Override
+		public Object getItem(int position) {
+			// TODO Auto-generated method stub
+			return subcategoryNames.get(position);
+		}
+
+		@Override
+		public long getItemId(int position) {
+			// TODO Auto-generated method stub
+			return position;
+		}
+
+		@Override
+		public View getView(int position, View convertView, ViewGroup parent) {
+			final ViewHolder holder;
+			if (convertView == null) {
+				convertView = LayoutInflater.from(context).inflate(
+						R.layout.activity_my_follow_item2, null);
+				holder = new ViewHolder();
+				holder.title = (TextView) convertView
+						.findViewById(R.id.tv_subcategory);
+				holder.iv_add = (ImageView) convertView
+						.findViewById(R.id.iv_add);
+				holder.iv_add.setVisibility(View.GONE);
+				convertView.setTag(holder);
+			} else {
+				holder = (ViewHolder) convertView.getTag();
+			}
+			holder.title.setText(subcategoryNames.get(position).getName());
+			return convertView;
+		}
+
+		 class ViewHolder {
+			TextView title;
+			ImageView iv_add;
+		}
+	}
 }
