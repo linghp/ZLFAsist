@@ -38,7 +38,6 @@ public class ZKTopicListAdapter extends AdapterBase<ZKTopic> {
 		private TextView abst;
 		private TextView keywords;
 	}
-	
 	@Override
 	protected View getExView(int position, View convertView, ViewGroup parent) {
 		ViewHolder holder = null;
