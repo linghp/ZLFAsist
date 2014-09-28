@@ -84,6 +84,8 @@ public class MainActivity extends FragmentActivity {
 			C.DOMAIN, C.AREA };
 	private Map<String, ArrayList<ItemFollows>> allFollowMap_TopItem = new HashMap<>();// 上面菜单显示的
 	private Map<String, String> keyvalue = new HashMap<>();// 菜单键值对
+	
+	NewsFragmentPagerAdapter mAdapetr;
 
 	// private ArrayList<String> topItemType_List;
 	@Override
@@ -122,6 +124,12 @@ public class MainActivity extends FragmentActivity {
 		top_right = (ImageView) findViewById(R.id.top_right);
 		top_refresh = (ImageView) findViewById(R.id.top_refresh);
 		top_progress = (ProgressBar) findViewById(R.id.top_progress);
+		
+		mAdapetr = new NewsFragmentPagerAdapter(
+				getSupportFragmentManager(), fragments);
+		// mViewPager.setOffscreenPageLimit(0);
+		mViewPager.setAdapter(mAdapetr);
+		
 		button_more_columns.setOnClickListener(new OnClickListener() {
 
 			@Override
@@ -282,15 +290,18 @@ public class MainActivity extends FragmentActivity {
 			Bundle data = new Bundle();
 			//data.putString("type", userChannelList.get(i).getType());
 			data.putSerializable("itemfollows_list", allFollowMap_TopItem.get(userChannelList.get(i).getType()));
+			Log.i("initFragment", userChannelList.get(i).getType()+"---"+allFollowMap_TopItem.get(userChannelList.get(i).getType()).get(0).getName());
 			//data.putInt("id", userChannelList.get(i).getId());
 			PeriodicalListFragment newfragment = new PeriodicalListFragment();
 			newfragment.setArguments(data);
 			fragments.add(newfragment);
 		}
-		NewsFragmentPagerAdapter mAdapetr = new NewsFragmentPagerAdapter(
-				getSupportFragmentManager(), fragments);
-		// mViewPager.setOffscreenPageLimit(0);
-		mViewPager.setAdapter(mAdapetr);
+//		NewsFragmentPagerAdapter mAdapetr = new NewsFragmentPagerAdapter(
+//				getSupportFragmentManager(), fragments);
+//		// mViewPager.setOffscreenPageLimit(0);
+//		mViewPager.setAdapter(mAdapetr);
+		mAdapetr.notifyDataSetChanged();
+		mViewPager.setCurrentItem(columnSelectIndex);
 		mViewPager.setOnPageChangeListener(pageListener);
 	}
 
@@ -389,6 +400,7 @@ public class MainActivity extends FragmentActivity {
 				ArrayList<ItemFollows> temp = (ArrayList<ItemFollows>) itemFollowsDao.queryForEq("type", str);
 				if (temp.size() > 0) {
 					allFollowMap_TopItem.put(str, temp);
+					Log.i("getdatafromdb",str+temp.size());
 				}
 			}
 			Log.i("getdatafromdb", allFollowMap_TopItem.size()+"");
