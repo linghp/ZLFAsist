@@ -62,14 +62,14 @@
                 android:layout_height="fill_parent"
                 android:background="#ffbfbfbf" />
 
-            <ListView
+            <com.cqvip.zlfassist.freshlistview.FreshListView
                 android:id="@+id/lv_subcategory"
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
                 android:layout_weight="1.0" />
         </LinearLayout>
 
-        <ListView
+        <com.cqvip.zlfassist.freshlistview.FreshListView
             android:id="@+id/lv_search"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"

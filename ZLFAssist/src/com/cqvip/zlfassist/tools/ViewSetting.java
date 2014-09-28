@@ -28,7 +28,7 @@ public class ViewSetting {
         listView.setItemAnimForTopIn(R.anim.topitem_in);
         listView.setItemAnimForBottomIn(R.anim.bottomitem_in);
 	}
-	public static void settingListviewWithoutHeader(FreshListView listView,Activity activity) {
+	public static void settingListviewNOHeader(FreshListView listView,Activity activity) {
 //		float density = activity.getResources().getDisplayMetrics().density;
 //        listView.setFirstTopOffset((int) (50 * density));
 		

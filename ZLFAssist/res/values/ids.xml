@@ -29,4 +29,6 @@
   <item type="id" name="search_book_contents_failed"/>
   <item type="id" name="search_book_contents_succeeded"/>
   <item type="id" name="nocontent_textview_tips"/>
+  
+  <item type="id" name="itemfollow_add_tag"/>
 </resources>
