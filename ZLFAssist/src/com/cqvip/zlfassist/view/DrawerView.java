@@ -28,6 +28,7 @@ public class DrawerView implements OnClickListener{
 	private TextView night_mode_text;
 	private RelativeLayout setting_btn;
 	DownloadManager mDownloadManager;
+	public static final int RESULT_FOLLOW=1;
 	public DrawerView(Activity activity) {
 		this.activity = activity;
 		mDownloadManager = new DownloadManager(activity.getContentResolver(),
@@ -108,7 +109,7 @@ public class DrawerView implements OnClickListener{
 	public void onClick(View v) {
 		switch (v.getId()) {
 		case R.id.add_btn:
-			activity.startActivity(new Intent(activity,DisplayFollowActivity.class));
+			activity.startActivityForResult(new Intent(activity,DisplayFollowActivity.class),RESULT_FOLLOW);
 			activity.overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
 			break;
 		case R.id.down_btn:

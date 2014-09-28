@@ -8,7 +8,7 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
-import com.cqvip.zlfassist.bean.TopSubItem;
+import com.cqvip.zlfassist.bean.ItemFollows;
 import com.j256.ormlite.android.apptools.OrmLiteSqliteOpenHelper;
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.support.ConnectionSource;
@@ -26,7 +26,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 	private static final int DATABASE_VERSION = 1;
 
 	// the DAO object we use to access the SimpleData table
-	private Dao<TopSubItem, Integer> topSubItemDao = null;
+	private Dao<ItemFollows, Integer> itemFollowsDao = null;
 
 	public DatabaseHelper(Context context) {
 		super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -40,7 +40,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 	public void onCreate(SQLiteDatabase db, ConnectionSource connectionSource) {
 		try {
 			Log.i(DatabaseHelper.class.getName(), "onCreate");
-			TableUtils.createTable(connectionSource, TopSubItem.class);
+			TableUtils.createTable(connectionSource, ItemFollows.class);
 		} catch (SQLException e) {
 			Log.e(DatabaseHelper.class.getName(), "Can't create database", e);
 			throw new RuntimeException(e);
@@ -55,7 +55,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 	public void onUpgrade(SQLiteDatabase db, ConnectionSource connectionSource, int oldVersion, int newVersion) {
 		try {
 			Log.i(DatabaseHelper.class.getName(), "onUpgrade");
-			TableUtils.dropTable(connectionSource, TopSubItem.class, true);
+			TableUtils.dropTable(connectionSource, ItemFollows.class, true);
 			// after we drop the old databases, we create the new ones
 			onCreate(db, connectionSource);
 		} catch (SQLException e) {
@@ -68,11 +68,11 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 	 * Returns the Database Access Object (DAO) for our SimpleData class. It will create it or just give the cached
 	 * value.
 	 */
-	public Dao<TopSubItem, Integer> getTopSubItemDao() throws SQLException {
-		if (topSubItemDao == null) {
-			topSubItemDao = getDao(TopSubItem.class);
+	public Dao<ItemFollows, Integer> getItemFollowsDao() throws SQLException {
+		if (itemFollowsDao == null) {
+			itemFollowsDao = getDao(ItemFollows.class);
 		}
-		return topSubItemDao;
+		return itemFollowsDao;
 	}
 
 	/**
@@ -81,6 +81,6 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 	@Override
 	public void close() {
 		super.close();
-		topSubItemDao = null;
+		itemFollowsDao = null;
 	}
 }

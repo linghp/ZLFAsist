@@ -15,7 +15,7 @@ import com.google.gson.reflect.TypeToken;
 import com.j256.ormlite.field.DatabaseField;
 
 /**
- * 子分类
+ * 子分类，弃用
  * @author luojiang
  *
  */
