@@ -1,5 +1,12 @@
 package com.cqvip.zlfassist.zkbean;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import android.text.TextUtils;
+
+import com.cqvip.zlfassist.bean.GeneralResult;
+import com.google.gson.Gson;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
@@ -422,6 +429,38 @@ public class ZKContent {
 
 	public void setZkreferidsReal(String zkreferidsReal) {
 		this.zkreferidsReal = zkreferidsReal;
+	}
+	public static ZKContent formObject(String result) throws JSONException{
+		  GeneralResult gResult = new GeneralResult(result);
+		  String res = gResult.getResult();
+		  if(!TextUtils.isEmpty(res)){
+				JSONObject json = new JSONObject(res);
+				ZKContent list= new Gson().fromJson(json.getString("obj"), ZKContent.class);
+				return list;
+			}
+		  return null;
+	}
+	@Override
+	public String toString() {
+		return "ZKContent [keywordE=" + keywordE + ", zkcouplingcount="
+				+ zkcouplingcount + ", volumn=" + volumn + ", keywordC="
+				+ keywordC + ", zkrefercount=" + zkrefercount + ", issn="
+				+ issn + ", range=" + range + ", subjectnum=" + subjectnum
+				+ ", endpage=" + endpage + ", beginpage=" + beginpage
+				+ ", type=" + type + ", processdate=" + processdate
+				+ ", titleE=" + titleE + ", zkbycount=" + zkbycount + ", vol="
+				+ vol + ", titleC=" + titleC + ", id=" + id + ", showwriter="
+				+ showwriter + ", authorE=" + authorE + ", pagecount="
+				+ pagecount + ", organs=" + organs + ", zkbycountSec="
+				+ zkbycountSec + ", mediaE=" + mediaE + ", mediaC=" + mediaC
+				+ ", imburse=" + imburse + ", zkrefercountSec="
+				+ zkrefercountSec + ", mediasQk=" + mediasQk + ", _class="
+				+ _class + ", zkstrbyids=" + zkstrbyids + ", specialnum="
+				+ specialnum + ", classtypes=" + classtypes + ", num=" + num
+				+ ", remarkE=" + remarkE + ", showorgan=" + showorgan
+				+ ", zkbycouplingcount=" + zkbycouplingcount + ", remarkC="
+				+ remarkC + ", writers=" + writers + ", years=" + years
+				+ ", gch=" + gch + ", zkreferidsReal=" + zkreferidsReal + "]";
 	}
 
 }

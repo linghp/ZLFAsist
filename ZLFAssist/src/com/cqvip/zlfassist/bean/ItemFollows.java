@@ -117,8 +117,9 @@ public class ItemFollows implements Serializable {
 		return type_id;
 	}
 
-	public static List<ItemFollows> formList(String result)
+	public static ArrayList<ItemFollows> formList(String result)
 			throws JSONException {
+		Log.i("JSONException","result"+result);
 		GeneralResult gr = new GeneralResult(result);
 		String res = gr.getResult();
 		if (!TextUtils.isEmpty(res)) {
@@ -130,7 +131,7 @@ public class ItemFollows implements Serializable {
 			if (count <= 0) {
 				return null;
 			}
-			List<ItemFollows> follows = new ArrayList<ItemFollows>(count);
+			ArrayList<ItemFollows> follows = new ArrayList<ItemFollows>(count);
 			for (int i = 0; i < count; i++) {
 				follows.add(new ItemFollows(type, ary.getJSONObject(i)));
 			}

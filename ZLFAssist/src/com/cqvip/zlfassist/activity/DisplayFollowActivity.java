@@ -36,7 +36,6 @@ import com.android.volley.Response.Listener;
 import com.cqvip.zlfassist.R;
 import com.cqvip.zlfassist.base.BaseActionBarActivity;
 import com.cqvip.zlfassist.bean.GeneralResult;
-import com.cqvip.zlfassist.bean.TopicContent;
 import com.cqvip.zlfassist.constant.C;
 import com.cqvip.zlfassist.http.VolleyManager;
 import com.google.gson.Gson;

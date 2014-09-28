@@ -1,6 +1,6 @@
 package com.cqvip.zlfassist.base;
 
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.List;
 
 import android.content.Context;
@@ -10,7 +10,7 @@ import android.widget.BaseAdapter;
 
 public abstract class AdapterBase<T> extends BaseAdapter {
 	
-	protected List<T> mList = new LinkedList<T>();
+	protected List<T> mList = new ArrayList<T>();
 	private Context context;
 	
 	public List<T> getList(){

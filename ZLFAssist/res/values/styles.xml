@@ -86,6 +86,14 @@
 	<style name="TextContentMiddleStyle">
         <item name="android:textSize">14.0sp</item>
     </style>
+	<style name="TextContentMiddleYellowStyle">
+        <item name="android:textSize">14.0sp</item>
+        <item name="android:textColor">@color/yellow</item>
+    </style>
+	<style name="TextContentMiddleBlueStyle">
+        <item name="android:textSize">14.0sp</item>
+        <item name="android:textColor">@color/blue_title</item>
+    </style>
 	<style name="TextContentBigStyle">
         <item name="android:textSize">16.0sp</item>
     </style>

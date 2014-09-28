@@ -1,0 +1,40 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.cqvip.zlfassist.DetailContentActivity" >
+ <include
+      android:id="@+id/ly_title"
+       layout="@layout/title_bar"
+       android:layout_width="match_parent"
+       android:layout_height="48dp"
+         />
+    
+    
+<com.cqvip.zlfassist.freshlistview.FreshListView
+    android:id="@+id/lv_follow"
+    android:layout_below="@+id/ly_title"
+    android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    >
+</com.cqvip.zlfassist.freshlistview.FreshListView>
+
+
+   <RelativeLayout
+        android:id="@+id/noresult_rl"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:visibility="gone" >
+
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="没有找到相关结果\n试试别的关键字吧!"
+            android:textColor="@android:color/darker_gray" />
+    </RelativeLayout>
+    
+
+</RelativeLayout>

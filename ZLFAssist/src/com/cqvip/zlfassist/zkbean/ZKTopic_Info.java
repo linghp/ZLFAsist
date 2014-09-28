@@ -1,5 +1,12 @@
 package com.cqvip.zlfassist.zkbean;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import android.text.TextUtils;
+
+import com.cqvip.zlfassist.bean.GeneralResult;
+import com.google.gson.Gson;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
@@ -238,6 +245,32 @@ public class ZKTopic_Info {
 
 	public void setOldwriterids(String oldwriterids) {
 		this.oldwriterids = oldwriterids;
+	}
+	public static ZKTopic_Info formObject(String result) throws JSONException{
+		  GeneralResult gResult = new GeneralResult(result);
+		  String res = gResult.getResult();
+		  if(!TextUtils.isEmpty(res)){
+				JSONObject json = new JSONObject(res);
+				ZKTopic_Info list= new Gson().fromJson(json.getString("obj"), ZKTopic_Info.class);
+				return list;
+			}
+		  return null;
+	}
+
+	@Override
+	public String toString() {
+		return "ZKTopic_Info [zkbyinfo=" + zkbyinfo + ", position=" + position
+				+ ", zkfwcount=" + zkfwcount + ", yywriters=" + yywriters
+				+ ", zkfwinfo=" + zkfwinfo + ", subjects=" + subjects
+				+ ", classtypes=" + classtypes + ", zkbycount=" + zkbycount
+				+ ", oldorgans=" + oldorgans + ", funds=" + funds + ", id="
+				+ id + ", oldorganids=" + oldorganids + ", organ=" + organ
+				+ ", organid=" + organid + ", studentids=" + studentids
+				+ ", medias=" + medias + ", bywriters=" + bywriters
+				+ ", writers=" + writers + ", fwdetail=" + fwdetail
+				+ ", writer=" + writer + ", tutorids=" + tutorids
+				+ ", zkhindex=" + zkhindex + ", oldwriterids=" + oldwriterids
+				+ "]";
 	}
 
 }
