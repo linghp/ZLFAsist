@@ -40,7 +40,6 @@ import com.j256.ormlite.android.apptools.OpenHelperManager;
 import com.j256.ormlite.dao.Dao;
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 
-
 public class MainActivity extends FragmentActivity {
 	/** 自定义HorizontalScrollView */
 	private ColumnHorizontalScrollView mColumnHorizontalScrollView;
