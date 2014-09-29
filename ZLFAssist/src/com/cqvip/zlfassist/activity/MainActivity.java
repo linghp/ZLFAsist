@@ -3,6 +3,7 @@ package com.cqvip.zlfassist.activity;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 import android.content.Intent;
@@ -81,7 +82,7 @@ public class MainActivity extends FragmentActivity {
 	private DatabaseHelper databaseHelper = null;
 	private String[] alltype = { C.MEDIA, C.SUBJECT, C.WRITER, C.ORGAN, C.FUND,
 			C.DOMAIN, C.AREA };
-	private Map<String, ArrayList<ItemFollows>> allFollowMap_TopItem = new HashMap<>();// 上面菜单显示的
+	private Map<String, ArrayList<ItemFollows>> allFollowMap_TopItem = new LinkedHashMap<>();// 上面菜单显示的
 	private Map<String, String> keyvalue = new HashMap<>();// 菜单键值对
 
 	// private ArrayList<String> topItemType_List;
@@ -296,7 +297,9 @@ public class MainActivity extends FragmentActivity {
 		NewsFragmentPagerAdapter mAdapetr = new NewsFragmentPagerAdapter(getSupportFragmentManager(), fragments);
 		//mViewPager.setOffscreenPageLimit(0);
 		mViewPager.setAdapter(mAdapetr);
+		mViewPager.setCurrentItem(columnSelectIndex);
 		mViewPager.setOnPageChangeListener(pageListener);
+		mViewPager.invalidate();
 	}
 
 	/**
@@ -389,11 +392,15 @@ public class MainActivity extends FragmentActivity {
 			Dao<ItemFollows, Integer> itemFollowsDao = getHelper()
 					.getItemFollowsDao();
 			allFollowMap_TopItem.clear();
-			for (String str : alltype) {
-				ArrayList<ItemFollows> temp = (ArrayList<ItemFollows>) itemFollowsDao.queryForEq("type", str);
-				if (temp.size() > 0) {
-					allFollowMap_TopItem.put(str, temp);
-				}
+			//获取type分组信息，按时间排序，确保关注分组顺序
+			ArrayList<ItemFollows> temp1 = (ArrayList<ItemFollows>) itemFollowsDao.queryBuilder().orderBy("datetime", true).groupBy("type").query();
+//			for (ItemFollows itemFollows : temp1) {
+//				Log.i("getdatafromdb1", itemFollows.getName()+itemFollows.getDatetime());
+//			}
+			
+			for (ItemFollows itemFollows : temp1) {
+				ArrayList<ItemFollows> temp = (ArrayList<ItemFollows>) itemFollowsDao.queryForEq("type", itemFollows.getType());
+					allFollowMap_TopItem.put(itemFollows.getType(), temp);
 			}
 			Log.i("getdatafromdb", allFollowMap_TopItem.size()+"");
 		} catch (SQLException e) {

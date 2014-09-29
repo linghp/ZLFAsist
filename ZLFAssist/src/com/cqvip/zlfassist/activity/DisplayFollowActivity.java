@@ -63,6 +63,7 @@ public class DisplayFollowActivity extends BaseActionBarActivity implements
 
 		@Override
 		public void run() {
+			getdatafromdb();
 			mSwipeRefreshWidget.setRefreshing(false);
 		}
 
@@ -70,7 +71,7 @@ public class DisplayFollowActivity extends BaseActionBarActivity implements
 	private DatabaseHelper databaseHelper = null;
 	private ArrayList<ItemFollows> allFollowItem = new ArrayList<>();// 所有的关注
 	private ArrayList<ItemFollows> selectedFollowItem = new ArrayList<>();// 选中的关注
-	
+
 	@Override
 	public void onCreate(Bundle bundle) {
 		super.onCreate(bundle);
@@ -86,7 +87,7 @@ public class DisplayFollowActivity extends BaseActionBarActivity implements
 				R.color.color2, R.color.color3, R.color.color4);
 		mList = (ListView) findViewById(R.id.Lv_followcontent);
 
-		//list = new ArrayList<String>(Arrays.asList(TITLES));
+		// list = new ArrayList<String>(Arrays.asList(TITLES));
 		context = this;
 		adapter = new Adapter(context, allFollowItem);
 		mList.addFooterView(getLayoutInflater().inflate(
@@ -95,7 +96,7 @@ public class DisplayFollowActivity extends BaseActionBarActivity implements
 		mList.setOnItemClickListener(this);
 		mList.setOnItemLongClickListener(this);
 		mSwipeRefreshWidget.setOnRefreshListener(this);
-		
+
 		getdatafromdb();
 	}
 
@@ -123,12 +124,16 @@ public class DisplayFollowActivity extends BaseActionBarActivity implements
 			refresh();
 			return true;
 		case R.id.follow_add:
-			startActivity(new Intent(this, AddFollowActivity.class));
-			overridePendingTransition(R.anim.slide_in_right,
-					R.anim.slide_out_left);
+			myStartActivity();
 			return true;
 		}
 		return false;
+	}
+
+	private void myStartActivity() {
+		startActivityForResult(new Intent(this, AddFollowActivity.class),1);
+		overridePendingTransition(R.anim.slide_in_right,
+				R.anim.slide_out_left);
 	}
 
 	private void refresh() {
@@ -146,12 +151,13 @@ public class DisplayFollowActivity extends BaseActionBarActivity implements
 			allFollowItem.removeAll(selectedFollowItem);
 			deleteDB(selectedFollowItem);
 			adapter.notifyDataSetChanged();
+			isedit = false;
 			clearSelection();
 			break;
 
 		case R.id.deselect_all:
-			clearSelection();
 			isedit = false;
+			clearSelection();
 			break;
 
 		default:
@@ -169,19 +175,18 @@ public class DisplayFollowActivity extends BaseActionBarActivity implements
 	public void onItemClick(AdapterView<?> parent, View view, int position,
 			long id) {
 		if (position == allFollowItem.size()) {
-			startActivityForResult(new Intent(this, AddFollowActivity.class),1);
-			overridePendingTransition(R.anim.slide_in_right,
-					R.anim.slide_out_left);
+			myStartActivity();
 		} else if (isedit) {
 
 		}
 	}
-	
+
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		// TODO Auto-generated method stub
 		super.onActivityResult(requestCode, resultCode, data);
 		getdatafromdb();
+		Log.i("onActivityResult", "display");
 	}
 
 	@Override
@@ -306,7 +311,7 @@ public class DisplayFollowActivity extends BaseActionBarActivity implements
 					this, R.anim.footer_disappear));
 		}
 	}
-	
+
 	private DatabaseHelper getHelper() {
 		if (databaseHelper == null) {
 			databaseHelper = OpenHelperManager.getHelper(this,
@@ -329,16 +334,17 @@ public class DisplayFollowActivity extends BaseActionBarActivity implements
 			Dao<ItemFollows, Integer> itemFollowsDao = getHelper()
 					.getItemFollowsDao();
 			allFollowItem.clear();
-				ArrayList<ItemFollows> temp = (ArrayList<ItemFollows>) itemFollowsDao.queryBuilder().orderBy("datetime", false).query();
-			Log.i("getdatafromdb", allFollowItem.size()+"");
+			ArrayList<ItemFollows> temp = (ArrayList<ItemFollows>) itemFollowsDao
+					.queryBuilder().orderBy("datetime", false).query();
+			Log.i("getdatafromdb", allFollowItem.size() + "");
 			allFollowItem.addAll(temp);
-			adapter.notifyDataSetChanged();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		adapter.notifyDataSetChanged();
 	}
-	
+
 	protected void deleteDB(ArrayList<ItemFollows> itemFollows) {
 		try {
 			Dao<ItemFollows, Integer> itemFollowsDao = getHelper()
