@@ -16,7 +16,7 @@ import com.cqvip.zlfassist.adapter.ZKTopicListAdapter;
 import com.cqvip.zlfassist.base.BaseActionBarActivity;
 import com.cqvip.zlfassist.zkbean.ZKTopic;
 
-public class AddFavorActivity extends BaseActionBarActivity implements OnItemClickListener {
+public class NotifactionUpdateActivity extends BaseActionBarActivity implements OnItemClickListener {
 
 	private Context context;
 	private ListView listView;
@@ -25,15 +25,17 @@ public class AddFavorActivity extends BaseActionBarActivity implements OnItemCli
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		context = this;
-		setContentView(R.layout.activity_favor);
+ 		setContentView(R.layout.activity_notification);
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-		getSupportActionBar().setTitle("我的收藏");
-		listView = (ListView) findViewById(R.id.lv_favorlilst);
+		getSupportActionBar().setTitle("文章引用通知");
+		listView = (ListView) findViewById(R.id.lv_notification);
 		ArrayList<ZKTopic> lists =formDate();
 		adapter = new ZKTopicListAdapter(context, lists);
 		listView.setAdapter(adapter);
 		listView.setOnItemClickListener(this);
 	}
+	
+	
 	  private ArrayList<ZKTopic> formDate() {
 		  ArrayList<ZKTopic> lists = new ArrayList<>();
 		  ZKTopic  topic = new ZKTopic();
@@ -53,7 +55,8 @@ public class AddFavorActivity extends BaseActionBarActivity implements OnItemCli
 		  lists.add(topic);
 		return lists;
 	}
-	 @Override
+
+	@Override
 	    public boolean onOptionsItemSelected(MenuItem item) {
 		int itemId = item.getItemId();
 		if(itemId == android.R.id.home){
@@ -61,6 +64,8 @@ public class AddFavorActivity extends BaseActionBarActivity implements OnItemCli
 		}
 		return false;
 	    }
+
+
 	@Override
 	public void onItemClick(AdapterView<?> parent, View view, int position,
 			long id) {
@@ -75,6 +80,4 @@ public class AddFavorActivity extends BaseActionBarActivity implements OnItemCli
 			}
 		
 	}
-
-	
 }

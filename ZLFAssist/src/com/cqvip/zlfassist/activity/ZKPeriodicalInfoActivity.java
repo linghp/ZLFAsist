@@ -5,12 +5,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import android.R.integer;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Paint;
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,23 +24,23 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.android.volley.Request.Method;
-import com.android.volley.Response.ErrorListener;
 import com.android.volley.Response.Listener;
-import com.android.volley.toolbox.ImageLoader;
-import com.android.volley.toolbox.ImageLoader.ImageListener;
 import com.android.volley.toolbox.StringRequest;
-import com.cqvip.zlfassist.activity.DetailContentActivity;
 import com.cqvip.zlfassist.R;
+import com.cqvip.zlfassist.adapter.ZKTopicListAdapter;
 import com.cqvip.zlfassist.base.BaseActivity;
 import com.cqvip.zlfassist.bean.EBook;
+import com.cqvip.zlfassist.bean.ItemFollows;
 import com.cqvip.zlfassist.bean.Periodical;
 import com.cqvip.zlfassist.bean.PeriodicalYear;
-import com.cqvip.zlfassist.bitmap.BitmapCache;
+import com.cqvip.zlfassist.bean.ZKPeriodical;
 import com.cqvip.zlfassist.constant.C;
 import com.cqvip.zlfassist.http.HttpUtils;
+import com.cqvip.zlfassist.http.VolleyManager;
 import com.cqvip.zlfassist.view.picker.ArrayWheelAdapter;
 import com.cqvip.zlfassist.view.picker.OnWheelChangedListener;
 import com.cqvip.zlfassist.view.picker.WheelView;
+import com.cqvip.zlfassist.zkbean.ZKTopic;
 
 public class ZKPeriodicalInfoActivity extends BaseActivity {
 	private String mYear = null;
@@ -48,7 +48,7 @@ public class ZKPeriodicalInfoActivity extends BaseActivity {
 	private ListView listview;
 	private Context context;
 	private TextView txt_date;
-	private TextView title,directordept,publisher,chiefedit,pubcycle,price,num,remark,tips;
+	private TextView title,subjects,directordept,publisher,chiefedit,pubcycle,price,num,remark,tips;
 	private View upView;
 	private ImageView img,img_back;
 	private String gch;
@@ -56,10 +56,10 @@ public class ZKPeriodicalInfoActivity extends BaseActivity {
 	private ArrayList<PeriodicalYear> yearlist;
 	private String year,month;//记录日期是否发生变化
 	private int yaer_record,month_record;
-	private MyAdapter adapter;
-	private Periodical perio;
+	private ZKTopicListAdapter adapter;
+	private ItemFollows perio;
 	private View progress;
-	private List<EBook> lists;//目录
+	private ArrayList<ZKTopic> lists;//目录
 	private boolean isFirstFlag = false;
 	private RelativeLayout rlFromAndDate;
 	
@@ -76,12 +76,11 @@ public class ZKPeriodicalInfoActivity extends BaseActivity {
 		setContentView(R.layout.activity_periodical_content_main);
 		context = this;
 		
-		Bundle bundle = getIntent().getBundleExtra("detaiinfo");
-		perio = (Periodical) bundle.getSerializable("periodical");
-		
+		Bundle bundle = getIntent().getBundleExtra("info");
+		perio = (ItemFollows) bundle.getSerializable("item");
 		findView();
 		initViewFirst();
-		initdate();
+		initdate(perio.getId());
 	
 		setListener();
 		listview.setAdapter(null);
@@ -152,21 +151,29 @@ public class ZKPeriodicalInfoActivity extends BaseActivity {
 						//期数是否发生变化
 						if(ty!=yaer_record||tm!=month_record){
 							//发生变化，请求网络
-							gparams = new HashMap<String, String>();
-							gparams.put("gch", gch);
-							gparams.put("years",mYear);
-							gparams.put("num", mMonth);
-							gparams.put("perpage",C.DEFAULT_COUNT+"");
+						
 							//非第一次请求
 							if(lists!=null&&adapter!=null){
 								isFirstFlag = false;
 							}
-							requestVolley(C.SERVER_URL + "/zk/search.aspx",
-									backlistener_content, Method.POST);
-							progress.setVisibility(View.VISIBLE);
+							initNewstYeardate(yearlist.get(yaer_record),month_record);
 						}
 						txt_date.setText(mYear+"年第"+mMonth+"期：目录");
 						//判断是否日期发生变化，变化则重新加载
+					}
+
+					private void initNewstYeardate(
+							PeriodicalYear periodicalYear, int month_record) {
+						progress.setVisibility(View.VISIBLE);
+						String[] tmpary = periodicalYear.getNum();
+						String id = periodicalYear.get_id();
+						String year = periodicalYear.getYear();
+						String num =tmpary[month_record];
+						Map gparams = new HashMap<String, String>();
+						gparams.put("id", id+"|"+year+"|"+num);
+						gparams.put("pageindex", 1+"");
+						gparams.put("pagesize",50+"");
+						VolleyManager.requestVolley(gparams, C.SERVER+C.URL_PERIDICAL_LIST, Method.POST, backlistener_content, errorListener, mQueue);
 					}
 				});
 				dialog.setCancelable(false);
@@ -177,30 +184,35 @@ public class ZKPeriodicalInfoActivity extends BaseActivity {
 	}
 	private void initViewFirst() {
 		title.setText(perio.getName());
-		price.setText(getResources().getString(R.string.title_cnno)+perio.getCnno());
-		num.setText(getResources().getString(R.string.title_issn)+perio.getIssn());
-		if (!TextUtils.isEmpty(perio.getImgurl())) {
-			
-			ImageLoader mImageLoader = new ImageLoader(mQueue,BitmapCache.cache);
-			ImageListener listener = ImageLoader.getImageListener(img,
-					R.drawable.defaut_book, R.drawable.defaut_book);
-			mImageLoader.get(perio.getImgurl(), listener);
-	    	
-	    } else {
-	    	img.setImageDrawable(context.getResources().getDrawable(
-	    			R.drawable.defaut_book));
-	    }
-		
-		
+		subjects.setText("发文主题："+perio.getSubject());
 	}
 	/**
 	 * 发送请求获取数据
+	 * @param id 
 	 */
-	private void initdate() {
-	
+	private void initdate(String id) {
 		customProgressDialog.show();
-		requestVolley("http://192.168.20.57:9999/GetInfo.ashx?key=84259X&type=media",
-				backlistener, Method.GET);
+		Map<String, String> map = new HashMap<>();
+		map.put("key", id);
+		map.put("type","media");
+		VolleyManager.requestVolley(map, C.SERVER+C.URL_PERIDICAL_INFO, Method.POST, backlistener, errorListener, mQueue);
+	}
+	/**
+	 * 发送请求获取数据
+	 * @param periodicalYear 
+	 * @param mMonth2 
+	 */
+	private void initNewstYeardate(PeriodicalYear periodicalYear, String mMonth2) {
+		progress.setVisibility(View.VISIBLE);
+		String[] tmpary = periodicalYear.getNum();
+		String id = periodicalYear.get_id();
+		String year = periodicalYear.getYear();
+		String num =tmpary[tmpary.length-1];
+		Map gparams = new HashMap<String, String>();
+		gparams.put("id", id+"|"+year+"|"+num);
+		gparams.put("pageindex", 1+"");
+		gparams.put("pagesize",50+"");
+		VolleyManager.requestVolley(gparams, C.SERVER+C.URL_PERIDICAL_LIST, Method.POST, backlistener_content, errorListener, mQueue);
 	}
 	private void findView() {
 		listview = (ListView) findViewById(R.id.listView1);
@@ -216,18 +228,18 @@ public class ZKPeriodicalInfoActivity extends BaseActivity {
 		//内容
 		title = (TextView)findViewById(R.id.periodical_title_txt);
 		directordept  = (TextView)findViewById(R.id.periodical_host1_txt);
-		publisher  = (TextView)findViewById(R.id.periodical_host2_txt);
-		chiefedit  = (TextView)findViewById(R.id.periodical_author_txt);
-		pubcycle = (TextView)findViewById(R.id.periodical_time_txt);
-		price = (TextView)findViewById(R.id.periodical_price_txt);
-		num = (TextView)findViewById(R.id.periodical_num_txt);
-		remark = (TextView)findViewById(R.id.periodical_content_abst);
-		tips =  (TextView)findViewById(R.id.txt_null_tips);
-		rlFromAndDate = (RelativeLayout)findViewById(R.id.rlFromAndDate);
-		//期刊日期
-		txt_date = (TextView) findViewById(R.id.txt_year_month);
-		//图片
-		img = (ImageView) findViewById(R.id.periodical_icon_img);
+		subjects  = (TextView)findViewById(R.id.periodical_host2_txt);
+//		chiefedit  = (TextView)findViewById(R.id.periodical_author_txt);
+//		pubcycle = (TextView)findViewById(R.id.periodical_time_txt);
+//		price = (TextView)findViewById(R.id.periodical_price_txt);
+//		num = (TextView)findViewById(R.id.periodical_num_txt);
+//		remark = (TextView)findViewById(R.id.periodical_content_abst);
+//		tips =  (TextView)findViewById(R.id.txt_null_tips);
+//		rlFromAndDate = (RelativeLayout)findViewById(R.id.rlFromAndDate);
+//		//期刊日期
+//		txt_date = (TextView) findViewById(R.id.txt_year_month);
+//		//图片
+//		img = (ImageView) findViewById(R.id.periodical_icon_img);
 		
 	}
 	private void setListener() {
@@ -261,13 +273,13 @@ public class ZKPeriodicalInfoActivity extends BaseActivity {
 		});
 		
 	}
-	private void initView(Periodical periodical) {
+	private void initView(ZKPeriodical periodical) {
 		
-		directordept.setText(getResources().getString(R.string.title_perio_chiefdept)+periodical.getDirectordept());
-		publisher.setText(getResources().getString(R.string.title_perio_publisher)+periodical.getPublisher());
-		chiefedit.setText(getResources().getString(R.string.title_perio_chiefeditor)+(periodical.getChiefeditor()==null?"":periodical.getChiefeditor()));
-		pubcycle.setText(getResources().getString(R.string.title_perio_type)+periodical.getPubcycle()+","+periodical.getSize());
-		remark.setText(getResources().getString(R.string.title_perio_remark)+periodical.getRemark());
+		directordept.setText("主办单位："+periodical.getPublisher());
+//		publisher.setText(getResources().getString(R.string.title_perio_publisher)+periodical.getPublisher());
+//		chiefedit.setText(getResources().getString(R.string.title_perio_chiefeditor)+(periodical.getChiefeditor()==null?"":periodical.getChiefeditor()));
+//		pubcycle.setText(getResources().getString(R.string.title_perio_type)+periodical.getPubcycle()+","+periodical.getSize());
+//		remark.setText(getResources().getString(R.string.title_perio_remark)+periodical.getRemark());
 		
 		//初始化期刊日期
 		if(yearlist==null){
@@ -294,17 +306,17 @@ public class ZKPeriodicalInfoActivity extends BaseActivity {
 			try {
 				//第一次setAdapter
 				if(isFirstFlag){
-				lists = EBook.formList(response);
+				lists = ZKTopic.formList(response);
 				if(lists!=null&&!lists.isEmpty()){
-				adapter = new MyAdapter(context,lists);
+				adapter = new ZKTopicListAdapter(context,lists);
 				listview.setAdapter(adapter);
 				}
 				}else{
 				//第二次改变
 				lists.clear();
-				List<EBook> mlists = EBook.formList(response);
-				lists.addAll(mlists);
-				adapter.notifyDataSetChanged();
+				ArrayList<ZKTopic> mlists = ZKTopic.formList(response);
+				adapter.addMoreData(mlists);
+				//adapter.notifyDataSetChanged();
 				}
 				
 			} catch (Exception e) {
@@ -319,28 +331,21 @@ public class ZKPeriodicalInfoActivity extends BaseActivity {
 			if(customProgressDialog!=null&&customProgressDialog.isShowing())
 			customProgressDialog.dismiss();
 			try {
-				Periodical periodical =Periodical.formObject(response,Periodical.TASK_PERIODICAL_DETAIL);	
+				ZKPeriodical periodical =ZKPeriodical.formObject(response);	
 				if(periodical!=null){
 				yearlist = periodical.getYearsnumlist();
 				//完成view的初始化;
 				System.out.println(yearlist);
 				
-				
-				
 				initView(periodical);
 				//获取最新期刊目录书籍
 				if(yearlist!=null){
-				String[] tmpary = yearlist.get(0).getNum();
-				gparams = new HashMap<String, String>();
-				gparams.put("gch", periodical.getGch());
-				gparams.put("years", yearlist.get(0).getYear());
-				gparams.put("num",  tmpary[tmpary.length-1]);
-				gparams.put("perpage",C.DEFAULT_COUNT+"");
+			
 				//第一次请求
 				isFirstFlag = true;
-				requestVolley(C.SERVER_URL + "/zk/search.aspx",
-						backlistener_content, Method.POST);
-				progress.setVisibility(View.VISIBLE);
+				initNewstYeardate(yearlist.get(0),null);
+//				requestVolley(C.SERVER_URL + "/zk/search.aspx",
+//						backlistener_content, Method.POST);
 				}
 				}
 			} catch (Exception e) {

@@ -1,5 +1,9 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+     >
+<RelativeLayout 
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:paddingBottom="@dimen/activity_vertical_margin"
@@ -19,6 +23,7 @@
         android:id="@+id/tv_detail_author"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        style="@style/TextContentMiddleYellowStyle"
         android:layout_below="@+id/tv_title"
         android:text="作者：图灵" />
     <TextView
@@ -53,3 +58,4 @@
         android:text="分类号：TK019" />
 
 </RelativeLayout>
+</ScrollView>
