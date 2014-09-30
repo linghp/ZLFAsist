@@ -60,7 +60,11 @@ public class ItemFollows implements Serializable {
 	@DatabaseField
 	private String type;
 	@DatabaseField
-	private long datetime = System.currentTimeMillis();
+	private long datetime;
+
+	public void setDatetime(long datetime) {
+		this.datetime = datetime;
+	}
 
 	public ItemFollows() {
 		// TODO Auto-generated constructor stub

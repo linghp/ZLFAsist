@@ -760,6 +760,7 @@ lv_search.setOnLoadMoreStartListener(new OnStartListener() {
 					.getItemFollowsDao();
 			// ItemFollows itemFollows = new ItemFollows();
 			// store it in the database
+			itemFollows.setDatetime(System.currentTimeMillis());
 			itemFollowsDao.create(itemFollows);
 		} catch (SQLException e) {
 			e.printStackTrace();
