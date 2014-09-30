@@ -123,7 +123,7 @@ public class ItemFollows implements Serializable {
 
 	public static ArrayList<ItemFollows> formList(String result)
 			throws JSONException {
-		Log.i("JSONException","result"+result);
+		//Log.i("JSONException","result"+result);
 		GeneralResult gr = new GeneralResult(result);
 		String res = gr.getResult();
 		if (!TextUtils.isEmpty(res)) {

@@ -66,11 +66,13 @@ public class AddFollowActivity extends BaseActionBarActivity implements
 	private Map<String, ArrayList<ItemFollows>> allItemFollowMap = new HashMap<>();
 
 	private DatabaseHelper databaseHelper = null;
-	private int page_search, page_category;
+	private int page_search, page_category;//搜索的页数和关注的页数
 	// private ItemFollowsAdapter searchAdapter;
 	private Lv_search_adapter searchAdapter;
 	private String keywordString;
-	private String  requestType;
+	private String requestType;
+
+	private int requestCount = 0;// 请求网络的次数，总共八次
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -116,25 +118,24 @@ public class AddFollowActivity extends BaseActionBarActivity implements
 		page_category = 1;
 
 		// 加载更多事件回调（可选）
-		lv_subcategory
-		.setOnLoadMoreStartListener(new OnStartListener() {
+		lv_subcategory.setOnLoadMoreStartListener(new OnStartListener() {
 			@Override
 			public void onStart() {
 				Log.i(LOG_TAG, "setOnLoadMoreStartListener");
 				page_category++;
-				getDateMore(requestType,
-						backlistener_more_subcategory,
+				getDateMore(requestType, backlistener_more_subcategory,
 						page_category, C.DEFAULT_COUNT);
 			}
 
 		});
-lv_search.setOnLoadMoreStartListener(new OnStartListener() {
-	@Override
-	public void onStart() {
-		page_search++;
-		loadMore(requestType, keywordString,page_search,C.DEFAULT_COUNT);
-	};
-});
+		lv_search.setOnLoadMoreStartListener(new OnStartListener() {
+			@Override
+			public void onStart() {
+				page_search++;
+				loadMore(requestType, keywordString, page_search,
+						C.DEFAULT_COUNT);
+			};
+		});
 	}
 
 	private DatabaseHelper getHelper() {
@@ -184,6 +185,7 @@ lv_search.setOnLoadMoreStartListener(new OnStartListener() {
 		Map<String, String> gparams = new HashMap<String, String>();
 		gparams = new HashMap<String, String>();
 		gparams.put("object", mtype);
+		Log.i("mtype", mtype);
 		gparams.put("sort", "score");
 		gparams.put("pageindex", page_category + "");
 		gparams.put("pagesize", defaultCount + "");
@@ -196,17 +198,15 @@ lv_search.setOnLoadMoreStartListener(new OnStartListener() {
 	Listener<String> backlistener_category = new Listener<String>() {
 		@Override
 		public void onResponse(String response) {
-			if (customProgressDialog != null
-					&& customProgressDialog.isShowing())
-				customProgressDialog.dismiss();
-
+			requestCount++;
 			try {
 				topItems.clear();
 				topItems.addAll(TopItem.formList(response));
 				requestType = topItems.get(0).getType();
-				getDate_right(requestType, backlistener_subcategory, 1,
-						C.DEFAULT_COUNT);
-				
+				for (TopItem topItem : topItems) {
+					getDate_right(topItem.getType(), backlistener_subcategory,
+							1, C.DEFAULT_COUNT);
+				}
 				lv_category_adapter.notifyDataSetChanged();
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
@@ -220,32 +220,43 @@ lv_search.setOnLoadMoreStartListener(new OnStartListener() {
 	Listener<String> backlistener_subcategory = new Listener<String>() {
 		@Override
 		public void onResponse(String response) {
+			requestCount++;
+			if (requestCount == 8) {
+				if (customProgressDialog != null
+						&& customProgressDialog.isShowing())
+					customProgressDialog.dismiss();
+			}
 			try {
-				subcategoryNameList.clear();
+				// subcategoryNameList.clear();
 				ArrayList<ItemFollows> lists = (ArrayList<ItemFollows>) ItemFollows
 						.formList(response);
-				subcategoryNameList.addAll(lists);
-				if (subcategoryNameList.size() > 0) {
-					allItemFollowMap.put(lists.get(0).getType(),
-							lists);
+
+				if (lists.size() > 0) {
+					allItemFollowMap.put(lists.get(0).getType(), lists);
 				}
-				if (lists != null && !lists.isEmpty()) {
-				//	Log.i("VISIBLE", "lists" + lists.size());
-					// noResult_rl.setVisibility(View.GONE);
-				//	searchAdapter = new Lv_search_adapter(context, lists);
-					if (lists.size() < C.DEFAULT_COUNT) {
-						lv_subcategory.setAdapter(lv_subcategory_adapter);
-						lv_subcategory.stopLoadMore();
-					} else {
-						lv_subcategory.setAdapter(lv_subcategory_adapter);
-						lv_subcategory.startLoadMore(); // 开启LoadingMore功能
-					}
-				} else {
-					// lv_search.setRefreshFail("加载失败");
-					//lv_search.setVisibility(View.GONE);
-					// noResult_rl.setVisibility(View.VISIBLE);
+				if (requestCount == 8) {
+					subcategoryNameList.clear();
+					subcategoryNameList.addAll(allItemFollowMap
+							.get(requestType));
+					lv_subcategory.setAdapter(lv_subcategory_adapter);
+				lv_subcategory.startLoadMore(); // 开启LoadingMore功能
 				}
-				
+//				if (lists != null && !lists.isEmpty()) {
+//					// Log.i("VISIBLE", "lists" + lists.size());
+//					// noResult_rl.setVisibility(View.GONE);
+//					// searchAdapter = new Lv_search_adapter(context, lists);
+//					if (lists.size() < C.DEFAULT_COUNT) {
+//						lv_subcategory.stopLoadMore();
+//					} else {
+//						lv_subcategory.setAdapter(lv_subcategory_adapter);
+//						lv_subcategory.startLoadMore(); // 开启LoadingMore功能
+//					}
+//				} else {
+//					// lv_search.setRefreshFail("加载失败");
+//					// lv_search.setVisibility(View.GONE);
+//					// noResult_rl.setVisibility(View.VISIBLE);
+//				}
+
 				// lv_subcategory_adapter.notifyDataSetChanged();
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -259,31 +270,44 @@ lv_search.setOnLoadMoreStartListener(new OnStartListener() {
 	Listener<String> backlistener_more_subcategory = new Listener<String>() {
 		@Override
 		public void onResponse(String response) {
+			Log.i("backlistener_more_subcategory",
+					"backlistener_more_subcategory");
 			try {
-			//	subcategoryNameList.clear();
 				ArrayList<ItemFollows> lists = (ArrayList<ItemFollows>) ItemFollows
 						.formList(response);
-				subcategoryNameList.addAll(lists);
-				if (subcategoryNameList.size() > 0) {
-					allItemFollowMap.put(lists.get(0).getType(),
-							subcategoryNameList);
+				Log.i("backlistener_more_subcategory--lists.size()", lists.size()+"");
+				//subcategoryNameList.clear();
+			    subcategoryNameList.addAll(lists);
+			    lv_subcategory_adapter.notifyDataSetChanged();
+				// try {
+				// // subcategoryNameList.clear();
+				// ArrayList<ItemFollows> lists = (ArrayList<ItemFollows>)
+				// ItemFollows
+				// .formList(response);
+				// subcategoryNameList.addAll(lists);
+				// if (subcategoryNameList.size() > 0) {
+				// allItemFollowMap.put(lists.get(0).getType(),
+				// subcategoryNameList);
+				// }
+
+				if (lists != null && !lists.isEmpty()
+						&& lists.size() == C.DEFAULT_COUNT) {
+					lv_subcategory_adapter.notifyDataSetChanged();
+					lv_subcategory.setLoadMoreSuccess();
+				} else if (lists != null && lists.size() > 0) {
+					lv_subcategory_adapter.notifyDataSetChanged();
+					lv_subcategory.stopLoadMore();
+					Log.i("stopLoadMore", "stopLoadMore");
+				} else {
+					lv_subcategory.stopLoadMore();
+					Log.i("stopLoadMore", "stopLoadMore");
 				}
-			
-					if (lists != null && !lists.isEmpty()&& lists.size() == C.DEFAULT_COUNT) {
-						 lv_subcategory_adapter.notifyDataSetChanged();
-						 lv_subcategory.setLoadMoreSuccess();
-					} else if (lists != null && lists.size() > 0) {
-						 lv_subcategory_adapter.notifyDataSetChanged();
-						 lv_subcategory.stopLoadMore();
-					} else {
-						lv_subcategory.stopLoadMore();
-					}
-				
-				//lv_subcategory.setAdapter(lv_subcategory_adapter);
+
+				// lv_subcategory.setAdapter(lv_subcategory_adapter);
 			} catch (Exception e) {
 				e.printStackTrace();
 				// lv_subcategory_adapter.notifyDataSetChanged();
-				//lv_subcategory.setAdapter(lv_subcategory_adapter);
+				// lv_subcategory.setAdapter(lv_subcategory_adapter);
 				Toast.makeText(context, "解析错误", 1).show();
 			}
 
@@ -332,7 +356,7 @@ lv_search.setOnLoadMoreStartListener(new OnStartListener() {
 		public boolean onQueryTextSubmit(String query) {
 			page_search = 1;
 			keywordString = query;
-		  
+
 			refresh(requestType, query, page_search, C.DEFAULT_COUNT);
 
 			// Toast.makeText(AddFollowActivity.this,
@@ -366,7 +390,8 @@ lv_search.setOnLoadMoreStartListener(new OnStartListener() {
 				Method.POST, back_search_listener, errorListener, mQueue);
 	}
 
-	private void loadMore(String type, String keyword, int page, int defaultCount) {
+	private void loadMore(String type, String keyword, int page,
+			int defaultCount) {
 		Map<String, String> gparams = new HashMap<String, String>();
 		gparams = new HashMap<String, String>();
 		gparams.put("object", type);
@@ -403,14 +428,14 @@ lv_search.setOnLoadMoreStartListener(new OnStartListener() {
 					searchAdapter = new Lv_search_adapter(context, lists);
 					if (lists.size() < C.DEFAULT_COUNT) {
 						lv_search.setAdapter(searchAdapter);
-						 lv_search.stopLoadMore();
+						lv_search.stopLoadMore();
 					} else {
 						lv_search.setAdapter(searchAdapter);
-						 lv_search.startLoadMore(); // 开启LoadingMore功能
+						lv_search.startLoadMore(); // 开启LoadingMore功能
 					}
 				} else {
 					// lv_search.setRefreshFail("加载失败");
-					//lv_search.setVisibility(View.GONE);
+					// lv_search.setVisibility(View.GONE);
 					// noResult_rl.setVisibility(View.VISIBLE);
 				}
 			} catch (Exception e) {
@@ -422,9 +447,6 @@ lv_search.setOnLoadMoreStartListener(new OnStartListener() {
 	Listener<String> back_search_Morelistener = new Listener<String>() {
 		@Override
 		public void onResponse(String response) {
-			if (customProgressDialog != null
-					&& customProgressDialog.isShowing())
-				customProgressDialog.dismiss();
 			try {
 				ArrayList<ItemFollows> lists = ItemFollows.formList(response);
 				if (lists != null && !lists.isEmpty()) {
@@ -433,15 +455,15 @@ lv_search.setOnLoadMoreStartListener(new OnStartListener() {
 					// noResult_rl.setVisibility(View.GONE);
 					if (lists != null && !lists.isEmpty()
 							&& lists.size() == C.DEFAULT_COUNT) {
-						 searchAdapter.addMoreData(lists);
-						   lv_search.setLoadMoreSuccess();
+						searchAdapter.addMoreData(lists);
+						lv_search.setLoadMoreSuccess();
 					} else if (lists != null && lists.size() > 0) {
 						// searchAdapter.addMoreData(lists);
-						 lv_search.stopLoadMore();
+						lv_search.stopLoadMore();
 					} else {
-						 lv_search.stopLoadMore();
+						lv_search.stopLoadMore();
 					}
-				} 
+				}
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -575,12 +597,12 @@ lv_search.setOnLoadMoreStartListener(new OnStartListener() {
 				holder.iv_add
 						.setBackgroundResource(R.drawable.biz_news_column_subscribe_cancel);
 				holder.iv_add.setTag(R.id.itemfollow_add_tag, true);
-				Log.i("getView1", subcategoryNames.get(position).getId());
+				//Log.i("getView1", subcategoryNames.get(position).getId());
 			} else {
 				holder.iv_add
 						.setBackgroundResource(R.drawable.biz_news_column_subscribe_add_selector);
 				holder.iv_add.setTag(R.id.itemfollow_add_tag, false);
-				Log.i("getView2", "2");
+				//Log.i("getView2", "2");
 			}
 			holder.title.setText(subcategoryNames.get(position).getName());
 			holder.iv_add.setTag(position);
@@ -604,8 +626,8 @@ lv_search.setOnLoadMoreStartListener(new OnStartListener() {
 		}
 
 		public void addMoreData(ArrayList<ItemFollows> lists) {
-				this.subcategoryNames.addAll(lists);
-				this.notifyDataSetChanged();
+			this.subcategoryNames.addAll(lists);
+			this.notifyDataSetChanged();
 		}
 
 		@Override
@@ -680,10 +702,12 @@ lv_search.setOnLoadMoreStartListener(new OnStartListener() {
 	@Override
 	public void onItemClick(AdapterView<?> parent, View view, int position,
 			long id) {
-		requestType = (String) view.getTag();
-		
 		switch (parent.getId()) {
 		case R.id.lv_category:
+			if(!requestType.equals(view.getTag())){//重置页数
+				page_category=1;
+			}
+			requestType = (String) view.getTag();
 			lv_category_adapter.setSelectItem(position);
 			// Log.i(TAG + "onItemClick", position +
 			// "--lv_category_onItemClick");
@@ -695,6 +719,7 @@ lv_search.setOnLoadMoreStartListener(new OnStartListener() {
 			String tag = (String) view.getTag();
 			Log.i(LOG_TAG, tag);
 			ArrayList<ItemFollows> arrayList_temp = allItemFollowMap.get(tag);
+			Log.i("allItemFollowMap", arrayList_temp.size() + "");
 			if (arrayList_temp != null && arrayList_temp.size() > 0) {
 				subcategoryNameList.clear();
 				subcategoryNameList.addAll(arrayList_temp);
