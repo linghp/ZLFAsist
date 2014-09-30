@@ -28,7 +28,7 @@ public class DetailContentActivity extends BaseActionBarActivity {
 	private ZKContent topic ;
 	private String requestId;
 	private ZKTopic zkTopic;
-	private static final String[] SHOWTIPS = {"作者","机构地区","出处","摘要","关键词","分类号"};
+	private static final String[] SHOWTIPS = {"作者：","机构：","出处：","摘要：","关键词：","分类号："};
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);

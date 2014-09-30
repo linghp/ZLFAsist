@@ -5,7 +5,7 @@
     tools:context="com.cqvip.zlfassist.DetailContentActivity" >
  <include
       android:id="@+id/ly_title"
-       layout="@layout/title_bar"
+       layout="@layout/title_more_aboutr"
        android:layout_width="match_parent"
        android:layout_height="48dp"
          />

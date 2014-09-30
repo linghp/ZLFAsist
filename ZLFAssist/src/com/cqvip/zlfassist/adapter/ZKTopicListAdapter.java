@@ -14,7 +14,11 @@ import com.cqvip.zlfassist.R;
 import com.cqvip.zlfassist.base.AdapterBase;
 import com.cqvip.zlfassist.zkbean.ZKContent;
 import com.cqvip.zlfassist.zkbean.ZKTopic;
-
+/**
+ * 文章adapter
+ * @author luojiang
+ *
+ */
 public class ZKTopicListAdapter extends AdapterBase<ZKTopic> {
 	private Context context;
 	public ZKTopicListAdapter(Context context,ArrayList<ZKTopic> lists){

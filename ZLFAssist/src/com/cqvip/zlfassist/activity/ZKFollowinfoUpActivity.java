@@ -83,7 +83,6 @@ public class ZKFollowinfoUpActivity extends BaseActivity  {
 		findView();
 		initViewFirst();
 		initdate(requesttype,requestid,1,C.DEFAULT_COUNT);
-		setListener();
 	}
 	private void initViewFirst() {
 		title.setText(perio.getName());
@@ -110,9 +109,15 @@ public class ZKFollowinfoUpActivity extends BaseActivity  {
 	}
 	private void findView() {
 		TextView tv = (TextView) findViewById(R.id.tv_title);
-		tv.setText(requesttype);
+		tv.setText(perio.getName());
 		img_back = (ImageView)  findViewById(R.id.img_back);
 		img_back.setVisibility(View.VISIBLE);
+		img_back.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				finish();
+			}
+		});
 		title = (TextView) findViewById(R.id.tv_folloup_title);
 		mcount  = (TextView) findViewById(R.id.tv_folloup_count);
 		organ  = (TextView) findViewById(R.id.tv_folloup_orgniziton);
@@ -120,15 +125,6 @@ public class ZKFollowinfoUpActivity extends BaseActivity  {
 		subject = (TextView) findViewById(R.id.tv_folloup_subject);
 		about = (TextView) findViewById(R.id.tv_folloup_periodical);
 		fund = (TextView) findViewById(R.id.tv_folloup_fund);
-	}
-	private void setListener() {
-		img_back.setOnClickListener(new View.OnClickListener() {
-			
-			@Override
-			public void onClick(View v) {
-				finish();
-			}
-		});
 	}
 	Listener<String> backlistener = new Listener<String>() {
 		@Override

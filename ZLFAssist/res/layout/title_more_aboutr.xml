@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-	android:id="@+id/rl_title"
 	android:layout_width="match_parent"
 	android:background="@color/color3"
 	android:layout_height="48dp"    
@@ -12,7 +11,6 @@
         android:layout_height="wrap_content"
 	    android:src="@drawable/btn_back_normal"
 	    android:layout_marginLeft="2dp"
-	    android:visibility="gone"
 	    />
     
     <TextView
@@ -23,6 +21,8 @@
         android:textSize="16sp"
         android:maxEms="12"
         android:text="个人中心"
+        android:textColor="@color/titletwocolor"
+        android:drawableRight="@drawable/icon_navigation_expand"
        />
 
 </RelativeLayout>

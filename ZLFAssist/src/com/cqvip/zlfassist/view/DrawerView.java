@@ -10,7 +10,9 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.cqvip.zlfassist.R;
+import com.cqvip.zlfassist.activity.AddFavorActivity;
 import com.cqvip.zlfassist.activity.DisplayFollowActivity;
+import com.cqvip.zlfassist.activity.NotifactionUpdateActivity;
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu.OnClosedListener;
 import com.mozillaonline.providers.DownloadManager;
@@ -24,7 +26,7 @@ public class DrawerView implements OnClickListener{
 	private final Activity activity;
 	SlidingMenu localSlidingMenu;
 	//private SwitchButton night_mode_btn;
-	private View add_btn,down_btn;
+	private View add_btn,down_btn,favor_btn,update_btn;
 	private TextView night_mode_text;
 	private RelativeLayout setting_btn;
 	DownloadManager mDownloadManager;
@@ -77,8 +79,12 @@ public class DrawerView implements OnClickListener{
 	private void initView() {
 		add_btn=localSlidingMenu.findViewById(R.id.add_btn);
 		down_btn=localSlidingMenu.findViewById(R.id.down_btn);
+		favor_btn = localSlidingMenu.findViewById(R.id.favor_btn);
+		update_btn = localSlidingMenu.findViewById(R.id.mes_btn);
 		add_btn.setOnClickListener(this);
 		down_btn.setOnClickListener(this);
+		favor_btn.setOnClickListener(this);
+		update_btn.setOnClickListener(this);
 		
 		//night_mode_btn = (SwitchButton)localSlidingMenu.findViewById(R.id.night_mode_btn);
 //		night_mode_text = (TextView)localSlidingMenu.findViewById(R.id.night_mode_text);
@@ -112,9 +118,18 @@ public class DrawerView implements OnClickListener{
 			activity.startActivityForResult(new Intent(activity,DisplayFollowActivity.class),RESULT_FOLLOW);
 			activity.overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
 			break;
+		case R.id.favor_btn:
+			activity.startActivity(new Intent(activity,AddFavorActivity.class));
+			activity.overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+			break;
 		case R.id.down_btn:
 			startDownload("");
 			activity.startActivity(new Intent(activity,DownloadList.class));
+			activity.overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+			break;
+		case R.id.mes_btn:
+		
+			activity.startActivity(new Intent(activity,NotifactionUpdateActivity.class));
 			activity.overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
 			break;
 //		case R.id.setting_btn:
