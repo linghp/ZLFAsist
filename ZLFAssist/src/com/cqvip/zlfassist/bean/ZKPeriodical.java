@@ -53,38 +53,47 @@ public class ZKPeriodical implements Serializable {
 	}
 
 	public ZKPeriodical(String result) throws JSONException {
-		JSONObject json = new JSONObject(result);
-		_id = json.getString("_id");
-				gch = json.getString("gch");
-				gch5 = json.getString("gch5");
-				titleC = json.getString("media");
-				aliasid = json.getString("aliasid");
-				zkfwcount = json.getString("zkfwcount");
-				zkfwinfo = json.getString("zkfwinfo");
-				issn = json.getString("issn");
-				subjects = json.getString("subjects");
-				organizers = json.getString("organizers");
-				publisher = json.getString("publisher");
-				lngrangeid = json.getString("lngrangeid");
-				zkbycount = json.getString("zkbycount");
-				mediatypeid = json.getString("mediatypeid");
-				zkhindex = json.getString("zkhindex");
-				numcount = json.getString("numcount");
-				periodtype = json.getString("periodtype");
-				classtypes = json.getString("classtypes");
-				lastnum = json.getString("lastnum");
-				cn = json.getString("cn");
-				writers = json.getString("writers");
-				impactfactor = json.getString("impactfactor");
-				yearsnumlist = formList(json.getJSONArray("num"));
+		JSONObject mJsonObjectjson = new JSONObject(result);
+		JSONObject json = mJsonObjectjson.getJSONObject("info");
+		JSONArray jsonArray = mJsonObjectjson.getJSONArray("num");
+		_id = checkJson(json,"_id");
+				gch = checkJson(json,"gch");
+				gch5 = checkJson(json,"gch5");
+				titleC = checkJson(json,"media");
+				aliasid = checkJson(json,"aliasid");
+				zkfwcount = checkJson(json,"zkfwcount");
+				zkfwinfo = checkJson(json,"zkfwinfo");
+				issn = checkJson(json,"issn");
+				subjects = checkJson(json,"subjects");
+				organizers = checkJson(json,"organizers");
+				publisher = checkJson(json,"publisher");
+				lngrangeid = checkJson(json,"lngrangeid");
+				zkbycount = checkJson(json,"zkbycount");
+				mediatypeid = checkJson(json,"mediatypeid");
+				zkhindex = checkJson(json,"zkhindex");
+				numcount = checkJson(json,"numcount");
+				periodtype = checkJson(json,"periodtype");
+				classtypes = checkJson(json,"classtypes");
+				lastnum = checkJson(json,"lastnum");
+				cn = checkJson(json,"cn");
+				writers = checkJson(json,"writers");
+				impactfactor = checkJson(json,"impactfactor");
+				yearsnumlist = formList(jsonArray);
 			
+	}
+
+	private String  checkJson(JSONObject json,String name) throws JSONException {
+		if(!json.isNull(name)){
+		return  json.getString(name);
+		}
+		return null;
 	}
 	public static ZKPeriodical formObject(String result) throws JSONException{
 		  GeneralResult gResult = new GeneralResult(result);
 		  String res = gResult.getResult();
 		  if(!TextUtils.isEmpty(res)){
-				JSONObject json = new JSONObject(res);
-				return new ZKPeriodical(json.getString("info"));
+				//JSONObject json = new JSONObject(res);
+				return new ZKPeriodical(res);
 		  }
 		  return null;
 	}
@@ -101,7 +110,7 @@ public class ZKPeriodical implements Serializable {
 				JSONObject js = (JSONObject) array.get(i);
 				String year = js.getString("year");
 				String tempnum = js.getString("num");
-				String tempid = js.getString("id");
+				String tempid = js.getString("gch5");
 				String[] num = tempnum.split(",");
 				mlists.add(new PeriodicalYear(year, tempid, num));
 		}

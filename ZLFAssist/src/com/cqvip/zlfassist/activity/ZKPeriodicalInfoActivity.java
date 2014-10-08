@@ -5,17 +5,19 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import android.R.integer;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Paint;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -31,7 +33,6 @@ import com.cqvip.zlfassist.adapter.ZKTopicListAdapter;
 import com.cqvip.zlfassist.base.BaseActivity;
 import com.cqvip.zlfassist.bean.EBook;
 import com.cqvip.zlfassist.bean.ItemFollows;
-import com.cqvip.zlfassist.bean.Periodical;
 import com.cqvip.zlfassist.bean.PeriodicalYear;
 import com.cqvip.zlfassist.bean.ZKPeriodical;
 import com.cqvip.zlfassist.constant.C;
@@ -42,7 +43,7 @@ import com.cqvip.zlfassist.view.picker.OnWheelChangedListener;
 import com.cqvip.zlfassist.view.picker.WheelView;
 import com.cqvip.zlfassist.zkbean.ZKTopic;
 
-public class ZKPeriodicalInfoActivity extends BaseActivity {
+public class ZKPeriodicalInfoActivity extends BaseActivity implements OnClickListener, OnItemClickListener {
 	private String mYear = null;
 	private String mMonth = null;
 	private ListView listview;
@@ -81,8 +82,6 @@ public class ZKPeriodicalInfoActivity extends BaseActivity {
 		findView();
 		initViewFirst();
 		initdate(perio.getId());
-	
-		setListener();
 		listview.setAdapter(null);
 		txt_date.setOnClickListener(new View.OnClickListener() {
 			
@@ -169,10 +168,11 @@ public class ZKPeriodicalInfoActivity extends BaseActivity {
 						String id = periodicalYear.get_id();
 						String year = periodicalYear.getYear();
 						String num =tmpary[month_record];
-						Map gparams = new HashMap<String, String>();
+						HashMap<String, String> gparams = new HashMap<>();
 						gparams.put("id", id+"|"+year+"|"+num);
 						gparams.put("pageindex", 1+"");
 						gparams.put("pagesize",50+"");
+						Log.i("param","result:"+ id+"|"+year+"|"+num);
 						VolleyManager.requestVolley(gparams, C.SERVER+C.URL_PERIDICAL_LIST, Method.POST, backlistener_content, errorListener, mQueue);
 					}
 				});
@@ -208,14 +208,16 @@ public class ZKPeriodicalInfoActivity extends BaseActivity {
 		String id = periodicalYear.get_id();
 		String year = periodicalYear.getYear();
 		String num =tmpary[tmpary.length-1];
-		Map gparams = new HashMap<String, String>();
+		 HashMap<String, String> gparams = new HashMap<String, String>();
 		gparams.put("id", id+"|"+year+"|"+num);
 		gparams.put("pageindex", 1+"");
 		gparams.put("pagesize",50+"");
+		Log.i("param","result:"+ id+"|"+year+"|"+num);
 		VolleyManager.requestVolley(gparams, C.SERVER+C.URL_PERIDICAL_LIST, Method.POST, backlistener_content, errorListener, mQueue);
 	}
 	private void findView() {
 		listview = (ListView) findViewById(R.id.listView1);
+		listview.setOnItemClickListener(this);
 		upView = LayoutInflater.from(this).inflate(R.layout.activity_periodical_content_up, null);
 		listview.addHeaderView(upView);
 		progress = findViewById(R.id.footer_progress);
@@ -225,6 +227,7 @@ public class ZKPeriodicalInfoActivity extends BaseActivity {
 	     tv.setText("期刊");
 	     img_back = (ImageView) v.findViewById(R.id.img_back);
 	     img_back.setVisibility(View.VISIBLE);
+	     img_back.setOnClickListener(this);
 		//内容
 		title = (TextView)findViewById(R.id.periodical_title_txt);
 		directordept  = (TextView)findViewById(R.id.periodical_host1_txt);
@@ -234,43 +237,12 @@ public class ZKPeriodicalInfoActivity extends BaseActivity {
 //		price = (TextView)findViewById(R.id.periodical_price_txt);
 //		num = (TextView)findViewById(R.id.periodical_num_txt);
 //		remark = (TextView)findViewById(R.id.periodical_content_abst);
-//		tips =  (TextView)findViewById(R.id.txt_null_tips);
-//		rlFromAndDate = (RelativeLayout)findViewById(R.id.rlFromAndDate);
-//		//期刊日期
-//		txt_date = (TextView) findViewById(R.id.txt_year_month);
+		tips =  (TextView)findViewById(R.id.txt_null_tips);
+		rlFromAndDate = (RelativeLayout)findViewById(R.id.rlFromAndDate);
+		//期刊日期
+		txt_date = (TextView) findViewById(R.id.txt_year_month);
 //		//图片
 //		img = (ImageView) findViewById(R.id.periodical_icon_img);
-		
-	}
-	private void setListener() {
-		img_back.setOnClickListener(new View.OnClickListener() {
-			
-			@Override
-			public void onClick(View v) {
-				finish();
-				
-			}
-		});
-		listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-
-			@Override
-			public void onItemClick(AdapterView<?> parent, View view,
-					int position, long id) {
-//				if(id!=-1){
-//				if(adapter!=null&&adapter.getLists()!=null){
-//				EBook book = adapter.getLists().get(position-1);
-//				if (book != null) {
-//					Intent _intent = new Intent(context, EbookDetailActivity.class);
-//					Bundle bundle = new Bundle();
-//					bundle.putSerializable("book", book);
-//					_intent.putExtra("detaiinfo", bundle);
-//					startActivity(_intent);
-//				}
-//			  }
-//			}
-				startActivity(new Intent(ZKPeriodicalInfoActivity.this,DetailContentActivity.class));
-		  }
-		});
 		
 	}
 	private void initView(ZKPeriodical periodical) {
@@ -302,6 +274,7 @@ public class ZKPeriodicalInfoActivity extends BaseActivity {
 		public void onResponse(String response) {
 			if(customProgressDialog!=null&&customProgressDialog.isShowing())
 			customProgressDialog.dismiss();
+			System.out.println(response);
 			progress.setVisibility(View.GONE);
 			try {
 				//第一次setAdapter
@@ -419,5 +392,28 @@ public class ZKPeriodicalInfoActivity extends BaseActivity {
 			return v;
 		}
 		
+	}
+	@Override
+	public void onClick(View v) {
+		switch (v.getId()) {
+		case R.id.img_back:
+			finish();
+			break;
+		default:
+			break;
+		}
+		
+	}
+	@Override
+	public void onItemClick(AdapterView<?> parent, View view, int position,
+			long id) {
+		ZKTopic item = adapter.getList().get(position);
+		 if(item!=null){
+		Bundle bundle = new Bundle();
+		Intent _intent = new Intent(ZKPeriodicalInfoActivity.this,DetailContentActivity.class);
+		bundle.putSerializable("item", item);
+		_intent.putExtra("info", bundle);
+		startActivity(_intent);
+		 }
 	}
 }
