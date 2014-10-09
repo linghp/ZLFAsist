@@ -9,6 +9,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
 import com.cqvip.zlfassist.bean.ItemFollows;
+import com.cqvip.zlfassist.zkbean.ZKTopic;
 import com.j256.ormlite.android.apptools.OrmLiteSqliteOpenHelper;
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.support.ConnectionSource;
@@ -23,10 +24,11 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 	// name of the database file for your application -- change to something appropriate for your app
 	private static final String DATABASE_NAME = "zlfassist.db";
 	// any time you make changes to your database objects, you may have to increase the database version
-	private static final int DATABASE_VERSION = 1;
+	private static final int DATABASE_VERSION = 2;
 
 	// the DAO object we use to access the SimpleData table
 	private Dao<ItemFollows, Integer> itemFollowsDao = null;
+	private Dao<ZKTopic, Integer> favorDao = null;
 
 	public DatabaseHelper(Context context) {
 		super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -41,10 +43,12 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 		try {
 			Log.i(DatabaseHelper.class.getName(), "onCreate");
 			TableUtils.createTable(connectionSource, ItemFollows.class);
+			TableUtils.createTable(connectionSource, ZKTopic.class);
 		} catch (SQLException e) {
 			Log.e(DatabaseHelper.class.getName(), "Can't create database", e);
 			throw new RuntimeException(e);
 		}
+		
 	}
 
 	/**
@@ -56,6 +60,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 		try {
 			Log.i(DatabaseHelper.class.getName(), "onUpgrade");
 			TableUtils.dropTable(connectionSource, ItemFollows.class, true);
+			TableUtils.dropTable(connectionSource, ZKTopic.class, true);
 			// after we drop the old databases, we create the new ones
 			onCreate(db, connectionSource);
 		} catch (SQLException e) {
@@ -74,6 +79,17 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 		}
 		return itemFollowsDao;
 	}
+	/**
+	 * 返回收藏dao
+	 * @return
+	 * @throws SQLException
+	 */
+	public Dao<ZKTopic, Integer> getFavorDao() throws SQLException {
+		if (favorDao == null) {
+			favorDao = getDao(ZKTopic.class);
+		}
+		return favorDao;
+	}
 
 	/**
 	 * Close the database connections and clear any cached DAOs.
@@ -82,5 +98,6 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 	public void close() {
 		super.close();
 		itemFollowsDao = null;
+		favorDao=null;
 	}
 }

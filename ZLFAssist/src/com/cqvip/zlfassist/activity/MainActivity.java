@@ -84,6 +84,8 @@ public class MainActivity extends FragmentActivity {
 			C.DOMAIN, C.AREA };
 	private Map<String, ArrayList<ItemFollows>> allFollowMap_TopItem = new LinkedHashMap<>();// 上面菜单显示的
 	private Map<String, String> keyvalue = new HashMap<>();// 菜单键值对
+	private Map<String, ArrayList<ItemFollows>> alltypecontent_map = new HashMap<>();// 保存各个类别内容的引用
+	
 
 	// private ArrayList<String> topItemType_List;
 	@Override
@@ -126,11 +128,8 @@ public class MainActivity extends FragmentActivity {
 			
 			@Override
 			public void onClick(View v) {
-				// Intent intent_channel = new Intent(getApplicationContext(),
-				// ChannelActivity.class);
-				// startActivityForResult(intent_channel, CHANNELREQUEST);
-				// overridePendingTransition(R.anim.slide_in_right,
-				// R.anim.slide_out_left);
+				startActivityForResult(new Intent(MainActivity.this,DisplayFollowActivity.class),DrawerView.RESULT_FOLLOW);
+				overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
 			}
 		});
 		top_head.setOnClickListener(new OnClickListener() {
@@ -288,18 +287,19 @@ public class MainActivity extends FragmentActivity {
 		int count = userChannelList.size();
 		for (int i = 0; i < count; i++) {
 			Bundle data = new Bundle();
-    		data.putSerializable("itemfollows_list", allFollowMap_TopItem.get(userChannelList.get(i).getType()));
-    		ZKFollowListFragment followsFragment = new ZKFollowListFragment();
+    		//data.putSerializable("itemfollows_list", allFollowMap_TopItem.get(userChannelList.get(i).getType()));
+    		data.putString("type", userChannelList.get(i).getType());
+    		Log.i("MainActivity_initFragment", userChannelList.get(i).getType()+"--"+allFollowMap_TopItem.get(userChannelList.get(i).getType()).size());
+    		ZKFollowListFragment followsFragment = new ZKFollowListFragment(allFollowMap_TopItem.get(userChannelList.get(i).getType()));
     		//PeriodicalListFragment newfragment = new PeriodicalListFragment();
 		    followsFragment.setArguments(data);
 			fragments.add(followsFragment);
 		}
 		NewsFragmentPagerAdapter mAdapetr = new NewsFragmentPagerAdapter(getSupportFragmentManager(), fragments);
-		//mViewPager.setOffscreenPageLimit(0);
+		mViewPager.setOffscreenPageLimit(7);
 		mViewPager.setAdapter(mAdapetr);
 		mViewPager.setCurrentItem(columnSelectIndex);
 		mViewPager.setOnPageChangeListener(pageListener);
-		mViewPager.invalidate();
 	}
 
 	/**
@@ -392,15 +392,24 @@ public class MainActivity extends FragmentActivity {
 			Dao<ItemFollows, Integer> itemFollowsDao = getHelper()
 					.getItemFollowsDao();
 			allFollowMap_TopItem.clear();
-			//获取type分组信息，按时间排序，确保关注分组顺序
-			ArrayList<ItemFollows> temp1 = (ArrayList<ItemFollows>) itemFollowsDao.queryBuilder().orderBy("datetime", true).groupBy("type").query();
+			//获取type分组信息，按时间排序，确保关注分组顺序  http://stackoverflow.com/questions/12190786/ormlite-select-distinct-fields
+			ArrayList<ItemFollows> temp1 = (ArrayList<ItemFollows>) itemFollowsDao.queryBuilder().distinct().selectColumns("type").query();
 //			for (ItemFollows itemFollows : temp1) {
 //				Log.i("getdatafromdb1", itemFollows.getName()+itemFollows.getDatetime());
 //			}
 			
 			for (ItemFollows itemFollows : temp1) {
-				ArrayList<ItemFollows> temp = (ArrayList<ItemFollows>) itemFollowsDao.queryForEq("type", itemFollows.getType());
-					allFollowMap_TopItem.put(itemFollows.getType(), temp);
+				String type= itemFollows.getType();
+				ArrayList<ItemFollows> temp = (ArrayList<ItemFollows>) itemFollowsDao.queryForEq("type", type);
+				if(alltypecontent_map.get(type)==null){//判断map是否为空，为空就赋值，不为空就清空赋值，保持引用不变
+					alltypecontent_map.put(type, temp);
+				}else{
+					ArrayList<ItemFollows> temp2=alltypecontent_map.get(type);
+					temp2.clear();
+					temp2.addAll(temp);
+				}
+				Log.i("MainActivity_getdatafromdb", temp.size()+"--"+itemFollows.getType());
+					allFollowMap_TopItem.put(itemFollows.getType(), alltypecontent_map.get(type));
 			}
 			Log.i("getdatafromdb", allFollowMap_TopItem.size()+"");
 		} catch (SQLException e) {
