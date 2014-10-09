@@ -126,6 +126,9 @@ public class DisplayFollowActivity extends BaseActionBarActivity implements
 		case R.id.follow_add:
 			myStartActivity();
 			return true;
+		case android.R.id.home:
+			finish();
+			return true;
 		}
 		return false;
 	}

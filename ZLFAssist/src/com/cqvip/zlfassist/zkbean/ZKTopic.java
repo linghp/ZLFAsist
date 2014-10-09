@@ -15,7 +15,9 @@ import com.google.gson.Gson;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 import com.google.gson.reflect.TypeToken;
-
+import com.j256.ormlite.field.DatabaseField;
+import com.j256.ormlite.table.DatabaseTable;
+@DatabaseTable(tableName = "Favor")
 public class ZKTopic implements Serializable{
 
 	/**
@@ -35,6 +37,7 @@ public class ZKTopic implements Serializable{
 	private String volumn;
 	@SerializedName("keyword_c")
 	@Expose
+	@DatabaseField
 	private String keywordC;
 	@Expose
 	private String zkrefercount;
@@ -61,11 +64,14 @@ public class ZKTopic implements Serializable{
 	private String vol;
 	@SerializedName("title_c")
 	@Expose
+	@DatabaseField
 	private String titleC;
 	@SerializedName("_id")
 	@Expose
+	@DatabaseField(id=true)
 	private String id;
 	@Expose
+	@DatabaseField
 	private String showwriter;
 	@SerializedName("author_e")
 	@Expose
@@ -82,8 +88,10 @@ public class ZKTopic implements Serializable{
 	private String mediaE;
 	@SerializedName("media_c")
 	@Expose
+	@DatabaseField
 	private String mediaC;
 	@Expose
+	@DatabaseField
 	private String imburse;
 	@SerializedName("zkrefercount_sec")
 	@Expose
@@ -111,6 +119,7 @@ public class ZKTopic implements Serializable{
 	private String zkbycouplingcount;
 	@SerializedName("remark_c")
 	@Expose
+	@DatabaseField
 	private String remarkC;
 	@Expose
 	private String writers;

@@ -1,5 +1,6 @@
 package com.cqvip.zlfassist.activity;
 
+import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -15,12 +16,17 @@ import com.android.volley.Response.Listener;
 import com.cqvip.zlfassist.R;
 import com.cqvip.zlfassist.base.BaseActionBarActivity;
 import com.cqvip.zlfassist.bean.GeneralResult;
+import com.cqvip.zlfassist.bean.ItemFollows;
 import com.cqvip.zlfassist.bean.JudgeResult;
 import com.cqvip.zlfassist.constant.C;
+import com.cqvip.zlfassist.db.DatabaseHelper;
+import com.cqvip.zlfassist.fragment.TopicFragment;
 import com.cqvip.zlfassist.http.VolleyManager;
 import com.cqvip.zlfassist.zkbean.ZKContent;
 import com.cqvip.zlfassist.zkbean.ZKTopic;
 import com.google.gson.Gson;
+import com.j256.ormlite.android.apptools.OpenHelperManager;
+import com.j256.ormlite.dao.Dao;
 
 public class DetailContentActivity extends BaseActionBarActivity {
 
@@ -29,6 +35,7 @@ public class DetailContentActivity extends BaseActionBarActivity {
 	private String requestId;
 	private ZKTopic zkTopic;
 	private static final String[] SHOWTIPS = {"作者：","机构：","出处：","摘要：","关键词：","分类号："};
+	private DatabaseHelper databaseHelper = null;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -124,7 +131,8 @@ public class DetailContentActivity extends BaseActionBarActivity {
 		// as you specify a parent activity in AndroidManifest.xml.
 		
 		int id = item.getItemId();
-		if (id == R.id.action_settings) {
+		if (id == R.id.action_addfavor) {
+			saveDB(zkTopic);
 			return true;
 		}
 		if( id == android.R.id.home){
@@ -133,5 +141,37 @@ public class DetailContentActivity extends BaseActionBarActivity {
 		}
 		
 		return super.onOptionsItemSelected(item);
+	}
+	
+	protected void saveDB(ZKTopic zkTopic) {
+		try {
+			Dao<ZKTopic, Integer> favorDao = getHelper()
+					.getFavorDao();
+			// ItemFollows itemFollows = new ItemFollows();
+			// store it in the database
+			//itemFollows.setDatetime(System.currentTimeMillis());
+			favorDao.create(zkTopic);
+			Toast.makeText(this, "收藏成功", 1).show();
+		} catch (SQLException e) {
+			e.printStackTrace();
+			Toast.makeText(this, "收藏失败", 1).show();
+		}
+	}
+	
+	private DatabaseHelper getHelper() {
+		if (databaseHelper == null) {
+			databaseHelper = OpenHelperManager.getHelper(this,
+					DatabaseHelper.class);
+		}
+		return databaseHelper;
+	}
+
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+		if (databaseHelper != null) {
+			OpenHelperManager.releaseHelper();
+			databaseHelper = null;
+		}
 	}
 }
