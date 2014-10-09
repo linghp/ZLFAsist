@@ -13,6 +13,7 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
@@ -33,6 +34,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.cqvip.zlfassist.R;
 import com.cqvip.zlfassist.adapter.ItemFollowsAdapter;
 import com.cqvip.zlfassist.adapter.ZKTopicListAdapter;
+import com.cqvip.zlfassist.base.BaseActionBarActivity;
 import com.cqvip.zlfassist.base.BaseActivity;
 import com.cqvip.zlfassist.bean.EBook;
 import com.cqvip.zlfassist.bean.ItemFollows;
@@ -56,7 +58,7 @@ import com.cqvip.zlfassist.zkbean.ZKTopic_Info;
  * @author luojiang
  *
  */
-public class ZKFollowinfoUpActivity extends BaseActivity  {
+public class ZKFollowinfoUpActivity extends BaseActionBarActivity  {
 	private FreshListView listview;
 	private Context context;
 	private TextView title,mcount,organ,classtype,subject,about,fund;
@@ -71,12 +73,12 @@ public class ZKFollowinfoUpActivity extends BaseActivity  {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.follow_content_up);
 		context = this;
-		
 		Bundle bundle = getIntent().getBundleExtra("info");
 		perio = (ItemFollows) bundle.getSerializable("item");
+		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+		getSupportActionBar().setTitle(perio.getName());
 		requestid = perio.getId();
 		requesttype = perio.getType();
 		
@@ -108,16 +110,6 @@ public class ZKFollowinfoUpActivity extends BaseActivity  {
 				Method.POST,backlistener,  errorListener, mQueue);
 	}
 	private void findView() {
-		TextView tv = (TextView) findViewById(R.id.tv_title);
-		tv.setText(perio.getName());
-		img_back = (ImageView)  findViewById(R.id.img_back);
-		img_back.setVisibility(View.VISIBLE);
-		img_back.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				finish();
-			}
-		});
 		title = (TextView) findViewById(R.id.tv_folloup_title);
 		mcount  = (TextView) findViewById(R.id.tv_folloup_count);
 		organ  = (TextView) findViewById(R.id.tv_folloup_orgniziton);
@@ -153,6 +145,13 @@ public class ZKFollowinfoUpActivity extends BaseActivity  {
 
 		
 	};
+	public  String formContent(String content,String tag){
+	if(!TextUtils.isEmpty(content)){
+			return tag+content;
+		}else{
+			return "";
+		}
+	}
 	private void setView(ZKTopic_Info info) {
 	//title
 		mcount. setText("作品数："+info.getZkfwcount()+"，被引用量："+info.getZkbycount()+",H指数"+info.getZkhindex());
@@ -167,6 +166,14 @@ public class ZKFollowinfoUpActivity extends BaseActivity  {
 		fund. setText("所获基金："+info.getFunds());
 		
 	}
+	 @Override
+	    public boolean onOptionsItemSelected(MenuItem item) {
+		int itemId = item.getItemId();
+		if(itemId == android.R.id.home){
+			finish();
+		}
+		return false;
+	    }
 
 	
 }

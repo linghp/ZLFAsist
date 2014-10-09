@@ -8,6 +8,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
@@ -19,6 +21,7 @@ import com.android.volley.Request.Method;
 import com.android.volley.Response.Listener;
 import com.cqvip.zlfassist.R;
 import com.cqvip.zlfassist.adapter.ZKTopicListAdapter;
+import com.cqvip.zlfassist.base.BaseActionBarActivity;
 import com.cqvip.zlfassist.base.BaseActivity;
 import com.cqvip.zlfassist.bean.ItemFollows;
 import com.cqvip.zlfassist.constant.C;
@@ -33,7 +36,7 @@ import com.cqvip.zlfassist.zkbean.ZKTopic;
  * @author luojiang
  *
  */
-public class ZKFollowinfoMainActivity extends BaseActivity implements OnItemClickListener, OnClickListener {
+public class ZKFollowinfoMainActivity extends BaseActionBarActivity implements OnItemClickListener {
 	private FreshListView listview;
 	private Context context;
 	private ImageView img_back;
@@ -49,9 +52,10 @@ public class ZKFollowinfoMainActivity extends BaseActivity implements OnItemClic
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.follow_content_main);
 		context = this;
-		
 		Bundle bundle = getIntent().getBundleExtra("info");
 		perio = (ItemFollows) bundle.getSerializable("item");
+		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+		getSupportActionBar().setTitle(perio.getName());
 		requestid = perio.getId();
 		requesttype = perio.getType();
 		findView();
@@ -71,6 +75,7 @@ public class ZKFollowinfoMainActivity extends BaseActivity implements OnItemClic
 		gparams.put("pagesize", defaultCount+"");
 		gparams.put("pageindex", page+"");
 		customProgressDialog.show();
+		Log.i("gparams",requestid2+"relation"+requesttype2);
 		VolleyManager.requestVolley(gparams, C.SERVER +C.URL_TOPIC_LIST,
 				Method.POST,backlistener,  errorListener, mQueue);
 	}
@@ -81,6 +86,7 @@ public class ZKFollowinfoMainActivity extends BaseActivity implements OnItemClic
 		gparams.put("pagesize", defaultCount+"");
 		gparams.put("pageindex", page+"");
 		customProgressDialog.show();
+		Log.i("gparams",requestid2+"relation"+requesttype2);
 		VolleyManager.requestVolley(gparams, C.SERVER_URL +C.URL_TOPIC_LIST,
 				Method.POST,backmorelistener,  errorListener, mQueue);
 	}
@@ -89,12 +95,6 @@ public class ZKFollowinfoMainActivity extends BaseActivity implements OnItemClic
 		listview =  (FreshListView) findViewById(R.id.lv_follow);
 		ViewSetting.settingListview(listview, this);
 		//upView = LayoutInflater.from(this).inflate(R.layout.follow_content_up, null);
-		TextView tv = (TextView) findViewById(R.id.tv_title);
-		tv.setText(perio.getName());
-		tv.setOnClickListener(this);
-		img_back = (ImageView)  findViewById(R.id.img_back);
-		img_back.setVisibility(View.VISIBLE);
-		img_back.setOnClickListener(this);
 		page = 1;
       // 下拉刷新事件回调（可选）
       listview.setOnRefreshStartListener(new OnStartListener() {
@@ -188,24 +188,26 @@ public class ZKFollowinfoMainActivity extends BaseActivity implements OnItemClic
 		_intent.putExtra("info", bundle);
 		startActivity(_intent);
 	}
-	@Override
-	public void onClick(View v) {
-		switch (v.getId()) {
-		case R.id.tv_title:
+	 @Override
+	    public boolean onOptionsItemSelected(MenuItem item) {
+		int itemId = item.getItemId();
+		if(itemId == android.R.id.home){
+			finish();
+		}
+		if(itemId == R.id.action_about){
 			Intent _intent = new Intent(context,ZKFollowinfoUpActivity.class);
 			Bundle bundle = new Bundle();
 			bundle.putSerializable("item",perio );
 			_intent.putExtra("info", bundle);
 			startActivity(_intent);
-			break;
-		case R.id.img_back:
-			finish();
-			break;
-
-		default:
-			break;
 		}
-		
+		return false;
+	    }
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		// Inflate the menu; this adds items to the action bar if it is present.
+		getMenuInflater().inflate(R.menu.info_content, menu);
+		return true;
 	}
 	
 }

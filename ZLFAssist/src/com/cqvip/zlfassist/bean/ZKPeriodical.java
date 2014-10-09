@@ -42,6 +42,7 @@ public class ZKPeriodical implements Serializable {
 	private String numcount;// �¿�
 	private String periodtype;// ���ٿ�
 	private String classtypes;
+	private String funds;
 	private String lastnum;
 	private String cn;
 	private String writers;
@@ -74,6 +75,7 @@ public class ZKPeriodical implements Serializable {
 				numcount = checkJson(json,"numcount");
 				periodtype = checkJson(json,"periodtype");
 				classtypes = checkJson(json,"classtypes");
+				funds = checkJson(json,"funds");
 				lastnum = checkJson(json,"lastnum");
 				cn = checkJson(json,"cn");
 				writers = checkJson(json,"writers");
@@ -211,6 +213,10 @@ public class ZKPeriodical implements Serializable {
 
 	public ArrayList<PeriodicalYear> getYearsnumlist() {
 		return yearsnumlist;
+	}
+
+	public String getFunds() {
+		return funds;
 	}
 
 }

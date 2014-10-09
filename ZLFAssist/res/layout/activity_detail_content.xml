@@ -17,7 +17,7 @@
         style="@style/TextTitleBigBlueStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="计算机科学技术" />
+         />
 
     <TextView
         android:id="@+id/tv_detail_author"
@@ -25,37 +25,46 @@
         android:layout_height="wrap_content"
         style="@style/TextContentMiddleYellowStyle"
         android:layout_below="@+id/tv_title"
-        android:text="作者：图灵" />
+         />
     <TextView
         android:id="@+id/tv_detail_orgniziton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/tv_detail_author"
-        android:text="机构地区：北京工业大学" />
+        />
     <TextView
         android:id="@+id/tv_detail_comefrom"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/tv_detail_orgniziton"
-        android:text="出处：《图灵计算机科学系列》" />
-    <TextView
-        android:id="@+id/tv_detail_abstract"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/tv_detail_comefrom"
-        android:text="摘要：计算机科学是一门现代科学，计算机科学是一门现代科学计算机科学是一门现代科学" />
+       />
     <TextView
         android:id="@+id/tv_detail_keyword"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/tv_detail_abstract"
-        android:text="关键词：计算机" />
+        android:layout_below="@+id/tv_detail_comefrom"
+        />
     <TextView
         android:id="@+id/tv_detail_classno"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/tv_detail_keyword"
-        android:text="分类号：TK019" />
+      />
+    <TextView 
+        android:id="@+id/tv_tips_abst"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tv_detail_classno"
+        android:layout_centerHorizontal="true"
+        android:text="摘要"
+        style="@style/TextContentMiddleBlueStyle"
+        />
+    <TextView
+        android:id="@+id/tv_detail_abstract"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        style="@style/TextContentMiddleStyle"
+        android:layout_below="@+id/tv_tips_abst"/>
 
 </RelativeLayout>
 </ScrollView>
