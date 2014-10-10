@@ -22,6 +22,7 @@ import com.cqvip.zlfassist.constant.C;
 import com.cqvip.zlfassist.db.DatabaseHelper;
 import com.cqvip.zlfassist.fragment.TopicFragment;
 import com.cqvip.zlfassist.http.VolleyManager;
+import com.cqvip.zlfassist.tools.BaseTools;
 import com.cqvip.zlfassist.zkbean.ZKContent;
 import com.cqvip.zlfassist.zkbean.ZKTopic;
 import com.google.gson.Gson;
@@ -133,6 +134,10 @@ public class DetailContentActivity extends BaseActionBarActivity {
 		int id = item.getItemId();
 		if (id == R.id.action_addfavor) {
 			saveDB(zkTopic);
+			return true;
+		}
+		if (id == R.id.action_share) {
+			BaseTools.bookshare_bysharesdk(this, zkTopic, null);
 			return true;
 		}
 		if( id == android.R.id.home){
