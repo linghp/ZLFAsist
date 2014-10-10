@@ -78,12 +78,16 @@ public class AddFavorActivity extends BaseActionBarActivity implements OnItemCli
 				Intent _intent = new Intent(context,DetailContentActivity.class);
 				bundle.putSerializable("item", item);
 				_intent.putExtra("info", bundle);
-				startActivity(_intent);
-				
+				startActivityForResult(_intent, 1);
 			}
-		
 	}
 
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		getdatafromdb();
+		super.onActivityResult(requestCode, resultCode, data);
+	}
+	
 	private DatabaseHelper getHelper() {
 		if (databaseHelper == null) {
 			databaseHelper = OpenHelperManager.getHelper(this,

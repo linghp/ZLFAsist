@@ -55,7 +55,7 @@
                 android:paddingBottom="1.5dip"
                 android:paddingLeft="6.0dip"
                 android:paddingRight="6.0dip"
-                android:text="维普智立方" />
+                android:text="@string/maintitlename" />
         </FrameLayout>
 
         <ImageView
@@ -65,6 +65,7 @@
             android:layout_centerVertical="true"
             android:layout_toRightOf="@id/title_parent"
             android:padding="3.0dip"
+            android:visibility="gone"
             android:src="@drawable/refreshicon_titlebar" />
 
         <ProgressBar

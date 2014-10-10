@@ -53,7 +53,7 @@ public class ZKPeriodicalInfoActivity extends BaseActionBarActivity implements  
 	private Context context;
 	private TextView txt_date;
 	private TextView title,zkcount,organ,publisher,writer,classtype,subjects,fund,remark,tips;
-	private View upView;
+	//private View upView;
 	private ImageView img,img_back;
 	private String gch;
 	private Map<String, String> gparams;
@@ -87,7 +87,7 @@ public class ZKPeriodicalInfoActivity extends BaseActionBarActivity implements  
 		findView();
 		initViewFirst();
 		initdate(perio.getId());
-		listview.setAdapter(null);
+		//listview.setAdapter(null);
 		txt_date.setOnClickListener(new View.OnClickListener() {
 			
 			@Override
@@ -223,8 +223,8 @@ public class ZKPeriodicalInfoActivity extends BaseActionBarActivity implements  
 	private void findView() {
 		listview = (ListView) findViewById(R.id.listView1);
 		listview.setOnItemClickListener(this);
-		upView = LayoutInflater.from(this).inflate(R.layout.zkperiodical_content_up, null);
-		listview.addHeaderView(upView);
+		//upView = LayoutInflater.from(this).inflate(R.layout.zkperiodical_content_up, null);
+		//listview.addHeaderView(upView);
 		progress = findViewById(R.id.footer_progress);
 		//标题
 		  View v = findViewById(R.id.head_bar);
@@ -264,7 +264,7 @@ public class ZKPeriodicalInfoActivity extends BaseActionBarActivity implements  
 			txt_date.setVisibility(View.GONE);
 			rlFromAndDate.setVisibility(View.GONE);
 			tips.setVisibility(View.VISIBLE);
-			tips.setText("抱歉！该杂志暂未被");
+			tips.setText("抱歉！该杂志暂未被收录");
 		}else{
 		
 		year = yearlist.get(0).getYear();

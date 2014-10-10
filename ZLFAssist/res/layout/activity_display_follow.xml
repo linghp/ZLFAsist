@@ -12,10 +12,11 @@
         <ListView
             android:id="@+id/Lv_followcontent"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="wrap_content"
+            />
     </android.support.v4.widget.SwipeRefreshLayout>
-    
-        <!-- The selection menu that pops up from the bottom of the screen -->
+
+    <!-- The selection menu that pops up from the bottom of the screen -->
 
     <LinearLayout
         android:id="@+id/selection_menu"
@@ -29,28 +30,26 @@
         android:paddingLeft="16dip"
         android:paddingRight="16dip"
         android:paddingTop="8dip"
-        android:visibility="gone"
-         >
+        android:visibility="gone" >
 
         <Button
             android:id="@+id/selection_delete"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:textSize="16sp"
-             android:textColor="@color/default_text"
-             android:text="@string/delete"
-             />
+            android:text="@string/delete"
+            android:textColor="@color/default_text"
+            android:textSize="16sp" />
 
         <Button
             android:id="@+id/deselect_all"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:textSize="16sp"
-            android:textColor="@color/default_text"
             android:layout_marginLeft="16dp"
-            android:text="@string/cancel" />
+            android:layout_weight="1"
+            android:text="@string/cancel"
+            android:textColor="@color/default_text"
+            android:textSize="16sp" />
     </LinearLayout>
 
 </FrameLayout>

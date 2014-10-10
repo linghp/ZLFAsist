@@ -11,6 +11,7 @@ import android.content.Intent;
 import android.graphics.Paint;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -43,6 +44,7 @@ import com.cqvip.zlfassist.view.picker.OnWheelChangedListener;
 import com.cqvip.zlfassist.view.picker.WheelView;
 
 public class PeriodicalInfoActivity extends BaseActivity {
+	private final String LOG_TAG = getClass().getSimpleName();
 	private String mYear = null;
 	private String mMonth = null;
 	private ListView listview;
@@ -293,6 +295,7 @@ public class PeriodicalInfoActivity extends BaseActivity {
 			if(customProgressDialog!=null&&customProgressDialog.isShowing())
 			customProgressDialog.dismiss();
 			progress.setVisibility(View.GONE);
+			Log.i(LOG_TAG+"backlistener_content", response);
 			try {
 				//第一次setAdapter
 				if(isFirstFlag){
@@ -320,6 +323,7 @@ public class PeriodicalInfoActivity extends BaseActivity {
 		public void onResponse(String response) {
 			if(customProgressDialog!=null&&customProgressDialog.isShowing())
 			customProgressDialog.dismiss();
+			Log.i(LOG_TAG+"backlistener", response);
 			try {
 				Periodical periodical =Periodical.formObject(response,Periodical.TASK_PERIODICAL_DETAIL);	
 				if(periodical!=null){

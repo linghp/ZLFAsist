@@ -52,6 +52,7 @@ public class ZKTopic implements Serializable{
 	@Expose
 	private String beginpage;
 	@Expose
+	@DatabaseField
 	private String type;
 	@Expose
 	private String processdate;
@@ -463,4 +464,14 @@ public class ZKTopic implements Serializable{
 		}
 		return null;
 	}
+	
+//	@Override
+//	public boolean equals(Object o) {
+//		if(o instanceof ZKContent){
+//			ZKContent t=(ZKContent) o;
+//			Log.i("ZKTopic", this.id+"----"+t.getId()+"   "+this.type+"----"+t.getType());
+//			return this.getId().equals(t.getId())&&this.getType().equals(t.getType());
+//		}
+//		return super.equals(o);
+//	}
 }

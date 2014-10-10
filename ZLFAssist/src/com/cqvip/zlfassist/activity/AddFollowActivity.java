@@ -66,7 +66,7 @@ public class AddFollowActivity extends BaseActionBarActivity implements
 	private Map<String, ArrayList<ItemFollows>> allItemFollowMap = new HashMap<>();
 
 	private DatabaseHelper databaseHelper = null;
-	private int page_search, page_category;//搜索的页数和关注的页数
+	private int page_search, page_category;// 搜索的页数和关注的页数
 	// private ItemFollowsAdapter searchAdapter;
 	private Lv_search_adapter searchAdapter;
 	private String keywordString;
@@ -239,23 +239,23 @@ public class AddFollowActivity extends BaseActionBarActivity implements
 					subcategoryNameList.addAll(allItemFollowMap
 							.get(requestType));
 					lv_subcategory.setAdapter(lv_subcategory_adapter);
-				lv_subcategory.startLoadMore(); // 开启LoadingMore功能
+					lv_subcategory.startLoadMore(); // 开启LoadingMore功能
 				}
-//				if (lists != null && !lists.isEmpty()) {
-//					// Log.i("VISIBLE", "lists" + lists.size());
-//					// noResult_rl.setVisibility(View.GONE);
-//					// searchAdapter = new Lv_search_adapter(context, lists);
-//					if (lists.size() < C.DEFAULT_COUNT) {
-//						lv_subcategory.stopLoadMore();
-//					} else {
-//						lv_subcategory.setAdapter(lv_subcategory_adapter);
-//						lv_subcategory.startLoadMore(); // 开启LoadingMore功能
-//					}
-//				} else {
-//					// lv_search.setRefreshFail("加载失败");
-//					// lv_search.setVisibility(View.GONE);
-//					// noResult_rl.setVisibility(View.VISIBLE);
-//				}
+				// if (lists != null && !lists.isEmpty()) {
+				// // Log.i("VISIBLE", "lists" + lists.size());
+				// // noResult_rl.setVisibility(View.GONE);
+				// // searchAdapter = new Lv_search_adapter(context, lists);
+				// if (lists.size() < C.DEFAULT_COUNT) {
+				// lv_subcategory.stopLoadMore();
+				// } else {
+				// lv_subcategory.setAdapter(lv_subcategory_adapter);
+				// lv_subcategory.startLoadMore(); // 开启LoadingMore功能
+				// }
+				// } else {
+				// // lv_search.setRefreshFail("加载失败");
+				// // lv_search.setVisibility(View.GONE);
+				// // noResult_rl.setVisibility(View.VISIBLE);
+				// }
 
 				// lv_subcategory_adapter.notifyDataSetChanged();
 			} catch (Exception e) {
@@ -275,10 +275,11 @@ public class AddFollowActivity extends BaseActionBarActivity implements
 			try {
 				ArrayList<ItemFollows> lists = (ArrayList<ItemFollows>) ItemFollows
 						.formList(response);
-				Log.i("backlistener_more_subcategory--lists.size()", lists.size()+"");
-				//subcategoryNameList.clear();
-			    subcategoryNameList.addAll(lists);
-			    lv_subcategory_adapter.notifyDataSetChanged();
+				Log.i("backlistener_more_subcategory--lists.size()",
+						lists.size() + "");
+				// subcategoryNameList.clear();
+				subcategoryNameList.addAll(lists);
+				lv_subcategory_adapter.notifyDataSetChanged();
 				// try {
 				// // subcategoryNameList.clear();
 				// ArrayList<ItemFollows> lists = (ArrayList<ItemFollows>)
@@ -356,14 +357,12 @@ public class AddFollowActivity extends BaseActionBarActivity implements
 		public boolean onQueryTextSubmit(String query) {
 			page_search = 1;
 			keywordString = query;
-
+			customProgressDialog.show();
 			refresh(requestType, query, page_search, C.DEFAULT_COUNT);
 
 			// Toast.makeText(AddFollowActivity.this,
 			// "Searching for: " + query + "...", Toast.LENGTH_SHORT)
 			// .show();
-			// 隐藏键盘
-			hideKeybord();
 			return true;
 		}
 	};
@@ -373,9 +372,9 @@ public class AddFollowActivity extends BaseActionBarActivity implements
 	 */
 	private void hideKeybord() {
 		InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-		if (imm.isActive()) {
-			imm.hideSoftInputFromWindow(searchView.getWindowToken(), 0);
-		}
+		//if (imm.isActive()) {
+			imm.hideSoftInputFromWindow(this.getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+		//}
 	}
 
 	private void refresh(String type, String keyword, int page, int defaultCount) {
@@ -410,18 +409,14 @@ public class AddFollowActivity extends BaseActionBarActivity implements
 					&& customProgressDialog.isShowing())
 				customProgressDialog.dismiss();
 
-			lv_search.setAdapter(new Lv_search_adapter(AddFollowActivity.this,
-					subcategoryNameList));
-			if (lv_search.getVisibility() == View.GONE) {
-				lv_search.setVisibility(View.VISIBLE);
-				lv_search.startAnimation(AnimationUtils.loadAnimation(
-						AddFollowActivity.this, R.anim.header_appear));
-			}
+			// lv_search.setAdapter(new
+			// Lv_search_adapter(AddFollowActivity.this,
+			// subcategoryNameList));
 
 			try {
 				ArrayList<ItemFollows> lists = ItemFollows.formList(response);
 				if (lists != null && !lists.isEmpty()) {
-					lv_search.setVisibility(View.VISIBLE);
+					//lv_search.setVisibility(View.VISIBLE);
 					// lv_search.setRefreshSuccess("加载成功"); // 通知加载成功
 					Log.i("VISIBLE", "lists" + lists.size());
 					// noResult_rl.setVisibility(View.GONE);
@@ -441,7 +436,16 @@ public class AddFollowActivity extends BaseActionBarActivity implements
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-
+			
+			// 隐藏键盘
+			searchView.clearFocus();
+			//hideKeybord();
+			
+			if (lv_search.getVisibility() == View.GONE) {
+				lv_search.setVisibility(View.VISIBLE);
+				lv_search.startAnimation(AnimationUtils.loadAnimation(
+						AddFollowActivity.this, R.anim.header_appear));
+			}
 		}
 	};
 	Listener<String> back_search_Morelistener = new Listener<String>() {
@@ -599,12 +603,12 @@ public class AddFollowActivity extends BaseActionBarActivity implements
 				holder.iv_add
 						.setBackgroundResource(R.drawable.biz_news_column_subscribe_cancel);
 				holder.iv_add.setTag(R.id.itemfollow_add_tag, true);
-				//Log.i("getView1", subcategoryNames.get(position).getId());
+				// Log.i("getView1", subcategoryNames.get(position).getId());
 			} else {
 				holder.iv_add
 						.setBackgroundResource(R.drawable.biz_news_column_subscribe_add_selector);
 				holder.iv_add.setTag(R.id.itemfollow_add_tag, false);
-				//Log.i("getView2", "2");
+				// Log.i("getView2", "2");
 			}
 			holder.title.setText(subcategoryNames.get(position).getName());
 			holder.iv_add.setTag(position);
@@ -617,7 +621,7 @@ public class AddFollowActivity extends BaseActionBarActivity implements
 		}
 	}
 
-	static class Lv_search_adapter extends BaseAdapter {
+	class Lv_search_adapter extends BaseAdapter {
 		private Context context;
 		private ArrayList<ItemFollows> subcategoryNames;
 
@@ -648,7 +652,8 @@ public class AddFollowActivity extends BaseActionBarActivity implements
 		}
 
 		@Override
-		public View getView(int position, View convertView, ViewGroup parent) {
+		public View getView(final int position, View convertView,
+				ViewGroup parent) {
 			final ViewHolder holder;
 			if (convertView == null) {
 				convertView = LayoutInflater.from(context).inflate(
@@ -658,44 +663,39 @@ public class AddFollowActivity extends BaseActionBarActivity implements
 						.findViewById(R.id.tv_subcategory);
 				holder.iv_add = (ImageView) convertView
 						.findViewById(R.id.iv_add);
-				holder.iv_add.setOnClickListener(new OnClickListener() {
-
-					@Override
-					public void onClick(View v) {
-						Log.i(TAG, "onClick--iv_add");
-						Animation animation = AnimationUtils.loadAnimation(
-								context, R.anim.base_loading_small_anim);
-						v.setBackgroundResource(R.drawable.base_loading_small_icon);
-						v.startAnimation(animation);
-						final View temp_v = v;
-						animation.setAnimationListener(new AnimationListener() {
-
-							@Override
-							public void onAnimationStart(Animation animation) {
-
-							}
-
-							@Override
-							public void onAnimationRepeat(Animation animation) {
-
-							}
-
-							@Override
-							public void onAnimationEnd(Animation animation) {
-								temp_v.setBackgroundResource(R.drawable.biz_news_column_subscribe_cancel);
-							}
-						});
-					}
-				});
 				convertView.setTag(holder);
 			} else {
 				holder = (ViewHolder) convertView.getTag();
+			}
+			holder.iv_add.setOnClickListener(new OnClickListener() {
+
+				@Override
+				public void onClick(View v) {
+					Log.i(TAG, "onClick--iv_add");
+					ItemFollows itemFollows_temp = subcategoryNames
+							.get(position);
+					if (itemFollowDBList.contains(itemFollows_temp)) {
+						deleteDB(itemFollows_temp);
+					} else {
+						saveDB(itemFollows_temp);
+					}
+					// v.setBackgroundResource(R.drawable.biz_news_column_subscribe_cancel);
+					getdatafromdb();
+					Lv_search_adapter.this.notifyDataSetChanged();
+				}
+			});
+			if (itemFollowDBList.contains(subcategoryNames.get(position))) {
+				holder.iv_add
+						.setBackgroundResource(R.drawable.biz_news_column_subscribe_cancel);
+			} else {
+				holder.iv_add
+						.setBackgroundResource(R.drawable.biz_news_column_subscribe_add_selector);
 			}
 			holder.title.setText(subcategoryNames.get(position).getName());
 			return convertView;
 		}
 
-		static class ViewHolder {
+		class ViewHolder {
 			TextView title;
 			ImageView iv_add;
 		}
@@ -706,8 +706,8 @@ public class AddFollowActivity extends BaseActionBarActivity implements
 			long id) {
 		switch (parent.getId()) {
 		case R.id.lv_category:
-			if(!requestType.equals(view.getTag())){//重置页数
-				page_category=1;
+			if (!requestType.equals(view.getTag())) {// 重置页数
+				page_category = 1;
 			}
 			requestType = (String) view.getTag();
 			lv_category_adapter.setSelectItem(position);

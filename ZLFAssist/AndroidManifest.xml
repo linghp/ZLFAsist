@@ -44,11 +44,13 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.FLASHLIGHT" />
+
     <uses-feature android:name="android.hardware.camera" />
     <uses-feature android:name="android.hardware.camera.autofocus" />
+
     <uses-permission android:name="android.permission.WAKE_LOCK" />
-    
-     <!-- share -->
+
+    <!-- share -->
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.GET_TASKS" />
@@ -56,8 +58,8 @@
     <uses-permission android:name="android.permission.MANAGE_ACCOUNTS" />
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
-<uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
-<uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
 
     <application
         android:allowBackup="true"
@@ -65,8 +67,10 @@
         android:label="@string/app_name"
         android:theme="@style/CustomActionBarTheme" >
         <activity
-            android:name="com.cqvip.zlfassist.activity.WelcomActivity"
-            android:label="@string/app_name" >
+            android:name="com.cqvip.zlfassist.activity.MainActivity"
+            android:label="@string/app_name"
+            android:theme="@android:style/Theme.Light.NoTitleBar"
+            android:screenOrientation="portrait" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -74,44 +78,50 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".activity.AddFavorActivity"
-             >
-        </activity>
-        <activity
-            android:name=".activity.NotifactionUpdateActivity"
-             >
-        </activity>
-        <activity
-            android:name=".activity.AddDownloadActivity"
-            android:theme="@android:style/Theme.Light.NoTitleBar" >
-        </activity>
-        <activity
-            android:name=".activity.AddNotificationActivity"
-            android:theme="@android:style/Theme.Light.NoTitleBar" >
-        </activity>
-        <activity
-            android:name=".activity.MainActivity"
+            android:name=".activity.WelcomActivity"
             android:label="@string/app_name"
             android:theme="@android:style/Theme.Light.NoTitleBar" >
         </activity>
         <activity
-            android:name=".activity.PeriodicalInfoActivity"
+            android:name=".activity.AddFavorActivity"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name=".activity.NotifactionUpdateActivity"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name=".activity.AddDownloadActivity"
+            android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Light.NoTitleBar" >
         </activity>
         <activity
-            android:name=".activity.ZKFollowinfoUpActivity" >
+            android:name=".activity.AddNotificationActivity"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Light.NoTitleBar" >
         </activity>
         <activity
-            android:name=".activity.ZKFollowinfoMainActivity">
+            android:name=".activity.PeriodicalInfoActivity"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Light.NoTitleBar" >
+        </activity>
+        <activity
+            android:name=".activity.ZKFollowinfoUpActivity"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name=".activity.ZKFollowinfoMainActivity"
+            android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name=".activity.ZKPeriodicalInfoActivity"
-           >
+            android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name=".activity.DisplayFollowActivity"
             android:label="@string/title_activity_display_follow"
-            android:parentActivityName=".activity.MainActivity" >
+            android:parentActivityName=".activity.MainActivity"
+            android:screenOrientation="portrait" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.cqvip.zlfassist.activity.MainActivity" />
@@ -119,7 +129,8 @@
         <activity
             android:name=".activity.AddFollowActivity"
             android:label="@string/subscribe_my_category"
-            android:parentActivityName=".activity.DisplayFollowActivity" >
+            android:parentActivityName=".activity.DisplayFollowActivity"
+            android:screenOrientation="portrait" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.cqvip.zlfassist.activity.DisplayFollowActivity" />
@@ -127,7 +138,8 @@
         <activity
             android:name=".activity.DetailContentActivity"
             android:label="@string/title_activity_detail_content"
-            android:parentActivityName=".activity.PeriodicalInfoActivity" >
+            android:parentActivityName=".activity.PeriodicalInfoActivity"
+            android:screenOrientation="portrait" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.cqvip.zlfassist.activity.PeriodicalInfoActivity" />
@@ -140,7 +152,9 @@
             android:theme="@android:style/Theme.NoTitleBar" />
 
         <!-- download -->
-        <activity android:name="com.mozillaonline.providers.downloads.ui.DownloadList" >
+        <activity
+            android:name="com.mozillaonline.providers.downloads.ui.DownloadList"
+            android:screenOrientation="portrait" >
         </activity>
 
         <provider
@@ -157,8 +171,8 @@
                 <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
             </intent-filter>
         </receiver>
-        
-                <!-- share -->
+
+        <!-- share -->
         <activity
             android:name="cn.sharesdk.framework.ShareSDKUIShell"
             android:configChanges="keyboardHidden|orientation"
