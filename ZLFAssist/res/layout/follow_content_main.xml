@@ -3,17 +3,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.cqvip.zlfassist.DetailContentActivity" >
- <include
-      android:id="@+id/ly_title"
-       layout="@layout/title_more_aboutr"
-       android:layout_width="match_parent"
-       android:layout_height="48dp"
-         />
-    
     
 <com.cqvip.zlfassist.freshlistview.FreshListView
     android:id="@+id/lv_follow"
-    android:layout_below="@+id/ly_title"
     android:layout_height="match_parent"
     android:layout_width="match_parent"
     >

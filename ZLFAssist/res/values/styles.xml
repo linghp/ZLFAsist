@@ -1,21 +1,45 @@
-<resources>
+<resources xmlns:android="http://schemas.android.com/apk/res/android" xmlns:tools="http://schemas.android.com/tools">
 
     <!--
         Base application theme, dependent on API level. This theme is replaced
         by AppBaseTheme from res/values-vXX/styles.xml on newer devices.
     -->
-    <style name="AppBaseTheme" parent="Theme.AppCompat.Light">
+   <style name="AppBaseTheme.Light" parent="Theme.AppCompat.Light">
+    </style>
+    <style name="AppBaseTheme" parent="Theme.AppCompat">
+        </style>
+    <style name="AppBaseTheme.Dk" parent="Theme.AppCompat.Light.DarkActionBar">
+        </style>
         <!--
             Theme customizations available in newer API levels can go in
             res/values-vXX/styles.xml, while customizations related to
             backward-compatibility can go here.
         -->
-    </style>
 
     <!-- Application theme. -->
-    <style name="AppTheme" parent="AppBaseTheme">
+    <style name="AppTheme" parent="Theme.AppCompat.Light">
         <!-- All customizations that are NOT specific to a particular API-level can go here. -->
     </style>
+    
+     <!-- the theme applied to the application or activity -->
+    <style name="CustomActionBarTheme"
+           parent="@style/AppTheme">
+        <item name="android:actionBarStyle" tools:ignore="NewApi">@style/MyActionBar</item>
+
+        <!-- Support library compatibility -->
+        <item name="actionBarStyle">@style/MyActionBar</item>
+    </style>
+     <style name="MyActionBar"
+           parent="@style/Widget.AppCompat.ActionBar">
+        <item name="android:background" tools:targetApi="11">@color/color3</item>
+
+        <!-- Support library compatibility -->
+        <item name="background">@color/color3</item>
+    </style>
+    
+    
+    
+    
     <style name="top_category_scroll_view_item_text">
         <item name="android:textSize">16.0sp</item>
         <item name="android:textStyle">bold</item>
@@ -104,5 +128,10 @@
      <style name="dialog_fullscreen">
         <item name="android:windowNoTitle">true</item>
         <item name="android:windowBackground">@android:color/transparent</item>
+    </style>
+     <style name="style_periodical_info">
+        <item name="android:textSize">@dimen/search_detail_txtsize_tv</item>
+        <item name="android:textColor">@android:color/black</item>
+        <item name="android:singleLine">true</item>
     </style>
 </resources>

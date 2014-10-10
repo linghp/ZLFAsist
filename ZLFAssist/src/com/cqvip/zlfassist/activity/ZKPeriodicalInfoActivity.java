@@ -5,17 +5,21 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import android.R.integer;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Paint;
 import android.os.Bundle;
+import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -28,27 +32,27 @@ import com.android.volley.Response.Listener;
 import com.android.volley.toolbox.StringRequest;
 import com.cqvip.zlfassist.R;
 import com.cqvip.zlfassist.adapter.ZKTopicListAdapter;
-import com.cqvip.zlfassist.base.BaseActivity;
+import com.cqvip.zlfassist.base.BaseActionBarActivity;
 import com.cqvip.zlfassist.bean.EBook;
 import com.cqvip.zlfassist.bean.ItemFollows;
-import com.cqvip.zlfassist.bean.Periodical;
 import com.cqvip.zlfassist.bean.PeriodicalYear;
 import com.cqvip.zlfassist.bean.ZKPeriodical;
 import com.cqvip.zlfassist.constant.C;
 import com.cqvip.zlfassist.http.HttpUtils;
 import com.cqvip.zlfassist.http.VolleyManager;
+import com.cqvip.zlfassist.tools.BaseTools;
 import com.cqvip.zlfassist.view.picker.ArrayWheelAdapter;
 import com.cqvip.zlfassist.view.picker.OnWheelChangedListener;
 import com.cqvip.zlfassist.view.picker.WheelView;
 import com.cqvip.zlfassist.zkbean.ZKTopic;
 
-public class ZKPeriodicalInfoActivity extends BaseActivity {
+public class ZKPeriodicalInfoActivity extends BaseActionBarActivity implements  OnItemClickListener {
 	private String mYear = null;
 	private String mMonth = null;
 	private ListView listview;
 	private Context context;
 	private TextView txt_date;
-	private TextView title,subjects,directordept,publisher,chiefedit,pubcycle,price,num,remark,tips;
+	private TextView title,zkcount,organ,publisher,writer,classtype,subjects,fund,remark,tips;
 	private View upView;
 	private ImageView img,img_back;
 	private String gch;
@@ -63,6 +67,7 @@ public class ZKPeriodicalInfoActivity extends BaseActivity {
 	private boolean isFirstFlag = false;
 	private RelativeLayout rlFromAndDate;
 	
+	private static final String[] SHOWTITLE = {"主办单位:","发文主题:","发文领域:","发文作者:","发文机构:","发文基金:	"};
 	@Override
 	protected void onSaveInstanceState(Bundle outState) {
 		// TODO Auto-generated method stub
@@ -72,17 +77,16 @@ public class ZKPeriodicalInfoActivity extends BaseActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.activity_periodical_content_main);
 		context = this;
-		
 		Bundle bundle = getIntent().getBundleExtra("info");
 		perio = (ItemFollows) bundle.getSerializable("item");
+		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+		getSupportActionBar().setTitle(perio.getName());
+		
 		findView();
 		initViewFirst();
 		initdate(perio.getId());
-	
-		setListener();
 		listview.setAdapter(null);
 		txt_date.setOnClickListener(new View.OnClickListener() {
 			
@@ -169,10 +173,11 @@ public class ZKPeriodicalInfoActivity extends BaseActivity {
 						String id = periodicalYear.get_id();
 						String year = periodicalYear.getYear();
 						String num =tmpary[month_record];
-						Map gparams = new HashMap<String, String>();
+						HashMap<String, String> gparams = new HashMap<>();
 						gparams.put("id", id+"|"+year+"|"+num);
 						gparams.put("pageindex", 1+"");
 						gparams.put("pagesize",50+"");
+						Log.i("param","result:"+ id+"|"+year+"|"+num);
 						VolleyManager.requestVolley(gparams, C.SERVER+C.URL_PERIDICAL_LIST, Method.POST, backlistener_content, errorListener, mQueue);
 					}
 				});
@@ -208,78 +213,51 @@ public class ZKPeriodicalInfoActivity extends BaseActivity {
 		String id = periodicalYear.get_id();
 		String year = periodicalYear.getYear();
 		String num =tmpary[tmpary.length-1];
-		Map gparams = new HashMap<String, String>();
+		 HashMap<String, String> gparams = new HashMap<String, String>();
 		gparams.put("id", id+"|"+year+"|"+num);
 		gparams.put("pageindex", 1+"");
 		gparams.put("pagesize",50+"");
+		Log.i("param","result:"+ id+"|"+year+"|"+num);
 		VolleyManager.requestVolley(gparams, C.SERVER+C.URL_PERIDICAL_LIST, Method.POST, backlistener_content, errorListener, mQueue);
 	}
 	private void findView() {
 		listview = (ListView) findViewById(R.id.listView1);
-		upView = LayoutInflater.from(this).inflate(R.layout.activity_periodical_content_up, null);
+		listview.setOnItemClickListener(this);
+		upView = LayoutInflater.from(this).inflate(R.layout.zkperiodical_content_up, null);
 		listview.addHeaderView(upView);
 		progress = findViewById(R.id.footer_progress);
 		//标题
 		  View v = findViewById(R.id.head_bar);
-	     TextView tv = (TextView) v.findViewById(R.id.tv_title);
-	     tv.setText("期刊");
-	     img_back = (ImageView) v.findViewById(R.id.img_back);
-	     img_back.setVisibility(View.VISIBLE);
 		//内容
 		title = (TextView)findViewById(R.id.periodical_title_txt);
-		directordept  = (TextView)findViewById(R.id.periodical_host1_txt);
-		subjects  = (TextView)findViewById(R.id.periodical_host2_txt);
-//		chiefedit  = (TextView)findViewById(R.id.periodical_author_txt);
-//		pubcycle = (TextView)findViewById(R.id.periodical_time_txt);
-//		price = (TextView)findViewById(R.id.periodical_price_txt);
-//		num = (TextView)findViewById(R.id.periodical_num_txt);
-//		remark = (TextView)findViewById(R.id.periodical_content_abst);
-//		tips =  (TextView)findViewById(R.id.txt_null_tips);
-//		rlFromAndDate = (RelativeLayout)findViewById(R.id.rlFromAndDate);
-//		//期刊日期
-//		txt_date = (TextView) findViewById(R.id.txt_year_month);
+		zkcount  = (TextView)findViewById(R.id.periodical_count_txt);
+		organ  = (TextView)findViewById(R.id.periodical_organ_txt);
+		subjects  = (TextView)findViewById(R.id.periodical_subject_txt);
+		classtype  = (TextView)findViewById(R.id.periodical_classtype_txt);
+		subjects  = (TextView)findViewById(R.id.periodical_subject_txt);
+		writer  = (TextView)findViewById(R.id.periodical_writer_txt);
+		fund  = (TextView)findViewById(R.id.periodical_fund_txt);
+		publisher  = (TextView)findViewById(R.id.periodical_publish_txt);
+		remark = (TextView) findViewById(R.id.periodical_content_abst);
+
+		tips =  (TextView)findViewById(R.id.txt_null_tips);
+		rlFromAndDate = (RelativeLayout)findViewById(R.id.rlFromAndDate);
+		//期刊日期
+		txt_date = (TextView) findViewById(R.id.txt_year_month);
 //		//图片
 //		img = (ImageView) findViewById(R.id.periodical_icon_img);
 		
 	}
-	private void setListener() {
-		img_back.setOnClickListener(new View.OnClickListener() {
-			
-			@Override
-			public void onClick(View v) {
-				finish();
-				
-			}
-		});
-		listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-
-			@Override
-			public void onItemClick(AdapterView<?> parent, View view,
-					int position, long id) {
-//				if(id!=-1){
-//				if(adapter!=null&&adapter.getLists()!=null){
-//				EBook book = adapter.getLists().get(position-1);
-//				if (book != null) {
-//					Intent _intent = new Intent(context, EbookDetailActivity.class);
-//					Bundle bundle = new Bundle();
-//					bundle.putSerializable("book", book);
-//					_intent.putExtra("detaiinfo", bundle);
-//					startActivity(_intent);
-//				}
-//			  }
-//			}
-				startActivity(new Intent(ZKPeriodicalInfoActivity.this,DetailContentActivity.class));
-		  }
-		});
-		
-	}
 	private void initView(ZKPeriodical periodical) {
-		
-		directordept.setText("主办单位："+periodical.getPublisher());
-//		publisher.setText(getResources().getString(R.string.title_perio_publisher)+periodical.getPublisher());
-//		chiefedit.setText(getResources().getString(R.string.title_perio_chiefeditor)+(periodical.getChiefeditor()==null?"":periodical.getChiefeditor()));
-//		pubcycle.setText(getResources().getString(R.string.title_perio_type)+periodical.getPubcycle()+","+periodical.getSize());
-//		remark.setText(getResources().getString(R.string.title_perio_remark)+periodical.getRemark());
+	
+		zkcount.setText(BaseTools.formaddTips(periodical.getZkfwcount(), "作品数：")+BaseTools.formaddTips(periodical.getZkbycount(), "，被引用量：")+BaseTools.formaddTips(periodical.getZkhindex(), ",H指数"));
+		publisher.setText(BaseTools.addTips(SHOWTITLE[0],periodical.getPublisher()));
+		//subjects.setText(SHOWTITLE[1]+periodical.getSubjects());
+		classtype.setText(BaseTools.addTips(SHOWTITLE[2],periodical.getClasstypes()));
+		writer.setText(BaseTools.addTips(SHOWTITLE[3],periodical.getWriters()));
+		organ.setText(BaseTools.addTips(SHOWTITLE[4],periodical.getOrganizers()));
+		fund.setText(BaseTools.addTips(SHOWTITLE[5],periodical.getFunds()));
+	//	remark.setText(periodical.get);
 		
 		//初始化期刊日期
 		if(yearlist==null){
@@ -302,6 +280,7 @@ public class ZKPeriodicalInfoActivity extends BaseActivity {
 		public void onResponse(String response) {
 			if(customProgressDialog!=null&&customProgressDialog.isShowing())
 			customProgressDialog.dismiss();
+			System.out.println(response);
 			progress.setVisibility(View.GONE);
 			try {
 				//第一次setAdapter
@@ -419,5 +398,29 @@ public class ZKPeriodicalInfoActivity extends BaseActivity {
 			return v;
 		}
 		
+	}
+	 @Override
+	    public boolean onOptionsItemSelected(MenuItem item) {
+		int itemId = item.getItemId();
+		if(itemId == android.R.id.home){
+			finish();
+		}
+		return false;
+	    }
+	@Override
+	public void onItemClick(AdapterView<?> parent, View view, int position,
+			long id) {
+		if(adapter!=null&&adapter.getList()!=null){
+		ZKTopic item = adapter.getList().get(position);
+		 if(item!=null){
+		Bundle bundle = new Bundle();
+		Intent _intent = new Intent(ZKPeriodicalInfoActivity.this,DetailContentActivity.class);
+		bundle.putSerializable("item", item);
+		_intent.putExtra("info", bundle);
+		startActivity(_intent);
+		 }
+		}else{
+			return;
+		}
 	}
 }

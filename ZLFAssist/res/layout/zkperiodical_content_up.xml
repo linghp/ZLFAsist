@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+
+
+    <RelativeLayout
+        android:id="@+id/rl_img_and_txt"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/head_bar"
+   
+        >
+
+        <!-- 图书 -->
+
+        <RelativeLayout
+            android:id="@+id/detail_up_rl"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content" >
+
+            <ImageView
+                android:id="@+id/periodical_icon_img"
+                android:layout_width="82dp"
+                android:layout_height="118dp"
+                android:layout_alignParentLeft="true"
+                android:layout_marginLeft="10.0dip"
+                android:layout_marginTop="5.0dip"
+                android:background="@android:color/transparent" />
+
+            <LinearLayout
+                android:id="@+id/lyRightLayout"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5.0dip"
+                android:layout_toRightOf="@+id/periodical_icon_img"
+                android:orientation="vertical" >
+
+                <!-- title -->
+
+                <TextView
+                    android:id="@+id/periodical_title_txt"
+                    style="@style/TextTitleBigBlueStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:singleLine="true"
+                    android:text=""
+                     />
+                <!-- author -->
+
+                <TextView
+                    android:id="@+id/periodical_count_txt"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    style="@style/style_periodical_info"
+                     />
+                <!-- address -->
+
+                <TextView
+                    android:id="@+id/periodical_publish_txt"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                     style="@style/style_periodical_info" />
+                <!-- time -->
+
+                <TextView
+                    android:id="@+id/periodical_subject_txt"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    style="@style/style_periodical_info" />
+                <!-- page -->
+
+                <TextView
+                    android:id="@+id/periodical_classtype_txt"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                   style="@style/style_periodical_info"/>
+                <!-- size -->
+
+                <TextView
+                    android:id="@+id/periodical_writer_txt"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                   style="@style/style_periodical_info" />
+                 <TextView
+                    android:id="@+id/periodical_organ_txt"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    style="@style/style_periodical_info" />
+                 <TextView
+                    android:id="@+id/periodical_fund_txt"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    style="@style/style_periodical_info" />
+            </LinearLayout>
+        </RelativeLayout>
+            <TextView
+                android:id="@+id/periodical_content_abst"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/detail_up_rl"
+                android:text=""
+                android:textColor="@android:color/black"
+                android:padding="2.0dip"
+                android:textSize="@dimen/search_detail_txtsize_btn" />
+    </RelativeLayout>
+  <RelativeLayout android:id="@+id/rlFromAndDate" 
+      android:layout_width="fill_parent" 
+      android:layout_height="44.0dip" 
+      android:layout_below="@+id/rl_img_and_txt">
+<!--               底部横分割线 -->
+           <ImageView android:id="@+id/detail_middletab_divider" 
+               android:layout_width="fill_parent" 
+               android:layout_height="wrap_content" 
+               android:layout_marginLeft="5.0dip" 
+               android:layout_marginRight="5.0dip" 
+               android:src="@drawable/statusdetail_cell_sepatator" 
+               android:scaleType="fitXY" 
+               android:layout_alignParentBottom="true" />
+           
+            <RelativeLayout android:orientation="vertical" 
+                android:id="@+id/detail_comment_ly" 
+                android:layout_width="wrap_content" 
+                android:layout_height="fill_parent" 
+                android:layout_centerInParent="true"
+                >
+           <TextView 
+               android:id="@+id/txt_year_month"
+               android:layout_width="wrap_content" 
+			   android:layout_height="wrap_content"  
+               android:textSize="16sp"
+               android:layout_centerVertical="true"
+               android:text=""
+               android:drawableRight="@drawable/icon_navigation_expand"
+               android:gravity="center_vertical"
+               android:background="@android:color/white"
+               />
+           <ProgressBar
+        android:id="@+id/footer_progress"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+         android:layout_centerVertical="true"
+        android:layout_marginLeft="5.0dip"
+        android:layout_toRightOf="@+id/txt_year_month"
+        style="@android:style/Widget.ProgressBar.Small.Inverse"
+        android:visibility="gone" />
+           <!--                指示箭头 -->
+
+                <ImageView
+                    android:id="@+id/retweet_bottom_arrow"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:scaleType="fitXY"
+                    android:layout_centerHorizontal="true"
+                    android:src="@drawable/statusdetail_segmented_bottom_arrow" 
+                    />
+
+           </RelativeLayout>
+           
+       </RelativeLayout>
+
+		  <TextView
+		      android:id="@+id/txt_null_tips"
+		      style="@style/TextContentMiddleStyle"
+		      android:layout_width="wrap_content"
+		      android:layout_height="wrap_content"
+		      android:layout_below="@+id/rl_img_and_txt"
+		      android:layout_centerHorizontal="true"
+		      android:layout_margin="8.0dip"
+		      android:visibility="gone"
+		      android:text="TextView" />
+
+</RelativeLayout>

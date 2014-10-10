@@ -15,6 +15,7 @@ import android.widget.RelativeLayout;
 
 import com.cqvip.zlfassist.R;
 import com.cqvip.zlfassist.activity.ZKFollowinfoMainActivity;
+import com.cqvip.zlfassist.activity.ZKPeriodicalInfoActivity;
 import com.cqvip.zlfassist.adapter.ItemFollowsAdapter;
 import com.cqvip.zlfassist.base.BaseFrgment;
 import com.cqvip.zlfassist.bean.ItemFollows;
@@ -65,18 +66,18 @@ public class ZKFollowListFragment extends BaseFrgment implements OnItemClickList
 	public void onItemClick(AdapterView<?> parent, View view, int position,
 			long id) {
 		ItemFollows item = adapter.getList().get(position);
+		Intent _intent ;
 		// Book book = lists.get(position-1);
 		 if(item!=null){
 			 if(item.getType().equals(C.MEDIA)){
-				 return;
-				 //TODO
+				 _intent  = new Intent(getActivity(),ZKPeriodicalInfoActivity.class);
 			 }else{
-		Intent _intent = new Intent(getActivity(),ZKFollowinfoMainActivity.class);
-		Bundle bundle = new Bundle();
-		bundle.putSerializable("item", item);
-		_intent.putExtra("info", bundle);
-		startActivity(_intent);
+		_intent  = new Intent(getActivity(),ZKFollowinfoMainActivity.class);
 			 }
+			 Bundle bundle = new Bundle();
+			 bundle.putSerializable("item", item);
+			 _intent.putExtra("info", bundle);
+			 startActivity(_intent);
 		 }
 	}
 }

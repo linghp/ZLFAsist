@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.cqvip.zlfassist.R;
 import com.cqvip.zlfassist.base.AdapterBase;
+import com.cqvip.zlfassist.tools.BaseTools;
 import com.cqvip.zlfassist.zkbean.ZKContent;
 import com.cqvip.zlfassist.zkbean.ZKTopic;
 /**
@@ -61,8 +62,8 @@ public class ZKTopicListAdapter extends AdapterBase<ZKTopic> {
 		
 		ZKTopic  item = mList.get(position);
 		holder.title.setText(item.getTitleC());
-		holder.writer.setText(item.getShowwriter());
-		holder.perodical.setText("《"+item.getMediaC()+"》"+","+item.getMediasQk());
+		holder.writer.setText(BaseTools.formContent(item.getShowwriter()));
+		holder.perodical.setText(BaseTools.formPero(item.getMediaC())+BaseTools.formSecendContent(item.getMediasQk()));
 		if(!TextUtils.isEmpty(item.getImburse())){
 		holder.imburse.setVisibility(View.VISIBLE);
 		holder.imburse.setText(item.getImburse());

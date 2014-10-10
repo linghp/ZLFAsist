@@ -12,19 +12,12 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.cqvip.zlfassist.DetailContentActivity" >
- <include
-      android:id="@+id/ly_title"
-        layout="@layout/title_bar"
-         android:layout_width="match_parent"
-        android:layout_height="48dp"
-         />
     
     <TextView
         android:id="@+id/tv_folloup_title"
         style="@style/TextTitleBigBlueStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/ly_title"
         android:text="王磊" />
 
     <TextView
