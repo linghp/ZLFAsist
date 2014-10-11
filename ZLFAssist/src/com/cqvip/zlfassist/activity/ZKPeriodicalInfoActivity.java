@@ -53,7 +53,7 @@ public class ZKPeriodicalInfoActivity extends BaseActionBarActivity implements  
 	private Context context;
 	private TextView txt_date;
 	private TextView title,zkcount,organ,publisher,writer,classtype,subjects,fund,remark,tips;
-	//private View upView;
+	private View upView;
 	private ImageView img,img_back;
 	private String gch;
 	private Map<String, String> gparams;
@@ -87,7 +87,7 @@ public class ZKPeriodicalInfoActivity extends BaseActionBarActivity implements  
 		findView();
 		initViewFirst();
 		initdate(perio.getId());
-		//listview.setAdapter(null);
+		listview.setAdapter(null);
 		txt_date.setOnClickListener(new View.OnClickListener() {
 			
 			@Override
@@ -223,8 +223,8 @@ public class ZKPeriodicalInfoActivity extends BaseActionBarActivity implements  
 	private void findView() {
 		listview = (ListView) findViewById(R.id.listView1);
 		listview.setOnItemClickListener(this);
-		//upView = LayoutInflater.from(this).inflate(R.layout.zkperiodical_content_up, null);
-		//listview.addHeaderView(upView);
+		upView = LayoutInflater.from(this).inflate(R.layout.zkperiodical_content_up, null);
+		listview.addHeaderView(upView);
 		progress = findViewById(R.id.footer_progress);
 		//标题
 		  View v = findViewById(R.id.head_bar);
@@ -411,7 +411,7 @@ public class ZKPeriodicalInfoActivity extends BaseActionBarActivity implements  
 	public void onItemClick(AdapterView<?> parent, View view, int position,
 			long id) {
 		if(adapter!=null&&adapter.getList()!=null){
-		ZKTopic item = adapter.getList().get(position);
+		ZKTopic item = adapter.getList().get(position-1);
 		 if(item!=null){
 		Bundle bundle = new Bundle();
 		Intent _intent = new Intent(ZKPeriodicalInfoActivity.this,DetailContentActivity.class);

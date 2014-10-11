@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -29,12 +30,13 @@ import com.cqvip.zlfassist.zkbean.ZKTopic;
 import com.j256.ormlite.android.apptools.OpenHelperManager;
 import com.j256.ormlite.dao.Dao;
 
-public class DetailContentActivity extends BaseActionBarActivity {
+public class DetailContentActivity extends BaseActionBarActivity implements OnClickListener {
 	private final String LOG_TAG = getClass().getSimpleName();
 	private TextView title, author, organ, comeform, abst, keyword, classid,tips;
 	private ZKContent topic;
 	private String requestId;
 	private ZKTopic zkTopic;
+	private TextView shareTextView ,readTextView,favorTextView;
 	private ArrayList<ZKTopic> zkTopics_list=new ArrayList<>();
 	private static final String[] SHOWTIPS = { "作者：", "机构：", "出处：", "关键词：",
 			"分类号：" };
@@ -54,6 +56,7 @@ public class DetailContentActivity extends BaseActionBarActivity {
 		initfirstView();
 		queryDB();
 		getDate(requestId);
+		
 	}
 
 	private void initfirstView() {
@@ -86,6 +89,12 @@ public class DetailContentActivity extends BaseActionBarActivity {
 		keyword = (TextView) findViewById(R.id.tv_detail_keyword);
 		classid = (TextView) findViewById(R.id.tv_detail_classno);
 		tips = (TextView) findViewById(R.id.tv_tips_abst);
+		shareTextView = (TextView) findViewById(R.id.btn_item_share);
+		favorTextView = (TextView) findViewById(R.id.btn_item_favor);
+		readTextView = (TextView) findViewById(R.id.btn_item_read);
+		shareTextView.setOnClickListener(this);
+		favorTextView.setOnClickListener(this);
+		readTextView.setOnClickListener(this);
 	}
 
 	private void getDate(String requestId2) {
@@ -261,5 +270,29 @@ public class DetailContentActivity extends BaseActionBarActivity {
 			OpenHelperManager.releaseHelper();
 			databaseHelper = null;
 		}
+	}
+
+	@Override
+	public void onClick(View v) {
+		switch (v.getId()) {
+		case R.id.btn_item_favor:
+			if(isfavor){
+				deleteDB(zkTopic);
+				}else{
+				saveDB(zkTopic);
+				}
+			break;
+		case R.id.btn_item_read:
+			
+			break;
+		case R.id.btn_item_share:
+			BaseTools.bookshare_bysharesdk(this, zkTopic, null);
+			break;
+
+		default:
+			break;
+		}
+		
+		
 	}
 }

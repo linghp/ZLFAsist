@@ -7,8 +7,6 @@
     android:background="@android:color/white"
     android:orientation="vertical" >
 
-        <include
-        layout="@layout/zkperiodical_content_up" />
     <ListView
         android:id="@+id/listView1"
            android:fadingEdge="none" 
