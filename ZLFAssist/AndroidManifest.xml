@@ -69,6 +69,7 @@
         <activity
             android:name="com.cqvip.zlfassist.activity.MainActivity"
             android:label="@string/app_name"
+            android:launchMode="singleTop"
             android:theme="@android:style/Theme.Light.NoTitleBar"
             android:screenOrientation="portrait" >
             <intent-filter>
@@ -144,6 +145,17 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.cqvip.zlfassist.activity.PeriodicalInfoActivity" />
         </activity>
+        <activity
+            android:name=".activity.ChannelActivity"
+            android:label="@string/title_activity_channel"
+            android:parentActivityName=".activity.MainActivity"
+            android:screenOrientation="portrait" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.cqvip.zlfassist.activity.MainActivity" />
+        </activity>
+        
+        
 
         <!-- scan -->
         <activity

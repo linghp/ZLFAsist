@@ -2,9 +2,13 @@ package com.cqvip.zlfassist.bean;
 
 import java.io.Serializable;
 
+import com.j256.ormlite.field.DatabaseField;
+import com.j256.ormlite.table.DatabaseTable;
+
 /** 
  * ITEM的对应可序化队列属性
  *  */
+@DatabaseTable(tableName = "ChannelSort")
 public class ChannelItem implements Serializable {
 	/**
 	 * 
@@ -13,10 +17,12 @@ public class ChannelItem implements Serializable {
 	/** 
 	 * 栏目对应type
 	 *  */
+	@DatabaseField(id=true)
 	public String type;
 	/** 
 	 * 栏目对应NAME
 	 *  */
+	@DatabaseField
 	public String name;
 	/** 
 	 * 栏目在整体中的排序顺序  rank
@@ -35,6 +41,10 @@ public class ChannelItem implements Serializable {
 		this.name = name;
 		this.orderId = Integer.valueOf(orderId);
 		this.selected = Integer.valueOf(selected);
+	}
+	public ChannelItem(String type,String name) {
+		this.type = type;
+		this.name = name;
 	}
 
 
@@ -74,5 +84,15 @@ public class ChannelItem implements Serializable {
 
 	public void setType(String type) {
 		this.type = type;
+	}
+	
+	@Override
+	public boolean equals(Object o) {
+		if(o instanceof ChannelItem){
+			ChannelItem t=(ChannelItem) o;
+		//	Log.i("equals", this.id+"----"+t.getId());
+			return this.getType().equals(t.getType());
+		}
+		return super.equals(o);
 	}
 }

@@ -8,6 +8,7 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
+import com.cqvip.zlfassist.bean.ChannelItem;
 import com.cqvip.zlfassist.bean.ItemFollows;
 import com.cqvip.zlfassist.zkbean.ZKTopic;
 import com.j256.ormlite.android.apptools.OrmLiteSqliteOpenHelper;
@@ -29,6 +30,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 	// the DAO object we use to access the SimpleData table
 	private Dao<ItemFollows, Integer> itemFollowsDao = null;
 	private Dao<ZKTopic, Integer> favorDao = null;
+	private Dao<ChannelItem, Integer> channelSortDao = null;
 
 	public DatabaseHelper(Context context) {
 		super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -44,6 +46,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 			Log.i(DatabaseHelper.class.getName(), "onCreate");
 			TableUtils.createTable(connectionSource, ItemFollows.class);
 			TableUtils.createTable(connectionSource, ZKTopic.class);
+			TableUtils.createTable(connectionSource, ChannelItem.class);
 		} catch (SQLException e) {
 			Log.e(DatabaseHelper.class.getName(), "Can't create database", e);
 			throw new RuntimeException(e);
@@ -61,6 +64,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 			Log.i(DatabaseHelper.class.getName(), "onUpgrade");
 			TableUtils.dropTable(connectionSource, ItemFollows.class, true);
 			TableUtils.dropTable(connectionSource, ZKTopic.class, true);
+			TableUtils.dropTable(connectionSource, ChannelItem.class, true);
 			// after we drop the old databases, we create the new ones
 			onCreate(db, connectionSource);
 		} catch (SQLException e) {
@@ -90,6 +94,17 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 		}
 		return favorDao;
 	}
+	/**
+	 * 返回排序的频道dao
+	 * @return
+	 * @throws SQLException
+	 */
+	public Dao<ChannelItem, Integer> getChannelSortDao() throws SQLException {
+		if (channelSortDao == null) {
+			channelSortDao = getDao(ChannelItem.class);
+		}
+		return channelSortDao;
+	}
 
 	/**
 	 * Close the database connections and clear any cached DAOs.
@@ -99,5 +114,6 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 		super.close();
 		itemFollowsDao = null;
 		favorDao=null;
+		channelSortDao=null;
 	}
 }
