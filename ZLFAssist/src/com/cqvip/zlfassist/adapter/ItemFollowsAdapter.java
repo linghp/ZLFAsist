@@ -1,18 +1,22 @@
 package com.cqvip.zlfassist.adapter;
 
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import android.content.Context;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.cqvip.zlfassist.R;
 import com.cqvip.zlfassist.base.AdapterBase;
 import com.cqvip.zlfassist.bean.ItemFollows;
-import com.cqvip.zlfassist.zkbean.ZKTopic;
 
 public class ItemFollowsAdapter extends AdapterBase<ItemFollows> {
 	private Context context;
@@ -33,6 +37,7 @@ public class ItemFollowsAdapter extends AdapterBase<ItemFollows> {
 		private TextView title;
 		private TextView subject;
 		private TextView about;
+		private ImageView tipsNew;
 	}
 	
 	@Override
@@ -44,12 +49,18 @@ public class ItemFollowsAdapter extends AdapterBase<ItemFollows> {
 				holder.title = (TextView) convertView.findViewById(R.id.tv_follow_title);
 				holder.subject = (TextView) convertView.findViewById(R.id.tv_follow_topic);
 				holder.about = (TextView) convertView.findViewById(R.id.tv_follow_about);
+				holder.tipsNew = (ImageView) convertView.findViewById(R.id.img_new);
 				//holder.abstrac = (TextView) convertView.findViewById(R.id.tx_item_abstract);
 				convertView.setTag(holder);
 		}else{
 			holder = (ViewHolder) convertView.getTag();
 		}
 		ItemFollows itemFollows = mList.get(position);
+		if(itemFollows.isNew()){
+			holder.tipsNew.setVisibility(View.VISIBLE);
+		}else{
+			holder.tipsNew.setVisibility(View.INVISIBLE);
+		}
 		holder.title.setText(itemFollows.getName());
 		if(!TextUtils.isEmpty(itemFollows.getAbout())){
 		holder.about.setVisibility(View.VISIBLE);

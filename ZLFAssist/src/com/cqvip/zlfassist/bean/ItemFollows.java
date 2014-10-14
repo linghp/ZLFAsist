@@ -62,6 +62,15 @@ public class ItemFollows implements Serializable {
 	@DatabaseField
 	private long datetime;
 
+	private boolean isNew = false;
+	public boolean isNew() {
+		return isNew;
+	}
+
+	public void setNew(boolean isNew) {
+		this.isNew = isNew;
+	}
+
 	public void setDatetime(long datetime) {
 		this.datetime = datetime;
 	}

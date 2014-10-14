@@ -33,6 +33,9 @@ public class NotifactionUpdateActivity extends BaseActionBarActivity implements 
 		adapter = new ZKTopicListAdapter(context, lists);
 		listView.setAdapter(adapter);
 		listView.setOnItemClickListener(this);
+		
+		
+		
 	}
 	
 	
