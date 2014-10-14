@@ -108,7 +108,9 @@ public class ChannelActivity extends BaseActionBarActivity {
 		try {
 			Dao<ChannelItem, Integer> channelSortDao = getHelper()
 					.getChannelSortDao();
+			if(userChannelList.size()>0){
 			userChannelList.remove(0);
+			}
 			channelSortDao.delete(userChannelList);
 			userChannelList = (ArrayList<ChannelItem>) userAdapter
 					.getChannnelLst();
@@ -130,14 +132,17 @@ public class ChannelActivity extends BaseActionBarActivity {
 			myStartActivity();
 			Log.d(TAG, "数据发生改变");
 		} else {
-			super.onBackPressed();
+			 finish();
 		}
 		overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
 	}
 
 	private void myStartActivity() {
 		saveChannel();
-		startActivity(new Intent(this, MainActivity.class));
+		Intent intent=new Intent(this, MainActivity.class);
+		//intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+		intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+		startActivity(intent);
 	}
 
 	private DatabaseHelper getHelper() {
@@ -150,6 +155,7 @@ public class ChannelActivity extends BaseActionBarActivity {
 
 	@Override
 	protected void onDestroy() {
+		Log.d(TAG, "onDestroy");
 		super.onDestroy();
 		if (databaseHelper != null) {
 			OpenHelperManager.releaseHelper();
