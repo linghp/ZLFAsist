@@ -34,8 +34,6 @@ public class NotifactionUpdateActivity extends BaseActionBarActivity implements 
 		listView.setAdapter(adapter);
 		listView.setOnItemClickListener(this);
 		
-		
-		
 	}
 	
 	
