@@ -8,6 +8,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.json.JSONException;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -27,23 +29,39 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.RequestQueue;
+import com.android.volley.Request.Method;
+import com.android.volley.Response.ErrorListener;
+import com.android.volley.Response.Listener;
+import com.android.volley.toolbox.Volley;
 import com.cqvip.zlfassist.R;
 import com.cqvip.zlfassist.adapter.NewsFragmentPagerAdapter;
 import com.cqvip.zlfassist.bean.ChannelItem;
+import com.cqvip.zlfassist.bean.GeneralResult;
 import com.cqvip.zlfassist.bean.ItemFollows;
+import com.cqvip.zlfassist.bean.ItemUpdate;
 import com.cqvip.zlfassist.constant.C;
 import com.cqvip.zlfassist.db.DatabaseHelper;
+import com.cqvip.zlfassist.exception.ErrorVolleyThrow;
 import com.cqvip.zlfassist.fragment.ZKFollowListFragment;
 import com.cqvip.zlfassist.fragment.ZKTopicListFragment;
+import com.cqvip.zlfassist.http.VolleyManager;
 import com.cqvip.zlfassist.scan.CaptureActivity;
 import com.cqvip.zlfassist.tools.BaseTools;
 import com.cqvip.zlfassist.view.ColumnHorizontalScrollView;
+import com.cqvip.zlfassist.view.CustomProgressDialog;
 import com.cqvip.zlfassist.view.DrawerView;
+import com.cqvip.zlfassist.zkbean.ZKTopic;
 import com.j256.ormlite.android.apptools.OpenHelperManager;
 import com.j256.ormlite.dao.Dao;
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 
 public class MainActivity extends FragmentActivity {
+	
+	/**网络模块*/
+	protected RequestQueue mQueue;
+	protected ErrorListener errorListener;// 错误处理
+	protected CustomProgressDialog customProgressDialog;// 对话框
 	/** 自定义HorizontalScrollView */
 	private final String LOG_TAG = getClass().getSimpleName();
 	private ColumnHorizontalScrollView mColumnHorizontalScrollView;
@@ -91,7 +109,7 @@ public class MainActivity extends FragmentActivity {
 	private Map<String, ArrayList<ItemFollows>> alltypecontent_map = new HashMap<>();// 保存各个类别内容的引用
 	private Set<String> keys;// 保存上面显示的菜单顺序
 
-	
+	private DrawerView drawerView;
 	// private ArrayList<String> topItemType_List;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -100,6 +118,9 @@ public class MainActivity extends FragmentActivity {
 		setContentView(R.layout.main);
 		mScreenWidth = BaseTools.getWindowsWidth(this);
 		mItemWidth = mScreenWidth / 7;// 一个Item宽度为屏幕的1/7
+		mQueue = Volley.newRequestQueue(this);
+		customProgressDialog = CustomProgressDialog.createDialog(this);
+		errorListener = new ErrorVolleyThrow(this, customProgressDialog);
 		initkeyvalue();
 		getdatafromdb();
 		initView();
@@ -384,9 +405,86 @@ public class MainActivity extends FragmentActivity {
 	};
 
 	protected void initSlidingMenu() {
-		side_drawer = new DrawerView(MainActivity.this).initSlidingMenu();
+		drawerView = new DrawerView(MainActivity.this);
+		side_drawer = drawerView.initSlidingMenu();
+		getUpdateDate();
+	}
+	/**
+	 * 获取更新
+	 */
+	private void getUpdateDate() {
+	//获取 收藏文章 ids
+		Dao<ZKTopic, Integer> favorDao;
+		try {
+			favorDao = getHelper().getFavorDao();
+			ArrayList<ZKTopic> temp = (ArrayList<ZKTopic>) favorDao.queryForAll();
+			if(temp!=null&&!temp.isEmpty()){
+			//	构造key
+				 String key = getAllIds(temp);
+				 Map<String, String> map = new HashMap<>();
+					map.put("key", key);
+					map.put("type","article");
+					//map.put("datetime", "1413181135");
+					map.put("datetime", "0");
+					Log.i("getDate","key"+key);
+					VolleyManager.requestVolley(map, C.SERVER+C.URL_UPDATE_PERICAL, Method.POST, backlistener, errorListener, mQueue);
+					
+				
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 	}
 
+	private String getAllIds(ArrayList<ZKTopic> temp) {
+		StringBuilder stringBuilder = new StringBuilder();
+		for (int i = 0; i < temp.size(); i++) {
+			String id = temp.get(i).getId();
+			stringBuilder.append(id);
+			if(temp.size()>0&&i<temp.size()-1){
+			stringBuilder.append(",");
+			}
+		}
+		return stringBuilder.toString();
+	}
+
+	Listener<String> backlistener = new Listener<String>() {
+		@Override
+		public void onResponse(String response) {
+//			if(customProgressDialog!=null&&customProgressDialog.isShowing())
+//			customProgressDialog.dismiss();
+			Log.i("tag",response);
+			GeneralResult result;
+			try {
+				result = new GeneralResult(response);
+				if(result.getState().equals("00")){
+					ItemUpdate items = new ItemUpdate(result.getResult());
+					//items.getUpdateList());
+					int updateCount = getCount(items.getUpdateList());
+				//	setTips(updateCount);
+					setTips(11);
+				}
+			} catch (JSONException e) {
+				e.printStackTrace();
+			}
+		}
+
+		private int getCount(HashMap<String, Boolean> updateList) {
+			int count = 0;
+			for (Map.Entry<String, Boolean> entry : updateList.entrySet()) {
+				if(entry.getValue()){
+					count++;
+				}
+				}
+			return count;
+		}
+	};
+	private void setTips(int num){
+		drawerView.showUpdateTips(num);
+	}
+	
 	private long mExitTime;
 
 	@Override

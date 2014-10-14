@@ -31,6 +31,7 @@ public class DrawerView implements OnClickListener{
 	private TextView night_mode_text;
 	private RelativeLayout setting_btn;
 	DownloadManager mDownloadManager;
+	BadgeView badge;
 	public static final int RESULT_FOLLOW=1;
 	public DrawerView(Activity activity) {
 		this.activity = activity;
@@ -77,15 +78,21 @@ public class DrawerView implements OnClickListener{
 		return localSlidingMenu;
 	}
 
+	public void showUpdateTips(int num){
+		badge.setText(""+num);
+		badge.show();
+	}
+	public void hideUpdateTips(){
+		badge.setVisibility(View.GONE);
+	}
+	
 	private void initView() {
 		add_btn=localSlidingMenu.findViewById(R.id.add_btn);
 		down_btn=localSlidingMenu.findViewById(R.id.down_btn);
 		favor_btn = localSlidingMenu.findViewById(R.id.favor_btn);
 		update_btn = localSlidingMenu.findViewById(R.id.mes_btn);
 		TextView tv_refTextView =  (TextView) localSlidingMenu.findViewById(R.id.tv_ref_update);
-		BadgeView badge = new BadgeView(activity, tv_refTextView);
-		badge.setText("15");
-		badge.show();
+		 badge = new BadgeView(activity, tv_refTextView);
 		add_btn.setOnClickListener(this);
 		down_btn.setOnClickListener(this);
 		favor_btn.setOnClickListener(this);
@@ -133,7 +140,7 @@ public class DrawerView implements OnClickListener{
 			activity.overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
 			break;
 		case R.id.mes_btn:
-		
+			hideUpdateTips();
 			activity.startActivity(new Intent(activity,NotifactionUpdateActivity.class));
 			activity.overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
 			break;

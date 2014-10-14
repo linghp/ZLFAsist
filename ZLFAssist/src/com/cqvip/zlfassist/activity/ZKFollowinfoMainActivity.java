@@ -194,20 +194,20 @@ public class ZKFollowinfoMainActivity extends BaseActionBarActivity implements O
 		if(itemId == android.R.id.home){
 			finish();
 		}
-		if(itemId == R.id.action_about){
-			Intent _intent = new Intent(context,ZKFollowinfoUpActivity.class);
-			Bundle bundle = new Bundle();
-			bundle.putSerializable("item",perio );
-			_intent.putExtra("info", bundle);
-			startActivity(_intent);
-		}
+//		if(itemId == R.id.action_about){
+//			Intent _intent = new Intent(context,ZKFollowinfoUpActivity.class);
+//			Bundle bundle = new Bundle();
+//			bundle.putSerializable("item",perio );
+//			_intent.putExtra("info", bundle);
+//			startActivity(_intent);
+//		}
 		return false;
 	    }
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.info_content, menu);
-		return true;
-	}
+//	@Override
+//	public boolean onCreateOptionsMenu(Menu menu) {
+//		// Inflate the menu; this adds items to the action bar if it is present.
+//		getMenuInflater().inflate(R.menu.info_content, menu);
+//		return true;
+//	}
 	
 }
