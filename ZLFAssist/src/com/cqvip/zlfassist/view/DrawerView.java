@@ -19,6 +19,7 @@ import com.mozillaonline.providers.DownloadManager;
 import com.mozillaonline.providers.DownloadManager.Request;
 import com.mozillaonline.providers.downloads.DownloadService;
 import com.mozillaonline.providers.downloads.ui.DownloadList;
+import com.readystatesoftware.viewbadger.BadgeView;
 /** 
  * 自定义SlidingMenu 测拉菜单类
  * */
@@ -81,6 +82,10 @@ public class DrawerView implements OnClickListener{
 		down_btn=localSlidingMenu.findViewById(R.id.down_btn);
 		favor_btn = localSlidingMenu.findViewById(R.id.favor_btn);
 		update_btn = localSlidingMenu.findViewById(R.id.mes_btn);
+		TextView tv_refTextView =  (TextView) localSlidingMenu.findViewById(R.id.tv_ref_update);
+		BadgeView badge = new BadgeView(activity, tv_refTextView);
+		badge.setText("15");
+		badge.show();
 		add_btn.setOnClickListener(this);
 		down_btn.setOnClickListener(this);
 		favor_btn.setOnClickListener(this);

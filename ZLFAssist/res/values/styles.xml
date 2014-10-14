@@ -72,9 +72,8 @@
         <item name="android:gravity">center</item>
         <item name="android:paddingTop">9.0dip</item>
         <item name="android:paddingBottom">9.0dip</item>
-        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_width">150dp</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:drawablePadding">25.0dip</item>
     </style>
   <style name="CustomDialog" parent="@android:style/Theme.Dialog">
         <item name="android:windowFrame">@null</item>
