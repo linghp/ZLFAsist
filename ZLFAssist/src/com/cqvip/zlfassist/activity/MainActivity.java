@@ -97,6 +97,7 @@ public class MainActivity extends FragmentActivity {
 
 	private static boolean isFirstCreate = true;
 
+	private DrawerView drawerView;
 	// private ArrayList<String> topItemType_List;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {

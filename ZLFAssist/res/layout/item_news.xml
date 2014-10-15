@@ -1,16 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical" >
+
+    <ImageView
+        android:id="@+id/imageView1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:src="@drawable/channel_new" />
 
     <TextView
         android:id="@+id/tv_item_topic"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingBottom="8.0dip"
-        android:paddingLeft="8.0dip"
-        android:paddingTop="8.0dip"
+        android:layout_below="@+id/imageView1"
+        android:layout_toRightOf="@+id/imageView1"
+        android:text="阿斯顿发电法师打发"
         android:textSize="16sp" />
 
-</LinearLayout>
+</RelativeLayout>

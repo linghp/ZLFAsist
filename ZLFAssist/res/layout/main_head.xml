@@ -19,7 +19,7 @@
             android:layout_gravity="center_vertical"
             android:padding="2.0dip"
             android:scaleType="fitXY"
-            android:src="@drawable/default_round_head" />
+            android:src="@drawable/icon_drawer" />
     </FrameLayout>
 
     <ImageView

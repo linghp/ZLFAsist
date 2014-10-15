@@ -33,10 +33,17 @@ public class NotifactionUpdateActivity extends BaseActionBarActivity implements 
 		adapter = new ZKTopicListAdapter(context, lists);
 		listView.setAdapter(adapter);
 		listView.setOnItemClickListener(this);
+		getDate(lists);
 	}
 	
 	
-	  private ArrayList<ZKTopic> formDate() {
+	  private void getDate(ArrayList<ZKTopic> lists) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	private ArrayList<ZKTopic> formDate() {
 		  ArrayList<ZKTopic> lists = new ArrayList<>();
 		  ZKTopic  topic = new ZKTopic();
 		  topic.setId("123");

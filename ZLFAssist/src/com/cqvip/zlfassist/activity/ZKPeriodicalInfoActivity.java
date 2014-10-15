@@ -411,6 +411,8 @@ public class ZKPeriodicalInfoActivity extends BaseActionBarActivity implements  
 	public void onItemClick(AdapterView<?> parent, View view, int position,
 			long id) {
 		if(adapter!=null&&adapter.getList()!=null){
+			Log.i("onItemClick","position:"+position);
+			if(position>0){
 		ZKTopic item = adapter.getList().get(position-1);
 		 if(item!=null){
 		Bundle bundle = new Bundle();
@@ -418,6 +420,7 @@ public class ZKPeriodicalInfoActivity extends BaseActionBarActivity implements  
 		bundle.putSerializable("item", item);
 		_intent.putExtra("info", bundle);
 		startActivity(_intent);
+		 }
 		 }
 		}else{
 			return;
