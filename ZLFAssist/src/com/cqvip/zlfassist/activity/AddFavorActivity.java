@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -40,9 +41,24 @@ public class AddFavorActivity extends BaseActionBarActivity implements OnItemCli
 		adapter = new ZKTopicListAdapter(context, lists);
 		listView.setAdapter(adapter);
 		listView.setOnItemClickListener(this);
+		
+		String topicid = getIntent().getStringExtra("id");
+		if(TextUtils.isEmpty(topicid)){
 		getdatafromdb();
+		}else{
+			getDate(topicid);
+		}
 	}
-//	  private ArrayList<ZKTopic> formDate() {
+	/**
+	 * 请求网络获取文章id
+	 * @param topicid
+	 */
+     private void getDate(String topicid) {
+    	 
+		
+		
+	}
+	//	  private ArrayList<ZKTopic> formDate() {
 //		  ArrayList<ZKTopic> lists = new ArrayList<>();
 //		  ZKTopic  topic = new ZKTopic();
 //		  topic.setId("123");
