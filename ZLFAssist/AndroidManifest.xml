@@ -168,7 +168,7 @@
 
         <!-- download -->
         <activity
-            android:name="com.mozillaonline.providers.downloads.ui.DownloadList"
+            android:name=".activity.DownloadList"
             android:screenOrientation="portrait" >
         </activity>
 

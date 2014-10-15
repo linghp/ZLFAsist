@@ -2,6 +2,8 @@ package com.cqvip.zlfassist.scan;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Vector;
 
 import android.app.Activity;
@@ -12,7 +14,9 @@ import android.graphics.Rect;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.media.MediaPlayer.OnCompletionListener;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
 import android.os.Vibrator;
 import android.text.TextUtils;
@@ -29,8 +33,16 @@ import com.cqvip.zlfassist.R;
 import com.cqvip.zlfassist.activity.AddFavorActivity;
 import com.cqvip.zlfassist.activity.DisplayFollowActivity;
 import com.cqvip.zlfassist.activity.MyFollowActivity;
+import com.cqvip.zlfassist.bean.ChannelItem;
+import com.cqvip.zlfassist.bean.DownloaderSimpleInfo;
+import com.cqvip.zlfassist.db.DatabaseHelper;
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.Result;
+import com.j256.ormlite.android.apptools.OpenHelperManager;
+import com.j256.ormlite.dao.Dao;
+import com.mozillaonline.providers.DownloadManager;
+import com.mozillaonline.providers.DownloadManager.Request;
+import com.mozillaonline.providers.downloads.ui.DownloadList;
 
 public class CaptureActivity extends Activity implements Callback {
 
@@ -46,6 +58,8 @@ public class CaptureActivity extends Activity implements Callback {
 	private static final float BEEP_VOLUME = 0.10f;
 	private boolean vibrate;
 	public static  int statusBarHeight;
+	
+	private DatabaseHelper databaseHelper = null;
 
 	/** Called when the activity is first created. */
 	@Override
@@ -118,6 +132,10 @@ public class CaptureActivity extends Activity implements Callback {
 	protected void onDestroy() {
 		inactivityTimer.shutdown();
 		super.onDestroy();
+		if (databaseHelper != null) {
+			OpenHelperManager.releaseHelper();
+			databaseHelper = null;
+		}
 	}
 
 	private void initCamera(SurfaceHolder surfaceHolder) {
@@ -179,6 +197,7 @@ public class CaptureActivity extends Activity implements Callback {
 //		intent.putExtra("ISBN", obj.getText());
 //		startActivity(intent);
 		 String result = obj.getText();
+		 Log.i("handleDecode_result", result);
 		 byte[] signature;
          try {
              signature = Base64.decode(result, Base64.DEFAULT);
@@ -219,6 +238,19 @@ public class CaptureActivity extends Activity implements Callback {
 			 startActivity(_intent);
 			break;
 			//文章下载
+		case "WDN":
+			//插库
+			String name = array[1];
+			String  id = array[2];
+			String url=array[3];
+			DownloaderSimpleInfo downloaderSimpleInfo=new DownloaderSimpleInfo(id, name, url);
+			saveDB(downloaderSimpleInfo);
+			startDownload(url);
+			Log.i("captureact", name+"--"+id+"--"+url);
+			//跳转
+//			Intent intent_download = new Intent(CaptureActivity.this,DownloadList.class);
+//			startActivity(intent_download);
+			break;
 		default:
 			//TODO
 			break;
@@ -228,6 +260,40 @@ public class CaptureActivity extends Activity implements Callback {
 		finish();
 	}
 
+	private DatabaseHelper getHelper() {
+		if (databaseHelper == null) {
+			databaseHelper = OpenHelperManager.getHelper(this,
+					DatabaseHelper.class);
+		}
+		return databaseHelper;
+	}
+	
+	private void saveDB(DownloaderSimpleInfo downloaderSimpleInfo) {
+		try {
+			Dao<DownloaderSimpleInfo, Integer> downloaderSimpleInfoDao = getHelper()
+					.getDownloaderSimpleInfoDao();
+			downloaderSimpleInfoDao.create(downloaderSimpleInfo);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		// ChannelManage.getManage(AppApplication.getApp().getSQLHelper()).saveUserChannel(userAdapter.getChannnelLst());
+	}
+	
+	   private void startDownload(String url) {
+			//String url = "http://www.pptok.com/wp-content/uploads/2012/06/huanbao-1.jpg";
+			//url = "http://www.it.com.cn/dghome/img/2009/06/23/17/090623_tv_tf2_13h.jpg";
+			//String url = "http://down.mumayi.com/41052/mbaidu";
+			Uri srcUri = Uri.parse(url);
+			DownloadManager.Request request = new Request(srcUri);
+			request.setDestinationInExternalPublicDir(
+				Environment.DIRECTORY_DOWNLOADS, "/");
+			request.setDescription("正在下载");
+			 DownloadManager mDownloadManager = new DownloadManager(getContentResolver(),
+					 getPackageName());
+			mDownloadManager.enqueue(request);
+		    }
+	
 	private void initBeepSound() {
 		if (playBeep && mediaPlayer == null) {
 			// The volume on STREAM_SYSTEM is not adjustable, and users found it

@@ -39,7 +39,7 @@ public class DownloadItem extends RelativeLayout {
     private long mDownloadId;
     private DownloadSelectListener mListener;
 
-    static interface DownloadSelectListener {
+    public static interface DownloadSelectListener {
         public void onDownloadSelectionChanged(long downloadId, boolean isSelected);
         public boolean isDownloadSelected(long id);
     }
