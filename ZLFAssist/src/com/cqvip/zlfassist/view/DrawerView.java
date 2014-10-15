@@ -162,7 +162,7 @@ public class DrawerView implements OnClickListener{
 			DownloadManager.Request request = new Request(srcUri);
 			request.setDestinationInExternalPublicDir(
 				Environment.DIRECTORY_DOWNLOADS, "/");
-			request.setDescription("test!!!");
+			request.setDescription("正在下载");
 			 DownloadManager mDownloadManager = new DownloadManager(activity.getContentResolver(),
 					 activity.getPackageName());
 			mDownloadManager.enqueue(request);

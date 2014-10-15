@@ -8,9 +8,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.json.JSONException;
-
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -29,39 +29,25 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.android.volley.RequestQueue;
-import com.android.volley.Request.Method;
-import com.android.volley.Response.ErrorListener;
-import com.android.volley.Response.Listener;
-import com.android.volley.toolbox.Volley;
 import com.cqvip.zlfassist.R;
 import com.cqvip.zlfassist.adapter.NewsFragmentPagerAdapter;
 import com.cqvip.zlfassist.bean.ChannelItem;
-import com.cqvip.zlfassist.bean.GeneralResult;
 import com.cqvip.zlfassist.bean.ItemFollows;
-import com.cqvip.zlfassist.bean.ItemUpdate;
 import com.cqvip.zlfassist.constant.C;
 import com.cqvip.zlfassist.db.DatabaseHelper;
-import com.cqvip.zlfassist.exception.ErrorVolleyThrow;
 import com.cqvip.zlfassist.fragment.ZKFollowListFragment;
 import com.cqvip.zlfassist.fragment.ZKTopicListFragment;
-import com.cqvip.zlfassist.http.VolleyManager;
 import com.cqvip.zlfassist.scan.CaptureActivity;
 import com.cqvip.zlfassist.tools.BaseTools;
 import com.cqvip.zlfassist.view.ColumnHorizontalScrollView;
-import com.cqvip.zlfassist.view.CustomProgressDialog;
 import com.cqvip.zlfassist.view.DrawerView;
-import com.cqvip.zlfassist.zkbean.ZKTopic;
 import com.j256.ormlite.android.apptools.OpenHelperManager;
 import com.j256.ormlite.dao.Dao;
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
+import com.umeng.analytics.MobclickAgent;
+import com.umeng.update.UmengUpdateAgent;
 
 public class MainActivity extends FragmentActivity {
-	
-	/**网络模块*/
-	protected RequestQueue mQueue;
-	protected ErrorListener errorListener;// 错误处理
-	protected CustomProgressDialog customProgressDialog;// 对话框
 	/** 自定义HorizontalScrollView */
 	private final String LOG_TAG = getClass().getSimpleName();
 	private ColumnHorizontalScrollView mColumnHorizontalScrollView;
@@ -97,7 +83,7 @@ public class MainActivity extends FragmentActivity {
 	/** head 头部 的右侧菜单 按钮 */
 	private ImageView top_right;
 	/** 请求CODE */
-    public final static int CHANNELREQUEST = 2;
+	public final static int CHANNELREQUEST = 2;
 	/** 调整返回的RESULTCODE */
 	// public final static int CHANNELRESULT = 10;
 
@@ -109,41 +95,73 @@ public class MainActivity extends FragmentActivity {
 	private Map<String, ArrayList<ItemFollows>> alltypecontent_map = new HashMap<>();// 保存各个类别内容的引用
 	private Set<String> keys;// 保存上面显示的菜单顺序
 
+	private static boolean isFirstCreate = true;
+
 	private DrawerView drawerView;
 	// private ArrayList<String> topItemType_List;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		Log.i(LOG_TAG, "onCreate");
+		myStartHelpActivity();
 		setContentView(R.layout.main);
 		mScreenWidth = BaseTools.getWindowsWidth(this);
 		mItemWidth = mScreenWidth / 7;// 一个Item宽度为屏幕的1/7
-		mQueue = Volley.newRequestQueue(this);
-		customProgressDialog = CustomProgressDialog.createDialog(this);
-		errorListener = new ErrorVolleyThrow(this, customProgressDialog);
 		initkeyvalue();
 		getdatafromdb();
 		initView();
 		initSlidingMenu();
+
+		umeng();
 	}
-	
-//	@Override
-//	protected void onStart() {
-//		Log.i(LOG_TAG, "onStart");
-//		super.onStart();
-//	}
-//	
-//	@Override
-//	protected void onRestart() {
-//		Log.i(LOG_TAG, "onRestart");
-//		super.onRestart();
-//	}
-//	
-//	@Override
-//	protected void onResume() {
-//		Log.i(LOG_TAG, "onResume");
-//		super.onResume();
-//	}
+
+	private void myStartHelpActivity() {
+		// 读取SharedPreferences中需要的数据
+		SharedPreferences preferences = getSharedPreferences("count",
+				MODE_PRIVATE);
+		int count = preferences.getInt("count", 0);
+		// 判断程序与第几次运行，如果是第一次运行则跳转到引导页面
+		if (count == 0) {
+			Editor editor = preferences.edit();
+			// 存入数据
+			editor.putInt("count", ++count);
+			// 提交修改
+			editor.commit();
+			Intent intent = new Intent(this, HelperActivity.class);
+			startActivity(intent);
+		}
+	}
+
+	private void umeng() {
+		// 更新
+		if (isFirstCreate) {
+			UmengUpdateAgent.setUpdateCheckConfig(false);
+			UmengUpdateAgent.update(this);
+			isFirstCreate = false;
+		}
+		// 统计
+		// MobclickAgent.setDebugMode(true);//打开调试模式（debug）后，数据实时发送，不受发送策略控制
+		MobclickAgent.updateOnlineConfig(this);// 发送策略定义了用户由统计分析SDK产生的数据发送回友盟服务器的频率。在没有取到在线配置的发送策略的情况下，会使用默认的发送策略：启动时发送。
+												// 你可以在友盟后台“设置->发送策略”页面自定义数据发送的频率。
+	}
+
+	// @Override
+	// protected void onStart() {
+	// Log.i(LOG_TAG, "onStart");
+	// super.onStart();
+	// }
+	//
+	// @Override
+	// protected void onRestart() {
+	// Log.i(LOG_TAG, "onRestart");
+	// super.onRestart();
+	// }
+	//
+	// @Override
+	// protected void onResume() {
+	// Log.i(LOG_TAG, "onResume");
+	// super.onResume();
+	// }
 
 	private void initkeyvalue() {
 		keyvalue.put(C.MEDIA, "期刊");
@@ -201,18 +219,20 @@ public class MainActivity extends FragmentActivity {
 				startActivity(intent);
 			}
 		});
-		
-		button_more_columns.setOnLongClickListener(new View.OnLongClickListener() {
-			
-			@Override
-			public boolean onLongClick(View v) {
-				Log.i("setOnLongClickListener", "setOnLongClickListener");
-				Intent intent = new Intent(MainActivity.this,
-						ChannelActivity.class);
-				startActivityForResult(intent, CHANNELREQUEST);
-				return true;
-			}
-		});
+
+		button_more_columns
+				.setOnLongClickListener(new View.OnLongClickListener() {
+
+					@Override
+					public boolean onLongClick(View v) {
+						Log.i("setOnLongClickListener",
+								"setOnLongClickListener");
+						Intent intent = new Intent(MainActivity.this,
+								ChannelActivity.class);
+						startActivityForResult(intent, CHANNELREQUEST);
+						return true;
+					}
+				});
 
 		setChangelView();
 	}
@@ -302,17 +322,19 @@ public class MainActivity extends FragmentActivity {
 					// Toast.LENGTH_SHORT).show();
 				}
 			});
-			columnTextView.setOnLongClickListener(new View.OnLongClickListener() {
-				
-				@Override
-				public boolean onLongClick(View v) {
-					Log.i("setOnLongClickListener", "setOnLongClickListener");
-					Intent intent = new Intent(MainActivity.this,
-							ChannelActivity.class);
-					startActivityForResult(intent, CHANNELREQUEST);
-					return true;
-				}
-			});
+			columnTextView
+					.setOnLongClickListener(new View.OnLongClickListener() {
+
+						@Override
+						public boolean onLongClick(View v) {
+							Log.i("setOnLongClickListener",
+									"setOnLongClickListener");
+							Intent intent = new Intent(MainActivity.this,
+									ChannelActivity.class);
+							startActivityForResult(intent, CHANNELREQUEST);
+							return true;
+						}
+					});
 			mRadioGroup_content.addView(columnTextView, i, params);
 		}
 	}
@@ -405,86 +427,9 @@ public class MainActivity extends FragmentActivity {
 	};
 
 	protected void initSlidingMenu() {
-		drawerView = new DrawerView(MainActivity.this);
-		side_drawer = drawerView.initSlidingMenu();
-		getUpdateDate();
-	}
-	/**
-	 * 获取更新
-	 */
-	private void getUpdateDate() {
-	//获取 收藏文章 ids
-		Dao<ZKTopic, Integer> favorDao;
-		try {
-			favorDao = getHelper().getFavorDao();
-			ArrayList<ZKTopic> temp = (ArrayList<ZKTopic>) favorDao.queryForAll();
-			if(temp!=null&&!temp.isEmpty()){
-			//	构造key
-				 String key = getAllIds(temp);
-				 Map<String, String> map = new HashMap<>();
-					map.put("key", key);
-					map.put("type","article");
-					//map.put("datetime", "1413181135");
-					map.put("datetime", "0");
-					Log.i("getDate","key"+key);
-					VolleyManager.requestVolley(map, C.SERVER+C.URL_UPDATE_PERICAL, Method.POST, backlistener, errorListener, mQueue);
-					
-				
-			}
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
+		side_drawer = new DrawerView(MainActivity.this).initSlidingMenu();
 	}
 
-	private String getAllIds(ArrayList<ZKTopic> temp) {
-		StringBuilder stringBuilder = new StringBuilder();
-		for (int i = 0; i < temp.size(); i++) {
-			String id = temp.get(i).getId();
-			stringBuilder.append(id);
-			if(temp.size()>0&&i<temp.size()-1){
-			stringBuilder.append(",");
-			}
-		}
-		return stringBuilder.toString();
-	}
-
-	Listener<String> backlistener = new Listener<String>() {
-		@Override
-		public void onResponse(String response) {
-//			if(customProgressDialog!=null&&customProgressDialog.isShowing())
-//			customProgressDialog.dismiss();
-			Log.i("tag",response);
-			GeneralResult result;
-			try {
-				result = new GeneralResult(response);
-				if(result.getState().equals("00")){
-					ItemUpdate items = new ItemUpdate(result.getResult());
-					//items.getUpdateList());
-					int updateCount = getCount(items.getUpdateList());
-				//	setTips(updateCount);
-					setTips(11);
-				}
-			} catch (JSONException e) {
-				e.printStackTrace();
-			}
-		}
-
-		private int getCount(HashMap<String, Boolean> updateList) {
-			int count = 0;
-			for (Map.Entry<String, Boolean> entry : updateList.entrySet()) {
-				if(entry.getValue()){
-					count++;
-				}
-				}
-			return count;
-		}
-	};
-	private void setTips(int num){
-		drawerView.showUpdateTips(num);
-	}
-	
 	private long mExitTime;
 
 	@Override
@@ -499,7 +444,11 @@ public class MainActivity extends FragmentActivity {
 					Toast.makeText(this, "在按一次退出", Toast.LENGTH_SHORT).show();
 					mExitTime = System.currentTimeMillis();
 				} else {
-					finish();
+					// finish();
+					MobclickAgent.onKillProcess(this);
+
+					int pid = android.os.Process.myPid();
+					android.os.Process.killProcess(pid);
 				}
 			}
 			return true;
@@ -522,9 +471,9 @@ public class MainActivity extends FragmentActivity {
 			setChangelView();
 			// }
 			break;
-		case CHANNELREQUEST://现在用startactivity来重新启动此activity
-//			getdatafromdb();
-//			setChangelView();
+		case CHANNELREQUEST:// 现在用startactivity来重新启动此activity
+			// getdatafromdb();
+			// setChangelView();
 		default:
 			break;
 		}
@@ -552,7 +501,7 @@ public class MainActivity extends FragmentActivity {
 	 * 获取关注后的类别和每个类别下的内容
 	 */
 	private void getdatafromdb() {
-		List<ChannelItem> channelItems=new ArrayList<>();
+		List<ChannelItem> channelItems = new ArrayList<>();
 		try {
 			Dao<ItemFollows, Integer> itemFollowsDao = getHelper()
 					.getItemFollowsDao();
@@ -564,7 +513,8 @@ public class MainActivity extends FragmentActivity {
 
 			for (ItemFollows itemFollows : temp1) {
 				String type = itemFollows.getType();
-				ChannelItem channelItem=new ChannelItem(type,keyvalue.get(type));
+				ChannelItem channelItem = new ChannelItem(type,
+						keyvalue.get(type));
 				channelItems.add(channelItem);
 				ArrayList<ItemFollows> temp = (ArrayList<ItemFollows>) itemFollowsDao
 						.queryForEq("type", type);
@@ -602,48 +552,48 @@ public class MainActivity extends FragmentActivity {
 					.queryForAll();
 			if (temp1.size() > 0) {
 				Map<String, String> temp_map = new LinkedHashMap<>();
-				ArrayList<ChannelItem> temp2=new ArrayList<>();
-				//先清除（清除排序表中的没有的类别）
-				for (ChannelItem channelItem_clear2 : temp1) {//和总类别的表比较
-				  for (ChannelItem channelItem_clear : channelItems) {
-						if(channelItem_clear2.equals(channelItem_clear)){
+				ArrayList<ChannelItem> temp2 = new ArrayList<>();
+				// 先清除（清除排序表中的没有的类别）
+				for (ChannelItem channelItem_clear2 : temp1) {// 和总类别的表比较
+					for (ChannelItem channelItem_clear : channelItems) {
+						if (channelItem_clear2.equals(channelItem_clear)) {
 							temp_map.put(channelItem_clear.getType(), "");
 							temp2.add(channelItem_clear);
 						}
 					}
 				}
-				//再添加
-				for (ChannelItem channelItem_add : channelItems) {//和总类别的表比较
-					if(!temp2.contains(channelItem_add)){
+				// 再添加
+				for (ChannelItem channelItem_add : channelItems) {// 和总类别的表比较
+					if (!temp2.contains(channelItem_add)) {
 						temp2.add(channelItem_add);
 						temp_map.put(channelItem_add.getType(), "");
 					}
 				}
-//				for (ChannelItem channelItem : temp1) {
-//					temp2.add(channelItem);
-//					temp_map.put(channelItem.getType(), "");
-//					if(true){
-//					for (ChannelItem channelItem2 : channelItems) {//和总类别的表比较
-//						if(!channelItem2.type.equals(channelItem.getType())){
-//							temp_map.put(channelItem2.getType(), "");
-//							temp2.add(channelItem2);
-//						}
-//					}
+				// for (ChannelItem channelItem : temp1) {
+				// temp2.add(channelItem);
+				// temp_map.put(channelItem.getType(), "");
+				// if(true){
+				// for (ChannelItem channelItem2 : channelItems) {//和总类别的表比较
+				// if(!channelItem2.type.equals(channelItem.getType())){
+				// temp_map.put(channelItem2.getType(), "");
+				// temp2.add(channelItem2);
+				// }
+				// }
 
-						channelSortDao.delete(temp1);
-						for (ChannelItem channelItem3 : temp2) {
-							Log.i("getdatafromdb_sort", channelItem3.toString());
-							channelSortDao.create(channelItem3);
-						}
+				channelSortDao.delete(temp1);
+				for (ChannelItem channelItem3 : temp2) {
+					Log.i("getdatafromdb_sort", channelItem3.toString());
+					channelSortDao.create(channelItem3);
+				}
 
-		//			}
+				// }
 
 				keys = temp_map.keySet();
-			}else{//初始化数据
+			} else {// 初始化数据
 				Dao<ChannelItem, Integer> channelSortDao2 = getHelper()
 						.getChannelSortDao();
-				ArrayList<ChannelItem> lists=getUserItems();
-				if(lists.size()>0){
+				ArrayList<ChannelItem> lists = getUserItems();
+				if (lists.size() > 0) {
 					for (ChannelItem channelItem : lists) {
 						channelSortDao2.create(channelItem);
 					}
