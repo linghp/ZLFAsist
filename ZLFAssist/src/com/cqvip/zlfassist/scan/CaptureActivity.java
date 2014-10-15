@@ -1,6 +1,7 @@
 package com.cqvip.zlfassist.scan;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.util.Vector;
 
 import android.app.Activity;
@@ -14,6 +15,8 @@ import android.media.MediaPlayer.OnCompletionListener;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Vibrator;
+import android.text.TextUtils;
+import android.util.Base64;
 import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceHolder.Callback;
@@ -23,6 +26,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.cqvip.zlfassist.R;
+import com.cqvip.zlfassist.activity.AddFavorActivity;
+import com.cqvip.zlfassist.activity.DisplayFollowActivity;
+import com.cqvip.zlfassist.activity.MyFollowActivity;
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.Result;
 
@@ -172,8 +178,53 @@ public class CaptureActivity extends Activity implements Callback {
 //		Intent intent=new Intent(CaptureActivity.this,ResultOnSearchActivity.class);
 //		intent.putExtra("ISBN", obj.getText());
 //		startActivity(intent);
-		 Toast.makeText(this, obj.getText(), 1).show();
-		 Log.i("handleDecode", obj.getText());
+		 String result = obj.getText();
+		 byte[] signature;
+         try {
+             signature = Base64.decode(result, Base64.DEFAULT);
+         } catch (IllegalArgumentException e) {
+             signature = new byte[0];
+         }
+         String resString = null;
+		try {
+			resString = new String(signature,"utf-8");
+			Log.i("handleDecode", resString);
+		} catch (UnsupportedEncodingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		 
+		 if(!TextUtils.isEmpty(resString)){
+			 String[]  array = resString.split("|");
+			// String beginString = resString.substring(0,3);
+		 switch (array[0]) {
+	//文章收藏
+		 case "DOC":
+			 String  topicId = array[1];
+			 //插库
+			 //跳转
+			 Intent intent = new Intent(CaptureActivity.this,DisplayFollowActivity.class);
+			 intent.putExtra("id",topicId);
+			 startActivity(intent);
+			break;
+			//对象关注
+		case "OBJ":
+			//插库
+			String subjectType = array[1];
+			String  subjectId = array[2];
+			//跳转
+			 Intent _intent = new Intent(CaptureActivity.this,AddFavorActivity.class);
+			 _intent.putExtra("type",subjectType);
+			 _intent.putExtra("subjcetid",subjectId);
+			 startActivity(_intent);
+			break;
+			//文章下载
+		default:
+			//TODO
+			break;
+		}
+		 }
+		 
 		finish();
 	}
 
