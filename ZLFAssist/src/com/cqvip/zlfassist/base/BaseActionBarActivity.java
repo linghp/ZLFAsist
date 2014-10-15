@@ -1,15 +1,14 @@
 package com.cqvip.zlfassist.base;
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
-import android.view.GestureDetector;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.Response.ErrorListener;
 import com.android.volley.toolbox.Volley;
 import com.cqvip.zlfassist.exception.ErrorVolleyThrow;
 import com.cqvip.zlfassist.view.CustomProgressDialog;
+import com.umeng.analytics.MobclickAgent;
 
 /**
  * Activity基类
@@ -30,5 +29,17 @@ public class BaseActionBarActivity extends ActionBarActivity {
 		mQueue = Volley.newRequestQueue(this);
 		customProgressDialog = CustomProgressDialog.createDialog(this);
 		errorListener = new ErrorVolleyThrow(this, customProgressDialog);
+	}
+	@Override
+	protected void onResume() {
+		// TODO Auto-generated method stub
+		super.onResume();
+		MobclickAgent.onResume(this);
+	}
+	@Override
+	protected void onPause() {
+		// TODO Auto-generated method stub
+		super.onPause();
+		MobclickAgent.onPause(this);
 	}
 }
