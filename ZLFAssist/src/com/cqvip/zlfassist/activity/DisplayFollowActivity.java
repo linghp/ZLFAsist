@@ -96,8 +96,27 @@ public class DisplayFollowActivity extends BaseActionBarActivity implements
 		mList.setOnItemClickListener(this);
 		mList.setOnItemLongClickListener(this);
 		mSwipeRefreshWidget.setOnRefreshListener(this);
+		
+		boolean  flag = getIntent().getBooleanExtra("flag", false);
+		if(flag){
+			String idString = getIntent().getStringExtra("id");
+			String type = getIntent().getStringExtra("type");
+			//获取数据
+			getScanDate(idString,type);
+			
+		}else{
 
 		getdatafromdb();
+		}
+	}
+
+	private void getScanDate(String idString, String type) {
+		 HashMap<String, String> gparams = new HashMap<String, String>();
+			gparams.put("key", idString);
+			gparams.put("type", type);
+			Log.i("param","result:"+idString+type);
+		//	VolleyManager.requestVolley(gparams, C.SERVER+C.URL_TOPIC_INFO, Method.POST, backlistener_content, errorListener, mQueue);
+		
 	}
 
 	@Override

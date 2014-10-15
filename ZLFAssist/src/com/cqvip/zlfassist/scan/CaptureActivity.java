@@ -2,6 +2,9 @@ package com.cqvip.zlfassist.scan;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+import java.net.URLEncoder;
+import java.util.Arrays;
 import java.util.Vector;
 
 import android.app.Activity;
@@ -28,7 +31,6 @@ import android.widget.Toast;
 import com.cqvip.zlfassist.R;
 import com.cqvip.zlfassist.activity.AddFavorActivity;
 import com.cqvip.zlfassist.activity.DisplayFollowActivity;
-import com.cqvip.zlfassist.activity.MyFollowActivity;
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.Result;
 
@@ -185,6 +187,7 @@ public class CaptureActivity extends Activity implements Callback {
          } catch (IllegalArgumentException e) {
              signature = new byte[0];
          }
+         Log.i("handleDecode", result+","+signature.length);
          String resString = null;
 		try {
 			resString = new String(signature,"utf-8");
@@ -195,17 +198,17 @@ public class CaptureActivity extends Activity implements Callback {
 		}
 		 
 		 if(!TextUtils.isEmpty(resString)){
-			 String[]  array = resString.split("|");
-			// String beginString = resString.substring(0,3);
+			 String[]  array = resString.split("\\|");
 		 switch (array[0]) {
 	//文章收藏
 		 case "DOC":
 			 String  topicId = array[1];
 			 //插库
-			 //跳转
-			 Intent intent = new Intent(CaptureActivity.this,DisplayFollowActivity.class);
+			 //跳转AddFavorActivity
+			 Intent intent = new Intent(CaptureActivity.this,AddFavorActivity.class);
+			 intent.putExtra("flag",true);
 			 intent.putExtra("id",topicId);
-			 startActivity(intent);
+			 startActivityForResult(intent, 1);
 			break;
 			//对象关注
 		case "OBJ":
@@ -213,19 +216,27 @@ public class CaptureActivity extends Activity implements Callback {
 			String subjectType = array[1];
 			String  subjectId = array[2];
 			//跳转
-			 Intent _intent = new Intent(CaptureActivity.this,AddFavorActivity.class);
+			 Intent _intent = new Intent(CaptureActivity.this,DisplayFollowActivity.class);
+			 _intent.putExtra("flag",true);
 			 _intent.putExtra("type",subjectType);
-			 _intent.putExtra("subjcetid",subjectId);
-			 startActivity(_intent);
+			 _intent.putExtra("id",subjectId);
+			 startActivityForResult(_intent,1);
 			break;
 			//文章下载
 		default:
 			//TODO
 			break;
-		}
 		 }
-		 
-		finish();
+		 }
+		//finish();
+	}
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		// TODO Auto-generated method stub
+		super.onActivityResult(requestCode, resultCode, data);
+		if(requestCode==1){
+			
+		}
 	}
 
 	private void initBeepSound() {
