@@ -13,6 +13,7 @@ public class C {
 	public final static   String URL_PERIDICAL_LIST= "GetSearch.ashx";
 	public final static   String URL_TOPIC_INFO= "GetInfo.ashx";
 	public final static   String URL_TOPIC_LIST= "GetSearch.ashx";
+	public final static   String URL_FOLLOW_LIST= "getshortinfo.ashx";
 	//通知
 	public final static   String URL_UPDATE= "GetNotice.ashx";
 	public final static   String URL_UPDATE_PERICAL= "GetNotice.ashx";
