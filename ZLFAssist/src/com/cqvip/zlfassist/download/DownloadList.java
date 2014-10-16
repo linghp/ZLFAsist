@@ -569,7 +569,7 @@ public class DownloadList extends ActionBarActivity implements
      * Delete a download from the Download Manager.
      */
     private void deleteDownload(long downloadId) {
-    	deleteDB(new DownloaderSimpleInfo("", "", mCursor.getString(mCOLUMN_URI_index)));
+    	deleteDB(new DownloaderSimpleInfo(downloadId,"", "", mCursor.getString(mCOLUMN_URI_index)));
     	Log.i(LOG_TAG, mCursor.getString(mCOLUMN_URI_index));
 	if (moveToDownload(downloadId)) {
 	    int status = mCursor.getInt(mStatusColumnId);

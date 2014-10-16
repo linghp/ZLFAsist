@@ -11,6 +11,11 @@ import com.j256.ormlite.table.DatabaseTable;
 public class DownloaderSimpleInfo {
 
 	/** 
+	 * 下载的id
+	 *  */
+	@DatabaseField(id=true)
+	public long downloadId;
+	/** 
 	 * 对应id
 	 *  */
 	@DatabaseField
@@ -23,7 +28,7 @@ public class DownloaderSimpleInfo {
 	/** 
 	 * url
 	 *  */
-	@DatabaseField(id=true)
+	@DatabaseField
 	public String url;
 	
 	@DatabaseField
@@ -50,8 +55,19 @@ public class DownloaderSimpleInfo {
 	}
 
 
-	public DownloaderSimpleInfo(String id, String name, String url) {
+	public long getDownloadId() {
+		return downloadId;
+	}
+
+
+	public long getDatetime() {
+		return datetime;
+	}
+
+
+	public DownloaderSimpleInfo(long downloadId,String id, String name, String url) {
 		super();
+		this.downloadId = downloadId;
 		this.id = id;
 		this.name = name;
 		this.url = url;
@@ -63,7 +79,7 @@ public class DownloaderSimpleInfo {
 		if(o instanceof DownloaderSimpleInfo){
 			DownloaderSimpleInfo t=(DownloaderSimpleInfo) o;
 		//	Log.i("equals", this.id+"----"+t.getId());
-			return this.getUrl().equals(t.getUrl());
+			return this.getDownloadId()==t.getDownloadId();
 		}
 		return super.equals(o);
 	}
