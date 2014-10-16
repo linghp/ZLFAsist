@@ -64,7 +64,6 @@ public class AddFollowActivity extends BaseActionBarActivity implements
 	// private boolean isfirstsearch_searchview=true;
 	private ArrayList<TopItem> topItems = new ArrayList<TopItem>();
 	private Map<String, ArrayList<ItemFollows>> allItemFollowMap = new HashMap<>();
-
 	private DatabaseHelper databaseHelper = null;
 	private int page_search, page_category;// 搜索的页数和关注的页数
 	// private ItemFollowsAdapter searchAdapter;
