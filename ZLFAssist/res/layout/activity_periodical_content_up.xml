@@ -27,8 +27,9 @@
                 android:layout_width="82dp"
                 android:layout_height="118dp"
                 android:layout_alignParentLeft="true"
-                android:layout_marginLeft="10.0dip"
+                android:layout_marginLeft="50.0dip"
                 android:layout_marginTop="5.0dip"
+                android:src="@drawable/default_periodical"
                 android:background="@android:color/transparent" />
 
             <LinearLayout

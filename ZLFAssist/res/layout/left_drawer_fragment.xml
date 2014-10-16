@@ -13,7 +13,7 @@
 
                 <TextView
                     style="@style/left_drawer_item_text"
-                    android:drawableLeft="@drawable/ic_drawer_search_normal"
+                    android:layout_centerInParent="true"
                     android:text="@string/follow" />
             </RelativeLayout>
 
@@ -24,7 +24,7 @@
 
                 <TextView
                     style="@style/left_drawer_item_text"
-                    android:drawableLeft="@drawable/ic_drawer_search_normal"
+                       android:layout_centerInParent="true"
                     android:text="@string/favor" />
             </RelativeLayout>
 
@@ -36,7 +36,7 @@
 
                 <TextView
                     style="@style/left_drawer_item_text"
-                    android:drawableLeft="@drawable/ic_drawer_search_normal"
+                       android:layout_centerInParent="true"
                     android:text="@string/download" />
             </RelativeLayout>
 
@@ -48,7 +48,7 @@
                 <TextView
                     android:id="@+id/tv_ref_update"
                     style="@style/left_drawer_item_text"
-                    android:drawableLeft="@drawable/ic_drawer_search_normal"
+                       android:layout_centerInParent="true"
                     android:text="@string/notification" />
             </RelativeLayout>
 
