@@ -535,9 +535,9 @@ public class MainActivity extends FragmentActivity {
 					String name = array[1];
 					String  id = array[2];
 					String url=array[3];
-					DownloaderSimpleInfo downloaderSimpleInfo=new DownloaderSimpleInfo(id, name, url);
+					long downloadid=startDownload(url);
+					DownloaderSimpleInfo downloaderSimpleInfo=new DownloaderSimpleInfo(downloadid,id, name, url);
 					saveDB(downloaderSimpleInfo);
-					startDownload(url);
 					Log.i("captureact", name+"--"+id+"--"+url);
 					//跳转
 					Intent intent_download = new Intent(this,DownloadList.class);
@@ -570,7 +570,7 @@ public class MainActivity extends FragmentActivity {
 		// ChannelManage.getManage(AppApplication.getApp().getSQLHelper()).saveUserChannel(userAdapter.getChannnelLst());
 	}
 	
-	   private void startDownload(String url) {
+	   private long startDownload(String url) {
 			//String url = "http://www.pptok.com/wp-content/uploads/2012/06/huanbao-1.jpg";
 			//url = "http://www.it.com.cn/dghome/img/2009/06/23/17/090623_tv_tf2_13h.jpg";
 			//String url = "http://down.mumayi.com/41052/mbaidu";
@@ -581,7 +581,7 @@ public class MainActivity extends FragmentActivity {
 			request.setDescription("正在下载");
 			 DownloadManager mDownloadManager = new DownloadManager(getContentResolver(),
 					 getPackageName());
-			mDownloadManager.enqueue(request);
+			return mDownloadManager.enqueue(request);
 		    }
 
 	private DatabaseHelper getHelper() {

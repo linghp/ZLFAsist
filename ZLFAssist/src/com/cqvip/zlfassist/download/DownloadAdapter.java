@@ -78,8 +78,8 @@ public class DownloadAdapter extends CursorAdapter {
 	this.downloaderSimpleInfos=downloaderSimpleInfos;
 	mResources = mContext.getResources();
 	mDownloadSelectionListener = selectionListener;
-	mDateFormat = DateFormat.getDateInstance(DateFormat.SHORT);
-	mTimeFormat = DateFormat.getTimeInstance(DateFormat.SHORT);
+	mDateFormat = DateFormat.getDateInstance(DateFormat.MEDIUM);
+	mTimeFormat = DateFormat.getTimeInstance(DateFormat.MEDIUM);
 
 	mIdColumnId = cursor.getColumnIndexOrThrow(DownloadManager.COLUMN_ID);
 	mTitleColumnId = cursor
@@ -165,7 +165,7 @@ public class DownloadAdapter extends CursorAdapter {
 	if (date.before(getStartOfToday())) {
 	    return mDateFormat.format(date);
 	} else {
-	    return mTimeFormat.format(date);
+	    return mTimeFormat.format(date).substring(2);
 	}
     }
 
