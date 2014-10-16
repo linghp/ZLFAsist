@@ -176,7 +176,7 @@ public class ZKPeriodicalInfoActivity extends BaseActionBarActivity implements  
 						HashMap<String, String> gparams = new HashMap<>();
 						gparams.put("id", id+"|"+year+"|"+num);
 						gparams.put("pageindex", 1+"");
-						gparams.put("pagesize",50+"");
+						gparams.put("pagesize",100+"");
 						Log.i("param","result:"+ id+"|"+year+"|"+num);
 						VolleyManager.requestVolley(gparams, C.SERVER+C.URL_PERIDICAL_LIST, Method.POST, backlistener_content, errorListener, mQueue);
 					}
