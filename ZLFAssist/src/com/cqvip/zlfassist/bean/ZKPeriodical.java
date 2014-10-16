@@ -55,7 +55,7 @@ public class ZKPeriodical implements Serializable {
 
 	public ZKPeriodical(String result) throws JSONException {
 		JSONObject mJsonObjectjson = new JSONObject(result);
-		JSONObject json = mJsonObjectjson.getJSONObject("info");
+		JSONObject json = mJsonObjectjson.getJSONObject("obj");
 		JSONArray jsonArray = mJsonObjectjson.getJSONArray("num");
 		_id = checkJson(json,"_id");
 				gch = checkJson(json,"gch");

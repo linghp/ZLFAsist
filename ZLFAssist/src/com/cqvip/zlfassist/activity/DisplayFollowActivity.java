@@ -121,8 +121,7 @@ public class DisplayFollowActivity extends BaseActionBarActivity implements
 			gparams.put("key", idString);
 			gparams.put("type", type.toLowerCase());
 			Log.i("param","result:"+idString+type);
-		   VolleyManager.requestVolley(gparams, C.SERVER+C.URL_TOPIC_INFO, Method.POST, backlistener, errorListener, mQueue);
-		
+		   VolleyManager.requestVolley(gparams, C.SERVER+C.URL_FOLLOW_LIST, Method.POST, backlistener, errorListener, mQueue);
 	}
 
 	Listener<String> backlistener = new Listener<String>() {
