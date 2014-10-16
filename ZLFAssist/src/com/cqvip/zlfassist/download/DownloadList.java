@@ -565,6 +565,7 @@ public class DownloadList extends ActionBarActivity implements
 	showOrHideSelectionMenu();
     }
 
+    
     /**
      * Delete a download from the Download Manager.
      */
