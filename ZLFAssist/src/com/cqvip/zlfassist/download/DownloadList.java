@@ -16,6 +16,7 @@
 
 package com.cqvip.zlfassist.download;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.sql.SQLException;
@@ -26,7 +27,6 @@ import java.util.List;
 import java.util.Set;
 
 import android.app.AlertDialog;
-import android.content.ActivityNotFoundException;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnCancelListener;
 import android.content.Intent;
@@ -50,9 +50,9 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.artifex.mupdfdemo.MuPDFActivity;
 import com.cqvip.zlfassist.R;
 import com.cqvip.zlfassist.bean.DownloaderSimpleInfo;
-import com.cqvip.zlfassist.bean.ItemFollows;
 import com.cqvip.zlfassist.db.DatabaseHelper;
 import com.j256.ormlite.android.apptools.OpenHelperManager;
 import com.j256.ormlite.dao.Dao;
@@ -325,7 +325,8 @@ public class DownloadList extends ActionBarActivity implements
      * cursor.
      */
     private void openCurrentDownload(Cursor cursor) {
-	Uri localUri = Uri.parse(cursor.getString(mLocalUriColumnId));
+    	String pathString = cursor.getString(mLocalUriColumnId);
+	Uri localUri = Uri.parse(pathString);
 	try {
 	    getContentResolver().openFileDescriptor(localUri, "r").close();
 	} catch (FileNotFoundException exc) {
@@ -338,17 +339,34 @@ public class DownloadList extends ActionBarActivity implements
 	} catch (IOException exc) {
 	    // close() failed, not a problem
 	}
-
-	Intent intent = new Intent(Intent.ACTION_VIEW);
-	intent.setDataAndType(localUri, cursor.getString(mMediaTypeColumnId));
-	intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
-		| Intent.FLAG_GRANT_READ_URI_PERMISSION);
-	try {
-	    startActivity(intent);
-	} catch (ActivityNotFoundException ex) {
-	    Toast.makeText(this, R.string.download_no_application_title,
-		    Toast.LENGTH_LONG).show();
+	Log.i("path",pathString);
+	File file = new File(pathString);
+	if (file.exists()) {
+		// Intent intent = new
+		// Intent(DownLoadManagerActivity.this,OpenFileActivity.class);
+		// intent.setDataAndType(Uri.fromFile(file),
+		// "application/pdf");
+		// intent.setAction("android.intent.action.VIEW");
+		// startActivity(intent);
+		Uri uri = Uri.parse(pathString);
+		Intent intent = new Intent(this, MuPDFActivity.class);
+		intent.setAction(Intent.ACTION_VIEW);
+		intent.setData(uri);
+		startActivity(intent);
+	} else {
+		Toast.makeText(this, "文件不存在",1).show();;
 	}
+
+//	Intent intent = new Intent(Intent.ACTION_VIEW);
+//	intent.setDataAndType(localUri, cursor.getString(mMediaTypeColumnId));
+//	intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
+//		| Intent.FLAG_GRANT_READ_URI_PERMISSION);
+//	try {
+//	    startActivity(intent);
+//	} catch (ActivityNotFoundException ex) {
+//	    Toast.makeText(this, R.string.download_no_application_title,
+//		    Toast.LENGTH_LONG).show();
+//	}
     }
 
     private void handleItemClick(Cursor cursor) {
