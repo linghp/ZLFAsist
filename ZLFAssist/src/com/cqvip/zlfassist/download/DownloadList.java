@@ -339,9 +339,9 @@ public class DownloadList extends ActionBarActivity implements
 	} catch (IOException exc) {
 	    // close() failed, not a problem
 	}
-	Log.i("path",pathString);
-	File file = new File(pathString);
-	if (file.exists()) {
+//	Log.i("path",pathString);
+//	File file = new File(pathString);
+//	if (file.exists()) {
 		// Intent intent = new
 		// Intent(DownLoadManagerActivity.this,OpenFileActivity.class);
 		// intent.setDataAndType(Uri.fromFile(file),
@@ -350,12 +350,13 @@ public class DownloadList extends ActionBarActivity implements
 		// startActivity(intent);
 		Uri uri = Uri.parse(pathString);
 		Intent intent = new Intent(this, MuPDFActivity.class);
+		intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
 		intent.setAction(Intent.ACTION_VIEW);
 		intent.setData(uri);
 		startActivity(intent);
-	} else {
-		Toast.makeText(this, "文件不存在",1).show();;
-	}
+//	} else {
+//		Toast.makeText(this, "文件不存在",1).show();;
+//	}
 
 //	Intent intent = new Intent(Intent.ACTION_VIEW);
 //	intent.setDataAndType(localUri, cursor.getString(mMediaTypeColumnId));
