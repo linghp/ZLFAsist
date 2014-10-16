@@ -31,6 +31,8 @@ import android.widget.Toast;
 import com.cqvip.zlfassist.R;
 import com.cqvip.zlfassist.activity.AddFavorActivity;
 import com.cqvip.zlfassist.activity.DisplayFollowActivity;
+import com.cqvip.zlfassist.activity.MainActivity;
+import com.cqvip.zlfassist.constant.C;
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.Result;
 
@@ -181,62 +183,10 @@ public class CaptureActivity extends Activity implements Callback {
 //		intent.putExtra("ISBN", obj.getText());
 //		startActivity(intent);
 		 String result = obj.getText();
-		 byte[] signature;
-         try {
-             signature = Base64.decode(result, Base64.DEFAULT);
-         } catch (IllegalArgumentException e) {
-             signature = new byte[0];
-         }
-         Log.i("handleDecode", result+","+signature.length);
-         String resString = null;
-		try {
-			resString = new String(signature,"utf-8");
-			Log.i("handleDecode", resString);
-		} catch (UnsupportedEncodingException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		 
-		 if(!TextUtils.isEmpty(resString)){
-			 String[]  array = resString.split("\\|");
-		 switch (array[0]) {
-	//文章收藏
-		 case "DOC":
-			 String  topicId = array[1];
-			 //插库
-			 //跳转AddFavorActivity
-			 Intent intent = new Intent(CaptureActivity.this,AddFavorActivity.class);
-			 intent.putExtra("flag",true);
-			 intent.putExtra("id",topicId);
-			 startActivityForResult(intent, 1);
-			break;
-			//对象关注
-		case "OBJ":
-			//插库
-			String subjectType = array[1];
-			String  subjectId = array[2];
-			//跳转
-			 Intent _intent = new Intent(CaptureActivity.this,DisplayFollowActivity.class);
-			 _intent.putExtra("flag",true);
-			 _intent.putExtra("type",subjectType);
-			 _intent.putExtra("id",subjectId);
-			 startActivityForResult(_intent,1);
-			break;
-			//文章下载
-		default:
-			//TODO
-			break;
-		 }
-		 }
-		//finish();
-	}
-	@Override
-	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-		// TODO Auto-generated method stub
-		super.onActivityResult(requestCode, resultCode, data);
-		if(requestCode==1){
-			
-		}
+		 Intent intent = new Intent(this,MainActivity.class);
+		 intent.putExtra("data", result);
+		 setResult(C.REQUEST_SCAN_CODE, intent);
+		finish();
 	}
 
 	private void initBeepSound() {

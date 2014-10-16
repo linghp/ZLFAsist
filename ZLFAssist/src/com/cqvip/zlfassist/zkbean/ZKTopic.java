@@ -27,7 +27,8 @@ public class ZKTopic implements Serializable{
 
 	public ZKTopic() {
 	}
-
+	@DatabaseField
+	private long datetime = System.currentTimeMillis();
 	@SerializedName("keyword_e")
 	@Expose
 	private String keywordE;
@@ -448,6 +449,22 @@ public class ZKTopic implements Serializable{
 		return zkreferidsReal;
 	}
 
+	public long getDatetime() {
+		return datetime;
+	}
+
+	public void setDatetime(long datetime) {
+		this.datetime = datetime;
+	}
+
+	public String get_class() {
+		return _class;
+	}
+
+	public void set_class(String _class) {
+		this._class = _class;
+	}
+
 	public void setZkreferidsReal(String zkreferidsReal) {
 		this.zkreferidsReal = zkreferidsReal;
 	}
@@ -465,6 +482,17 @@ public class ZKTopic implements Serializable{
 		return null;
 	}
 	
+	public static ZKTopic formObject(String result) throws JSONException{
+		GeneralResult gr = new GeneralResult(result);
+		String res = gr.getResult();
+		Log.i("fromJson", res);
+		if(!TextUtils.isEmpty(res)){
+			JSONObject json = new JSONObject(gr.getResult());
+			ZKTopic obj= new Gson().fromJson(json.getString("obj"), ZKTopic.class);
+			return obj;
+		}
+		return null;
+	}
 //	@Override
 //	public boolean equals(Object o) {
 //		if(o instanceof ZKContent){

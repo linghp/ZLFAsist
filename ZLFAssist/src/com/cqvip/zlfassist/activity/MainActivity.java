@@ -1,5 +1,6 @@
 package com.cqvip.zlfassist.activity;
 
+import java.io.UnsupportedEncodingException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -16,6 +17,8 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
+import android.text.TextUtils;
+import android.util.Base64;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyEvent;
@@ -216,7 +219,7 @@ public class MainActivity extends FragmentActivity {
 			public void onClick(View v) {
 				Intent intent = new Intent(MainActivity.this,
 						CaptureActivity.class);
-				startActivity(intent);
+				startActivityForResult(intent,C.REQUEST_SCAN_CODE);
 			}
 		});
 
@@ -474,6 +477,62 @@ public class MainActivity extends FragmentActivity {
 		case CHANNELREQUEST:// 现在用startactivity来重新启动此activity
 			// getdatafromdb();
 			// setChangelView();
+			break;
+		case C.REQUEST_SCAN_CODE:// 现在用startactivity来重新启动此activity
+			if(resultCode==C.REQUEST_SCAN_CODE){
+				String result = data.getStringExtra("data");
+				 byte[] signature;
+		         try {
+		             signature = Base64.decode(result, Base64.DEFAULT);
+		         } catch (IllegalArgumentException e) {
+		             signature = new byte[0];
+		         }
+		         Log.i("handleDecode", result+","+signature.length);
+		         String resString = null;
+				try {
+					resString = new String(signature,"utf-8");
+					Log.i("handleDecode", resString);
+				} catch (UnsupportedEncodingException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				 
+				 if(!TextUtils.isEmpty(resString)){
+					 String[]  array = resString.split("\\|");
+				 switch (array[0]) {
+			//文章收藏
+				 case "DOC":
+					 String  topicId = array[1];
+					 //插库
+					 //跳转AddFavorActivity
+					 Intent intent = new Intent(MainActivity.this,AddFavorActivity.class);
+					 intent.putExtra("flag",true);
+					 intent.putExtra("id",topicId);
+					 startActivity(intent);
+					break;
+					//对象关注
+				case "OBJ":
+					//插库
+					String subjectType = array[1];
+					String  subjectId = array[2];
+					Log.i("handleDecode",array[1]+","+array[2]);
+					//跳转
+					 Intent _intent = new Intent(MainActivity.this,DisplayFollowActivity.class);
+					 _intent.putExtra("flag",true);
+					 _intent.putExtra("type",subjectType);
+					 _intent.putExtra("id",subjectId);
+					 startActivityForResult(_intent,DrawerView.RESULT_FOLLOW);
+					break;
+					//文章下载
+				default:
+					//TODO
+					break;
+				 }
+				 }
+			}
+			// getdatafromdb();
+			// setChangelView();
+			break;
 		default:
 			break;
 		}

@@ -39,6 +39,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingLeft="1dip"
+        android:maxLines="2"
         style="@style/TextContentMiddleStyle"
      	android:layout_below="@id/tv_follow_about"
         />

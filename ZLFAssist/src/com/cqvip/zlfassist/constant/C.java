@@ -41,4 +41,9 @@ public class C {
 	
 	public static final int DEFAULT_COUNT = 20;//默认20条
 	public static final int SOCKET_TIMEOUT = 20000;//操时20s
+	
+	public static final int REQUEST_SCAN_CODE = 6;
+	
+	
+	
 }

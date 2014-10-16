@@ -2,6 +2,9 @@ package com.cqvip.zlfassist.activity;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
+
+import org.json.JSONException;
 
 import android.content.Context;
 import android.content.Intent;
@@ -11,14 +14,21 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Toast;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 
+import com.android.volley.Request.Method;
+import com.android.volley.Response.Listener;
 import com.cqvip.zlfassist.R;
 import com.cqvip.zlfassist.adapter.ZKTopicListAdapter;
 import com.cqvip.zlfassist.base.BaseActionBarActivity;
 import com.cqvip.zlfassist.bean.ItemFollows;
+import com.cqvip.zlfassist.bean.JudgeResult;
+import com.cqvip.zlfassist.constant.C;
+import com.cqvip.zlfassist.db.DBManager;
 import com.cqvip.zlfassist.db.DatabaseHelper;
+import com.cqvip.zlfassist.http.VolleyManager;
 import com.cqvip.zlfassist.zkbean.ZKTopic;
 import com.j256.ormlite.android.apptools.OpenHelperManager;
 import com.j256.ormlite.dao.Dao;
@@ -30,6 +40,7 @@ public class AddFavorActivity extends BaseActionBarActivity implements OnItemCli
 	private ZKTopicListAdapter adapter;
 	private DatabaseHelper databaseHelper = null;
 	ArrayList<ZKTopic> lists=new ArrayList<>();
+	private boolean isFormScan = false;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -41,12 +52,12 @@ public class AddFavorActivity extends BaseActionBarActivity implements OnItemCli
 		adapter = new ZKTopicListAdapter(context, lists);
 		listView.setAdapter(adapter);
 		listView.setOnItemClickListener(this);
-		
+		isFormScan = getIntent().getBooleanExtra("flag", false);
+		if(isFormScan){
 		String topicid = getIntent().getStringExtra("id");
-		if(TextUtils.isEmpty(topicid)){
-		getdatafromdb();
+		getDate(topicid);
 		}else{
-			getDate(topicid);
+			getdatafromdb();
 		}
 	}
 	/**
@@ -54,29 +65,45 @@ public class AddFavorActivity extends BaseActionBarActivity implements OnItemCli
 	 * @param topicid
 	 */
      private void getDate(String topicid) {
-    	 
+    		customProgressDialog.show();
+   		 HashMap<String, String> gparams = new HashMap<String, String>();
+   			gparams.put("key", topicid);
+   			gparams.put("type", "article");
+   			Log.i("param","result:"+topicid+"article");
+   		   VolleyManager.requestVolley(gparams, C.SERVER+C.URL_TOPIC_DETAIL, Method.POST, backlistener, errorListener, mQueue);
 		
 		
-	}
-	//	  private ArrayList<ZKTopic> formDate() {
-//		  ArrayList<ZKTopic> lists = new ArrayList<>();
-//		  ZKTopic  topic = new ZKTopic();
-//		  topic.setId("123");
-//		  topic.setTitleC("大肠癌细胞短期培养法筛选抗癌药物的初步探讨");
-//		  topic.setShowwriter("张宗显;戴珊星");
-//		  topic.setShoworgan("浙江省肿瘤医院");
-//		  topic.setMediaC("癌症：英文版");
-//		  topic.setMediasQk("989年第1期 63-64,共2页");
-//		  topic.setRemarkC("浙江省肿瘤医院肿瘤研究所大肠癌细胞短期培养法筛选抗癌药物,");
-//		  topic.setClasstypes("医药卫生—药品");
-//		  topic.setClass_("R979.1");
-//		  topic.setKeywordC("大肠癌细胞");
-//		  lists.add(topic);
-//		  lists.add(topic);
-//		  lists.add(topic);
-//		  lists.add(topic);
-//		return lists;
-//	}
+	}Listener<String> backlistener = new Listener<String>() {
+		@Override
+		public void onResponse(String response) {
+			if(customProgressDialog!=null&&customProgressDialog.isShowing())
+			customProgressDialog.dismiss();
+			
+			try {
+				JudgeResult result = new JudgeResult(response);
+				if(result.getState().endsWith("00")){
+					ZKTopic item = ZKTopic.formObject(response);
+					//插入数据库
+					DBManager dao = new DBManager(AddFavorActivity.this);
+					//判断是否收藏
+					if(dao.isFavoriteTopic(item)){
+						Toast.makeText(AddFavorActivity.this, "该文章已收藏", 1).show();
+						getdatafromdb();	
+					}else{
+					//插入数据库	
+						boolean isSucess = dao.saveTopic(item);
+						if(isSucess){
+							getdatafromdb();
+						}
+					}
+				}
+			} catch (JSONException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+		}
+	};
 	 @Override
 	    public boolean onOptionsItemSelected(MenuItem item) {
 		int itemId = item.getItemId();
@@ -124,7 +151,7 @@ public class AddFavorActivity extends BaseActionBarActivity implements OnItemCli
 	private void getdatafromdb() {
 		try {
 			Dao<ZKTopic, Integer> favorDao = getHelper().getFavorDao();
-			ArrayList<ZKTopic> temp = (ArrayList<ZKTopic>) favorDao.queryForAll();
+			ArrayList<ZKTopic> temp = (ArrayList<ZKTopic>) favorDao.queryBuilder().orderBy("datetime", false).query();
 			Log.i("getdatafromdb", temp.size() + "");
 			lists.clear();
 			lists.addAll(temp);

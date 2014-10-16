@@ -9,6 +9,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.json.JSONException;
+
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -39,7 +41,9 @@ import com.cqvip.zlfassist.R;
 import com.cqvip.zlfassist.base.BaseActionBarActivity;
 import com.cqvip.zlfassist.bean.GeneralResult;
 import com.cqvip.zlfassist.bean.ItemFollows;
+import com.cqvip.zlfassist.bean.JudgeResult;
 import com.cqvip.zlfassist.constant.C;
+import com.cqvip.zlfassist.db.DBManager;
 import com.cqvip.zlfassist.db.DatabaseHelper;
 import com.cqvip.zlfassist.http.VolleyManager;
 import com.google.gson.Gson;
@@ -71,7 +75,8 @@ public class DisplayFollowActivity extends BaseActionBarActivity implements
 	private DatabaseHelper databaseHelper = null;
 	private ArrayList<ItemFollows> allFollowItem = new ArrayList<>();// 所有的关注
 	private ArrayList<ItemFollows> selectedFollowItem = new ArrayList<>();// 选中的关注
-
+	private boolean isFormScan = false;
+	
 	@Override
 	public void onCreate(Bundle bundle) {
 		super.onCreate(bundle);
@@ -97,8 +102,8 @@ public class DisplayFollowActivity extends BaseActionBarActivity implements
 		mList.setOnItemLongClickListener(this);
 		mSwipeRefreshWidget.setOnRefreshListener(this);
 		
-		boolean  flag = getIntent().getBooleanExtra("flag", false);
-		if(flag){
+		isFormScan = getIntent().getBooleanExtra("flag", false);
+		if(isFormScan){
 			String idString = getIntent().getStringExtra("id");
 			String type = getIntent().getStringExtra("type");
 			//获取数据
@@ -111,14 +116,45 @@ public class DisplayFollowActivity extends BaseActionBarActivity implements
 	}
 
 	private void getScanDate(String idString, String type) {
+		customProgressDialog.show();
 		 HashMap<String, String> gparams = new HashMap<String, String>();
 			gparams.put("key", idString);
-			gparams.put("type", type);
+			gparams.put("type", type.toLowerCase());
 			Log.i("param","result:"+idString+type);
-		//	VolleyManager.requestVolley(gparams, C.SERVER+C.URL_TOPIC_INFO, Method.POST, backlistener_content, errorListener, mQueue);
+		   VolleyManager.requestVolley(gparams, C.SERVER+C.URL_TOPIC_INFO, Method.POST, backlistener, errorListener, mQueue);
 		
 	}
 
+	Listener<String> backlistener = new Listener<String>() {
+		@Override
+		public void onResponse(String response) {
+			if(customProgressDialog!=null&&customProgressDialog.isShowing())
+			customProgressDialog.dismiss();
+			
+			try {
+				JudgeResult result = new JudgeResult(response);
+				if(result.getState().endsWith("00")){
+					ItemFollows item = ItemFollows.formObject(response);
+					//插入数据库
+					DBManager dao = new DBManager(DisplayFollowActivity.this);
+				  	boolean isSucess = dao.saveDB(item);
+				  	if(isSucess){
+				  		getdatafromdb();
+				  	}
+				}
+			} catch (JSONException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+			
+			
+			
+		}
+	};
+
+	
+	
 	@Override
 	public void onRefresh() {
 		refresh();
@@ -146,13 +182,16 @@ public class DisplayFollowActivity extends BaseActionBarActivity implements
 			myStartActivity();
 			return true;
 		case android.R.id.home:
+			if(isFormScan){
+				setResult(RESULT_OK);
+			}
 			finish();
 			return true;
 		}
 		return false;
 	}
-
 	private void myStartActivity() {
+		
 		startActivityForResult(new Intent(this, AddFollowActivity.class),1);
 		overridePendingTransition(R.anim.slide_in_right,
 				R.anim.slide_out_left);

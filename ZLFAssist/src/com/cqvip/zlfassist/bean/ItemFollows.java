@@ -129,6 +129,18 @@ public class ItemFollows implements Serializable {
 	public String getType_id() {
 		return type_id;
 	}
+	public static ItemFollows formObject(String result) throws JSONException{
+		GeneralResult gr = new GeneralResult(result);
+		String res = gr.getResult();
+		if (!TextUtils.isEmpty(res)) {
+			JSONObject jsonObject = new JSONObject(res);
+			String type = jsonObject.getString("type");
+
+			JSONObject  json = jsonObject.getJSONObject("obj");
+				return new ItemFollows(type,json);
+			}
+		return null;
+	}
 
 	public static ArrayList<ItemFollows> formList(String result)
 			throws JSONException {

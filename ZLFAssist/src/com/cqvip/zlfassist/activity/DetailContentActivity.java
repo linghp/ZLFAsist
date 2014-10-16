@@ -22,6 +22,7 @@ import com.cqvip.zlfassist.base.BaseActionBarActivity;
 import com.cqvip.zlfassist.bean.ItemFollows;
 import com.cqvip.zlfassist.bean.JudgeResult;
 import com.cqvip.zlfassist.constant.C;
+import com.cqvip.zlfassist.db.DBManager;
 import com.cqvip.zlfassist.db.DatabaseHelper;
 import com.cqvip.zlfassist.http.VolleyManager;
 import com.cqvip.zlfassist.tools.BaseTools;
@@ -95,6 +96,12 @@ public class DetailContentActivity extends BaseActionBarActivity implements OnCl
 		shareTextView.setOnClickListener(this);
 		favorTextView.setOnClickListener(this);
 		readTextView.setOnClickListener(this);
+		DBManager manager = new DBManager(this);
+		if(manager.isFavoriteTopic(zkTopic)){
+			favorTextView.setText("取消收藏");
+		}else{
+			favorTextView.setText("收藏");
+		}
 	}
 
 	private void getDate(String requestId2) {
