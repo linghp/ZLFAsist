@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.mozillaonline.providers.downloads.ui;
+package com.cqvip.zlfassist.download;
 
 import java.text.DateFormat;
 import java.util.Calendar;
@@ -41,7 +41,9 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.cqvip.zlfassist.R;
+import com.cqvip.zlfassist.bean.DownloaderSimpleInfo;
 import com.mozillaonline.providers.DownloadManager;
+import com.mozillaonline.providers.downloads.ui.DownloadItem;
 import com.mozillaonline.providers.downloads.ui.DownloadItem.DownloadSelectListener;
 
 /**
@@ -65,13 +67,15 @@ public class DownloadAdapter extends CursorAdapter {
     final private int mIdColumnId;
     
     private boolean[] isEditStatus;
+    private List<DownloaderSimpleInfo> downloaderSimpleInfos;
 
     public DownloadAdapter(Context context, Cursor cursor,
-	    DownloadSelectListener selectionListener,boolean[] isEditStatus) {
+	    DownloadSelectListener selectionListener,boolean[] isEditStatus,List<DownloaderSimpleInfo> downloaderSimpleInfos) {
 	super(context, cursor);
 	mContext = context;
 	mCursor = cursor;
 	this.isEditStatus=isEditStatus;
+	this.downloaderSimpleInfos=downloaderSimpleInfos;
 	mResources = mContext.getResources();
 	mDownloadSelectionListener = selectionListener;
 	mDateFormat = DateFormat.getDateInstance(DateFormat.SHORT);
@@ -112,7 +116,8 @@ public class DownloadAdapter extends CursorAdapter {
 	// Retrieve the icon for this download
 	retrieveAndSetIcon(convertView);
 
-	String title = mCursor.getString(mTitleColumnId);
+	//String title = mCursor.getString(mTitleColumnId);
+	String title = downloaderSimpleInfos.get(mCursor.getPosition()).getName();
 	long totalBytes = mCursor.getLong(mTotalBytesColumnId);
 	long currentBytes = mCursor.getLong(mCurrentBytesColumnId);
 	int status = mCursor.getInt(mStatusColumnId);

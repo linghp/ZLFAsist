@@ -14,28 +14,26 @@
  * limitations under the License.
  */
 
-package com.mozillaonline.providers.downloads.ui;
+package com.cqvip.zlfassist.download;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Set;
 
-import android.R.anim;
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.ActivityNotFoundException;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnCancelListener;
 import android.content.Intent;
-import android.database.ContentObserver;
 import android.database.Cursor;
-import android.database.DataSetObserver;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
-import android.os.Handler;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.Menu;
@@ -49,12 +47,15 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.Button;
-import android.widget.ExpandableListView;
-import android.widget.ExpandableListView.OnChildClickListener;
 import android.widget.ListView;
 import android.widget.Toast;
 
 import com.cqvip.zlfassist.R;
+import com.cqvip.zlfassist.bean.DownloaderSimpleInfo;
+import com.cqvip.zlfassist.bean.ItemFollows;
+import com.cqvip.zlfassist.db.DatabaseHelper;
+import com.j256.ormlite.android.apptools.OpenHelperManager;
+import com.j256.ormlite.dao.Dao;
 import com.mozillaonline.providers.DownloadManager;
 import com.mozillaonline.providers.downloads.ui.DownloadItem.DownloadSelectListener;
 
@@ -83,6 +84,7 @@ public class DownloadList extends ActionBarActivity implements
     private int mLocalUriColumnId;
     private int mMediaTypeColumnId;
     private int mReasonColumndId;
+    private int mCOLUMN_URI_index;
 
     //private boolean mIsSortedBySize = false;
     private Set<Long> mSelectedIds = new HashSet<Long>();
@@ -97,6 +99,9 @@ public class DownloadList extends ActionBarActivity implements
 
     private boolean[] isEditStatus={false};
     
+	private DatabaseHelper databaseHelper = null;
+	private List<DownloaderSimpleInfo> downloaderSimpleInfos=new ArrayList<>();
+    
     @Override
     public void onCreate(Bundle icicle) {
 	super.onCreate(icicle);
@@ -109,6 +114,8 @@ public class DownloadList extends ActionBarActivity implements
 	DownloadManager.Query baseQuery = new DownloadManager.Query()
 		.setOnlyIncludeVisibleInDownloadsUi(true);
 	mCursor = mDownloadManager.query(baseQuery);
+	
+	getdatafromdb();
 
 	// only attach everything to the listbox if we can access the download
 	// database. Otherwise,
@@ -126,9 +133,10 @@ public class DownloadList extends ActionBarActivity implements
 		    .getColumnIndexOrThrow(DownloadManager.COLUMN_MEDIA_TYPE);
 	    mReasonColumndId = mCursor
 		    .getColumnIndexOrThrow(DownloadManager.COLUMN_REASON);
-
+	    mCOLUMN_URI_index=mCursor
+			    .getColumnIndexOrThrow(DownloadManager.COLUMN_URI);
 	    mAdapter = new DownloadAdapter(this, mCursor,
-		    this,isEditStatus);
+		    this,isEditStatus,downloaderSimpleInfos);
 	    mListView.setAdapter(mAdapter);
 
 	}
@@ -561,6 +569,8 @@ public class DownloadList extends ActionBarActivity implements
      * Delete a download from the Download Manager.
      */
     private void deleteDownload(long downloadId) {
+    	deleteDB(new DownloaderSimpleInfo("", "", mCursor.getString(mCOLUMN_URI_index)));
+    	Log.i(LOG_TAG, mCursor.getString(mCOLUMN_URI_index));
 	if (moveToDownload(downloadId)) {
 	    int status = mCursor.getInt(mStatusColumnId);
 	    boolean isComplete = status == DownloadManager.STATUS_SUCCESSFUL
@@ -653,5 +663,50 @@ public class DownloadList extends ActionBarActivity implements
 		isEditStatus[0]=true;
 		mListView.invalidateViews();
 		return true;
+	}
+	
+	private DatabaseHelper getHelper() {
+		if (databaseHelper == null) {
+			databaseHelper = OpenHelperManager.getHelper(this,
+					DatabaseHelper.class);
+		}
+		return databaseHelper;
+	}
+
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+		if (databaseHelper != null) {
+			OpenHelperManager.releaseHelper();
+			databaseHelper = null;
+		}
+	}
+	
+	private void getdatafromdb() {
+		try {
+			Dao<DownloaderSimpleInfo, Integer> itemFollowsDao = getHelper()
+					.getDownloaderSimpleInfoDao();
+			downloaderSimpleInfos.clear();
+			ArrayList<DownloaderSimpleInfo> temp = (ArrayList<DownloaderSimpleInfo>) itemFollowsDao
+					.queryBuilder().orderBy("datetime", false).query();
+			Log.i("getdatafromdb", temp.size() + "");
+			downloaderSimpleInfos.addAll(temp);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	protected void deleteDB(DownloaderSimpleInfo itemFollows) {
+		try {
+			Dao<DownloaderSimpleInfo, Integer> itemFollowsDao = getHelper()
+					.getDownloaderSimpleInfoDao();
+			// ItemFollows itemFollows = new ItemFollows();
+			// store it in the database
+			itemFollowsDao.delete(itemFollows);
+			downloaderSimpleInfos.remove(itemFollows);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 	}
 }
