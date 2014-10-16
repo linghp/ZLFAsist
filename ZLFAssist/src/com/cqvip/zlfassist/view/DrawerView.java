@@ -135,7 +135,7 @@ public class DrawerView implements OnClickListener{
 			activity.overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
 			break;
 		case R.id.down_btn:
-			startDownload("");
+			//startDownload("");
 			activity.startActivity(new Intent(activity,DownloadList.class));
 			activity.overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
 			break;

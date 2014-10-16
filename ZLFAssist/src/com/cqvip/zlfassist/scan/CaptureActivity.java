@@ -1,10 +1,6 @@
 package com.cqvip.zlfassist.scan;
 
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.net.URLDecoder;
-import java.net.URLEncoder;
-import java.util.Arrays;
 import java.util.Vector;
 
 import android.app.Activity;
@@ -18,19 +14,13 @@ import android.media.MediaPlayer.OnCompletionListener;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Vibrator;
-import android.text.TextUtils;
-import android.util.Base64;
-import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceHolder.Callback;
 import android.view.SurfaceView;
 import android.view.Window;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.cqvip.zlfassist.R;
-import com.cqvip.zlfassist.activity.AddFavorActivity;
-import com.cqvip.zlfassist.activity.DisplayFollowActivity;
 import com.cqvip.zlfassist.activity.MainActivity;
 import com.cqvip.zlfassist.constant.C;
 import com.google.zxing.BarcodeFormat;
@@ -189,6 +179,7 @@ public class CaptureActivity extends Activity implements Callback {
 		finish();
 	}
 
+	
 	private void initBeepSound() {
 		if (playBeep && mediaPlayer == null) {
 			// The volume on STREAM_SYSTEM is not adjustable, and users found it
