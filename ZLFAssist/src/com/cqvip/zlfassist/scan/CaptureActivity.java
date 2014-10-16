@@ -39,13 +39,13 @@ import com.cqvip.zlfassist.activity.MyFollowActivity;
 import com.cqvip.zlfassist.bean.ChannelItem;
 import com.cqvip.zlfassist.bean.DownloaderSimpleInfo;
 import com.cqvip.zlfassist.db.DatabaseHelper;
+import com.cqvip.zlfassist.download.DownloadList;
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.Result;
 import com.j256.ormlite.android.apptools.OpenHelperManager;
 import com.j256.ormlite.dao.Dao;
 import com.mozillaonline.providers.DownloadManager;
 import com.mozillaonline.providers.DownloadManager.Request;
-import com.mozillaonline.providers.downloads.ui.DownloadList;
 
 public class CaptureActivity extends Activity implements Callback {
 
@@ -217,7 +217,7 @@ public class CaptureActivity extends Activity implements Callback {
 		}
 		 
 		 if(!TextUtils.isEmpty(resString)){
-			 String[]  array = resString.split("|");
+			 String[]  array = resString.split("\\|");
 			// String beginString = resString.substring(0,3);
 		 switch (array[0]) {
 	//文章收藏
@@ -251,8 +251,8 @@ public class CaptureActivity extends Activity implements Callback {
 			startDownload(url);
 			Log.i("captureact", name+"--"+id+"--"+url);
 			//跳转
-//			Intent intent_download = new Intent(CaptureActivity.this,DownloadList.class);
-//			startActivity(intent_download);
+			Intent intent_download = new Intent(CaptureActivity.this,DownloadList.class);
+			startActivity(intent_download);
 			break;
 		default:
 			//TODO

@@ -75,6 +75,7 @@
         <activity
             android:name=".activity.WelcomActivity"
             android:label="@string/app_name"
+            android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Light.NoTitleBar" >
               <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -168,7 +169,7 @@
 
         <!-- download -->
         <activity
-            android:name=".activity.DownloadList"
+            android:name=".download.DownloadList"
             android:screenOrientation="portrait" >
         </activity>
 

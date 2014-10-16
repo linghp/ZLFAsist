@@ -13,7 +13,7 @@ public class DownloaderSimpleInfo {
 	/** 
 	 * 对应id
 	 *  */
-	@DatabaseField(id=true)
+	@DatabaseField
 	public String id;
 	/** 
 	 * 对应NAME
@@ -23,12 +23,30 @@ public class DownloaderSimpleInfo {
 	/** 
 	 * url
 	 *  */
-	@DatabaseField
+	@DatabaseField(id=true)
 	public String url;
+	
+	@DatabaseField
+	private long datetime;
 
 
 	public DownloaderSimpleInfo() {
 		
+	}
+
+
+	public String getId() {
+		return id;
+	}
+
+
+	public String getName() {
+		return name;
+	}
+
+
+	public String getUrl() {
+		return url;
 	}
 
 
@@ -37,7 +55,17 @@ public class DownloaderSimpleInfo {
 		this.id = id;
 		this.name = name;
 		this.url = url;
+		this.datetime=System.currentTimeMillis();
 	}
 
+	@Override
+	public boolean equals(Object o) {
+		if(o instanceof DownloaderSimpleInfo){
+			DownloaderSimpleInfo t=(DownloaderSimpleInfo) o;
+		//	Log.i("equals", this.id+"----"+t.getId());
+			return this.getUrl().equals(t.getUrl());
+		}
+		return super.equals(o);
+	}
 
 }
