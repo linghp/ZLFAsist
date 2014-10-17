@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <ImageView
+        android:id="@+id/img_new"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:visibility="invisible"
+        android:src="@drawable/channel_new" />
+<RelativeLayout 
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+     android:layout_below="@+id/img_new"
+        android:layout_toRightOf="@+id/img_new"
+    android:orientation="vertical" >
+
+    <TextView
+        android:id="@+id/tv_topic_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="2dip"
+   		style="@style/TextTitleMiddleBlueStyle"
+   		 />
+     <TextView
+        android:id="@+id/tv_topic_writer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="1dip"
+        style="@style/TextContentMiddleBlueStyle"
+     	android:layout_below="@id/tv_topic_title"
+         />
+    <TextView
+        android:id="@+id/tv_topic_perodical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="1dip"
+        style="@style/TextContentMiddleStyle"
+     	android:layout_below="@id/tv_topic_writer"
+        />
+    <TextView
+        android:id="@+id/tv_topic_imburse"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="1dip"
+        style="@style/TextContentMiddleYellowStyle"
+     	android:layout_below="@id/tv_topic_perodical"
+        />
+    <TextView
+        android:id="@+id/tv_topic_abst"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="1dip"
+        android:maxLines="2"
+        style="@style/TextContentMiddleStyle"
+     	android:layout_below="@id/tv_topic_imburse"
+        />
+    <TextView
+        android:id="@+id/tv_topic_keyword"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="1dip"
+        style="@style/TextContentMiddleStyle"
+     	android:layout_below="@id/tv_topic_abst"
+        />
+    </RelativeLayout>
+</RelativeLayout>
