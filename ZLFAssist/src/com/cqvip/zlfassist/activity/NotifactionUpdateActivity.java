@@ -27,7 +27,6 @@ public class NotifactionUpdateActivity extends BaseActionBarActivity implements 
 		context = this;
  		setContentView(R.layout.activity_notification);
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-		getSupportActionBar().setTitle("文章引用通知");
 		listView = (ListView) findViewById(R.id.lv_notification);
 		ArrayList<ZKTopic> lists =formDate();
 		adapter = new ZKTopicListAdapter(context, lists);

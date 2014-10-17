@@ -165,7 +165,13 @@ public class DownloadAdapter extends CursorAdapter {
 	if (date.before(getStartOfToday())) {
 	    return mDateFormat.format(date);
 	} else {
-	    return mTimeFormat.format(date).substring(2);
+		String tempString=mTimeFormat.format(date);
+		if(tempString.startsWith("AM")){
+		tempString.replace("AM", "上午");
+		}else if(tempString.startsWith("PM")){
+		tempString.replace("PM", "下午");
+		}
+	    return tempString;
 	}
     }
 

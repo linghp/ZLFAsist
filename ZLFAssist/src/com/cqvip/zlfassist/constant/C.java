@@ -2,7 +2,8 @@ package com.cqvip.zlfassist.constant;
 
 
 public class C {
-	public final static   String SERVER= "http://192.168.20.54:10005/";
+	//public final static   String SERVER= "http://192.168.20.54:10005/";
+	public final static   String SERVER= "http://qikan.cqvip.com/mobileapi/";
 	//订阅模块
 	public final static   String URL_TOP= "GetObjectSet.ashx";
 	public final static   String URL_TOPLIST= "GetSearch.ashx";

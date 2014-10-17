@@ -68,6 +68,7 @@ public class AddFollowActivity extends BaseActionBarActivity implements
 	private int page_search, page_category;// 搜索的页数和关注的页数
 	// private ItemFollowsAdapter searchAdapter;
 	private Lv_search_adapter searchAdapter;
+	private ArrayList<ItemFollows> searchlists=new ArrayList<>();
 	private String keywordString;
 	private String requestType;
 
@@ -413,14 +414,16 @@ public class AddFollowActivity extends BaseActionBarActivity implements
 			// subcategoryNameList));
 
 			try {
-				ArrayList<ItemFollows> lists = ItemFollows.formList(response);
-				if (lists != null && !lists.isEmpty()) {
+				ArrayList<ItemFollows> searchlists_temp= ItemFollows.formList(response);
+				searchlists.clear();
+				if (searchlists_temp != null && !searchlists_temp.isEmpty()) {
+					searchlists .addAll(ItemFollows.formList(response));
 					//lv_search.setVisibility(View.VISIBLE);
 					// lv_search.setRefreshSuccess("加载成功"); // 通知加载成功
-					Log.i("VISIBLE", "lists" + lists.size());
+					Log.i("VISIBLE", "lists" + searchlists.size());
 					// noResult_rl.setVisibility(View.GONE);
-					searchAdapter = new Lv_search_adapter(context, lists);
-					if (lists.size() < C.DEFAULT_COUNT) {
+					searchAdapter = new Lv_search_adapter(context, searchlists);
+					if (searchlists.size() < C.DEFAULT_COUNT) {
 						lv_search.setAdapter(searchAdapter);
 						lv_search.stopLoadMore();
 					} else {
@@ -428,9 +431,7 @@ public class AddFollowActivity extends BaseActionBarActivity implements
 						lv_search.startLoadMore(); // 开启LoadingMore功能
 					}
 				} else {
-					// lv_search.setRefreshFail("加载失败");
-					// lv_search.setVisibility(View.GONE);
-					// noResult_rl.setVisibility(View.VISIBLE);
+					
 				}
 			} catch (Exception e) {
 				e.printStackTrace();

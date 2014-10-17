@@ -47,7 +47,7 @@ public class AddFavorActivity extends BaseActionBarActivity implements OnItemCli
 		context = this;
 		setContentView(R.layout.activity_favor);
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-		getSupportActionBar().setTitle("我的收藏");
+		getSupportActionBar().setTitle(getString(R.string.favor));
 		listView = (ListView) findViewById(R.id.lv_favorlilst);
 		adapter = new ZKTopicListAdapter(context, lists);
 		listView.setAdapter(adapter);
