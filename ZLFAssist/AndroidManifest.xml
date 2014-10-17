@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.cqvip.zlfassist"
-    android:versionCode="2"
+    android:versionCode="1"
     android:versionName="1.0" >
 
     <uses-sdk
@@ -70,15 +70,15 @@
         <activity
             android:name="com.cqvip.zlfassist.activity.MainActivity"
             android:label="@string/app_name"
-            android:theme="@android:style/Theme.Light.NoTitleBar"
-            android:screenOrientation="portrait" >
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Light.NoTitleBar" >
         </activity>
         <activity
             android:name=".activity.WelcomActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Light.NoTitleBar" >
-              <intent-filter>
+            <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -90,7 +90,7 @@
         </activity>
         <activity
             android:name=".activity.NotifactionUpdateActivity"
-             android:label="@string/notification"
+            android:label="@string/notification"
             android:screenOrientation="portrait" >
         </activity>
         <activity
@@ -156,12 +156,11 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.cqvip.zlfassist.activity.MainActivity" />
         </activity>
-        <activity android:theme="@android:style/Theme.NoTitleBar"
+        <activity
             android:name=".activity.HelperActivity"
-            android:screenOrientation="portrait" >
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.NoTitleBar" >
         </activity>
-        
-        
 
         <!-- scan -->
         <activity
@@ -172,7 +171,7 @@
         <!-- download -->
         <activity
             android:name=".download.DownloadList"
-             android:label="@string/download"
+            android:label="@string/download"
             android:screenOrientation="portrait" >
         </activity>
 
@@ -181,6 +180,7 @@
             android:authorities="com.cqvip.zlfassist.downloads" />
 
         <service android:name="com.mozillaonline.providers.downloads.DownloadService" />
+
         <receiver
             android:name="com.mozillaonline.providers.downloads.DownloadReceiver"
             android:exported="false" >
@@ -206,21 +206,28 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-        
-        <!-- UMENG -->
-        <meta-data android:value="5434fbecfd98c5871a0008a0" android:name="UMENG_APPKEY"></meta-data>
-        <meta-data android:value="Wandoujia" android:name="UMENG_CHANNEL"/>
-        <service
-    android:name="com.umeng.update.net.DownloadingService"
-    android:process=":DownloadingService" >
-</service>
-<activity 
-    android:name="com.umeng.update.UpdateDialogActivity"
-    android:theme="@android:style/Theme.Translucent.NoTitleBar" >
-</activity>
 
-<!-- pdf -->
-<activity
+        <!-- UMENG -->
+        <meta-data
+            android:name="UMENG_APPKEY"
+            android:value="5434fbecfd98c5871a0008a0" >
+        </meta-data>
+        <meta-data
+            android:name="UMENG_CHANNEL"
+            android:value="Wandoujia" />
+
+        <service
+            android:name="com.umeng.update.net.DownloadingService"
+            android:process=":DownloadingService" >
+        </service>
+
+        <activity
+            android:name="com.umeng.update.UpdateDialogActivity"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" >
+        </activity>
+
+        <!-- pdf -->
+        <activity
             android:name="com.artifex.mupdfdemo.MuPDFActivity"
             android:label="@string/app_name"
             android:theme="@android:style/Theme.NoTitleBar.Fullscreen" >
@@ -281,10 +288,9 @@
         </activity>
         <activity
             android:name="com.artifex.mupdfdemo.OutlineActivity"
-           
             android:theme="@android:style/Theme.Light.NoTitleBar.Fullscreen" >
         </activity>
- <activity
+        <activity
             android:name="com.artifex.mupdfdemo.MuPDFActivity"
             android:label="@string/app_name"
             android:theme="@android:style/Theme.NoTitleBar.Fullscreen" >
@@ -345,7 +351,6 @@
         </activity>
         <activity
             android:name="com.artifex.mupdfdemo.OutlineActivity"
-           
             android:theme="@android:style/Theme.Light.NoTitleBar.Fullscreen" >
         </activity>
     </application>

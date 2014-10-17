@@ -509,6 +509,7 @@ public class MainActivity extends FragmentActivity {
 			//文章收藏
 				 case "DOC":
 					 String  topicId = array[1];
+					 Log.i("handleFavor",array[1]);
 					 //插库
 					 //跳转AddFavorActivity
 					 Intent intent = new Intent(MainActivity.this,AddFavorActivity.class);
@@ -521,7 +522,7 @@ public class MainActivity extends FragmentActivity {
 					//插库
 					String subjectType = array[1];
 					String  subjectId = array[2];
-					Log.i("handleDecode",array[1]+","+array[2]);
+					Log.i("handleFollow",array[1]+","+array[2]);
 					//跳转
 					 Intent _intent = new Intent(MainActivity.this,DisplayFollowActivity.class);
 					 _intent.putExtra("flag",true);
