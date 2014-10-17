@@ -1,5 +1,8 @@
 package com.cqvip.zlfassist.view;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
@@ -33,6 +36,7 @@ public class DrawerView implements OnClickListener{
 	DownloadManager mDownloadManager;
 	BadgeView badge;
 	public static final int RESULT_FOLLOW=1;
+	private HashMap<String, Boolean> lists = null;
 	public DrawerView(Activity activity) {
 		this.activity = activity;
 		mDownloadManager = new DownloadManager(activity.getContentResolver(),
@@ -81,6 +85,9 @@ public class DrawerView implements OnClickListener{
 	public void showUpdateTips(int num){
 		badge.setText(""+num);
 		badge.show();
+	}
+	public void setItems(HashMap<String, Boolean> updateList){
+		this.lists = updateList;
 	}
 	public void hideUpdateTips(){
 		badge.setVisibility(View.GONE);
@@ -141,7 +148,9 @@ public class DrawerView implements OnClickListener{
 			break;
 		case R.id.mes_btn:
 			hideUpdateTips();
-			activity.startActivity(new Intent(activity,NotifactionUpdateActivity.class));
+			Intent intent = new Intent(activity,NotifactionUpdateActivity.class);
+			intent.putExtra("ids", lists);
+			activity.startActivity(intent);
 			activity.overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
 			break;
 //		case R.id.setting_btn:

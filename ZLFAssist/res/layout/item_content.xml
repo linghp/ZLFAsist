@@ -2,6 +2,21 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical">
+    
+    <ImageView
+        android:id="@+id/img_new"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:visibility="invisible"
+        android:src="@drawable/channel_new" />
+<RelativeLayout 
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+     android:layout_below="@+id/img_new"
+        android:layout_toRightOf="@+id/img_new"
     android:orientation="vertical" >
 
     <TextView
@@ -52,6 +67,5 @@
         style="@style/TextContentMiddleStyle"
      	android:layout_below="@id/tv_topic_abst"
         />
-
-
+    </RelativeLayout>
 </RelativeLayout>

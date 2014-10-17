@@ -46,6 +46,10 @@ public class C {
 	
 	public static final int REQUEST_SCAN_CODE = 6;
 	
+	public static final String PERFERENCE_UPDATE = "update";
+	public static final String PERFERENCE_TOPIC="topic_date";
+	public static final String PERFERENCE_PERODICAL ="media_date";
+	
 	
 	
 }

@@ -1,6 +1,7 @@
 package com.cqvip.zlfassist.db;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 import android.content.Context;
@@ -136,6 +137,20 @@ public class DBManager {
 		} catch (SQLException e) {
 			e.printStackTrace();
 			return false;
+		}
+	}
+	/**
+	 * 所有已经收藏期刊
+	 * @param zkTopic
+	 */
+	public ArrayList<ZKTopic> queryFavorits() {
+		try {
+			Dao<ZKTopic, Integer> favorDao = getHelper().getFavorDao();
+			ArrayList<ZKTopic> temp = (ArrayList<ZKTopic>) favorDao.queryBuilder().orderBy("datetime", false).query();
+			return temp;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return null;
 		}
 	}
 	/**

@@ -133,6 +133,15 @@ public class ZKTopic implements Serializable{
 	@Expose
 	private String zkreferidsReal;
 
+	private boolean isNew = false;
+	public boolean isNew() {
+		return isNew;
+	}
+	
+	public void setNew(boolean isNew) {
+		this.isNew = isNew;
+	}
+
 	public String getKeywordE() {
 		return keywordE;
 	}

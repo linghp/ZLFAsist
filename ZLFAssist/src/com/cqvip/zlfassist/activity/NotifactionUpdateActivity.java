@@ -1,10 +1,16 @@
 package com.cqvip.zlfassist.activity;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.Map;
 
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -14,13 +20,18 @@ import android.widget.ListView;
 import com.cqvip.zlfassist.R;
 import com.cqvip.zlfassist.adapter.ZKTopicListAdapter;
 import com.cqvip.zlfassist.base.BaseActionBarActivity;
+import com.cqvip.zlfassist.bean.ItemFollows;
+import com.cqvip.zlfassist.db.DBManager;
 import com.cqvip.zlfassist.zkbean.ZKTopic;
+import com.j256.ormlite.dao.Dao;
 
 public class NotifactionUpdateActivity extends BaseActionBarActivity implements OnItemClickListener {
 
 	private Context context;
 	private ListView listView;
 	private ZKTopicListAdapter adapter;
+	private HashMap<String, Boolean> allIds = null;
+	private 	ArrayList<ZKTopic> updateList;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -28,37 +39,45 @@ public class NotifactionUpdateActivity extends BaseActionBarActivity implements 
  		setContentView(R.layout.activity_notification);
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 		listView = (ListView) findViewById(R.id.lv_notification);
-		ArrayList<ZKTopic> lists =formDate();
-		adapter = new ZKTopicListAdapter(context, lists);
+		allIds = (HashMap<String, Boolean>) getIntent().getSerializableExtra("ids");
+		DBManager man = new DBManager(this);
+		if(allIds!=null&&!allIds.isEmpty()){
+		 updateList =sortLists(man.queryFavorits(),allIds);
+		}else{
+			updateList = man.queryFavorits();
+		}
+		adapter = new ZKTopicListAdapter(context, updateList);
 		listView.setAdapter(adapter);
 		listView.setOnItemClickListener(this);
-		getDate(lists);
-	}
 	
-	
-	  private void getDate(ArrayList<ZKTopic> lists) {
-		// TODO Auto-generated method stub
-		
 	}
+	private ArrayList<ZKTopic> sortLists(ArrayList<ZKTopic> lists, HashMap<String,Boolean> updates) {
+		for (Map.Entry<String, Boolean> entry : updates.entrySet()) {
+				if(entry.getValue()){
+						for (int i = 0; i < lists.size(); i++) {
+								if(entry.getKey().equals(lists.get(i).getId())){
+										lists.get(i).setNew(true);
+								}
+						}
+					}
+			  }
+		 Comparator<ZKTopic> comparator = new Comparator<ZKTopic>(){
 
-
-	private ArrayList<ZKTopic> formDate() {
-		  ArrayList<ZKTopic> lists = new ArrayList<>();
-		  ZKTopic  topic = new ZKTopic();
-		  topic.setId("123");
-		  topic.setTitleC("大肠癌细胞短期培养法筛选抗癌药物的初步探讨");
-		  topic.setShowwriter("张宗显;戴珊星");
-		  topic.setShoworgan("浙江省肿瘤医院");
-		  topic.setMediaC("癌症：英文版");
-		  topic.setMediasQk("989年第1期 63-64,共2页");
-		  topic.setRemarkC("浙江省肿瘤医院肿瘤研究所大肠癌细胞短期培养法筛选抗癌药物,");
-		  topic.setClasstypes("医药卫生—药品");
-		  topic.setClass_("R979.1");
-		  topic.setKeywordC("大肠癌细胞");
-		  lists.add(topic);
-		  lists.add(topic);
-		  lists.add(topic);
-		  lists.add(topic);
+				@Override
+				public int compare(ZKTopic s1, ZKTopic s2) {
+						    //先排年龄
+							   if(s1.isNew()!=s2.isNew()){
+								   if(s1.isNew()){
+									   return -1;
+								   }else{
+									   return 1;
+								   }
+							   }else{
+								   return -1;
+							   }
+				}
+				  };
+				  Collections.sort(lists,comparator);
 		return lists;
 	}
 
@@ -76,6 +95,8 @@ public class NotifactionUpdateActivity extends BaseActionBarActivity implements 
 	public void onItemClick(AdapterView<?> parent, View view, int position,
 			long id) {
 		ZKTopic item = adapter.getList().get(position);
+		item.setNew(false);
+		adapter.notifyDataSetChanged();
 		 if(item!=null){
 				Bundle bundle = new Bundle();
 				Intent _intent = new Intent(context,DetailContentActivity.class);

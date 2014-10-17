@@ -11,6 +11,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -75,17 +77,30 @@ public class ZKFollowListFragment extends BaseFrgment implements OnItemClickList
         listview.setOnItemClickListener(this);
 		return v;
 	}
-
+	/**
+	 * 获取更新
+	 * @param itemFollows_List2
+	 */
 	private void getDate(ArrayList<ItemFollows> itemFollows_List2) {
 		String keysString = getAllIds(itemFollows_List2);
 		Map<String, String> map = new HashMap<>();
 		map.put("key", keysString);
 		map.put("type","media");
 		//map.put("datetime", "1413181135");
-		map.put("datetime", "0");
+		String datetimeString =getActivity().getSharedPreferences(C.PERFERENCE_UPDATE, getActivity().MODE_PRIVATE).
+				getString(C.PERFERENCE_TOPIC, "0");
+		map.put("datetime",datetimeString);
 		Log.i("getDate","key"+keysString);
 		VolleyManager.requestVolley(map, C.SERVER+C.URL_UPDATE_PERICAL, Method.POST, backlistener, errorListener, mQueue);
-		
+	}
+	
+	private void saveDatetime(String datetime) {
+		SharedPreferences preferences = getActivity().getSharedPreferences(C.PERFERENCE_UPDATE,getActivity().MODE_PRIVATE);
+		Editor editor = preferences.edit();
+		// 存入数据
+		editor.putString(C.PERFERENCE_PERODICAL, datetime);
+		// 提交修改
+		editor.commit();
 	}
 	Listener<String> backlistener = new Listener<String>() {
 		@Override
@@ -98,6 +113,7 @@ public class ZKFollowListFragment extends BaseFrgment implements OnItemClickList
 				if(result.getState().equals("00")){
 					ItemUpdate items = new ItemUpdate(result.getResult());
 					itemFollows_List = sortLists(itemFollows_List, items.getUpdateList());
+					saveDatetime(items.getDatetime());
 					adapter.notifyDataSetChanged();
 				}
 			} catch (JSONException e) {
@@ -151,6 +167,8 @@ public class ZKFollowListFragment extends BaseFrgment implements OnItemClickList
 	public void onItemClick(AdapterView<?> parent, View view, int position,
 			long id) {
 		ItemFollows item = adapter.getList().get(position);
+		item.setNew(false);
+		adapter.notifyDataSetChanged();
 		Intent _intent ;
 		// Book book = lists.get(position-1);
 		 if(item!=null){

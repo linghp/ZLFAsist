@@ -48,7 +48,8 @@
                 <TextView
                     android:id="@+id/tv_ref_update"
                     style="@style/left_drawer_item_text"
-                       android:layout_centerInParent="true"
+                    android:layout_width="100dp"
+                    android:layout_centerInParent="true"
                     android:text="@string/notification" />
             </RelativeLayout>
 
