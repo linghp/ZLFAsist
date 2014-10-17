@@ -57,6 +57,7 @@
         android:layout_toRightOf="@id/download_icon"
         android:ellipsize="end"
         android:maxLines="1"
+        android:textSize="@dimen/abc_action_bar_title_text_size"
         android:textColor="@color/blue_title"
         android:paddingLeft="8dip" />
 

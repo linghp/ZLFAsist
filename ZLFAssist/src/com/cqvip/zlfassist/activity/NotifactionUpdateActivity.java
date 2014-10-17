@@ -18,6 +18,7 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 
 import com.cqvip.zlfassist.R;
+import com.cqvip.zlfassist.adapter.TopicUpdateListAdapter;
 import com.cqvip.zlfassist.adapter.ZKTopicListAdapter;
 import com.cqvip.zlfassist.base.BaseActionBarActivity;
 import com.cqvip.zlfassist.bean.ItemFollows;
@@ -29,7 +30,7 @@ public class NotifactionUpdateActivity extends BaseActionBarActivity implements 
 
 	private Context context;
 	private ListView listView;
-	private ZKTopicListAdapter adapter;
+	private TopicUpdateListAdapter adapter;
 	private HashMap<String, Boolean> allIds = null;
 	private 	ArrayList<ZKTopic> updateList;
 	@Override
@@ -46,7 +47,7 @@ public class NotifactionUpdateActivity extends BaseActionBarActivity implements 
 		}else{
 			updateList = man.queryFavorits();
 		}
-		adapter = new ZKTopicListAdapter(context, updateList);
+		adapter = new TopicUpdateListAdapter(context, updateList);
 		listView.setAdapter(adapter);
 		listView.setOnItemClickListener(this);
 	

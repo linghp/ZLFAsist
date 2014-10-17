@@ -6,11 +6,11 @@ import java.util.HashMap;
 import java.util.Map;
 
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -22,7 +22,6 @@ import com.android.volley.Response.Listener;
 import com.artifex.mupdfdemo.MuPDFActivity;
 import com.cqvip.zlfassist.R;
 import com.cqvip.zlfassist.base.BaseActionBarActivity;
-import com.cqvip.zlfassist.bean.ItemFollows;
 import com.cqvip.zlfassist.bean.JudgeResult;
 import com.cqvip.zlfassist.constant.C;
 import com.cqvip.zlfassist.db.DBManager;
@@ -34,20 +33,22 @@ import com.cqvip.zlfassist.zkbean.ZKTopic;
 import com.j256.ormlite.android.apptools.OpenHelperManager;
 import com.j256.ormlite.dao.Dao;
 
-public class DetailContentActivity extends BaseActionBarActivity implements OnClickListener {
+public class DetailContentActivity extends BaseActionBarActivity implements
+		OnClickListener {
 	private final String LOG_TAG = getClass().getSimpleName();
-	private TextView title, author, organ, comeform, abst, keyword, classid,tips;
+	private TextView title, author, organ, comeform, abst, keyword, classid,
+			tips;
 	private ZKContent topic;
 	private String requestId;
 	private ZKTopic zkTopic;
-	private TextView shareTextView ,readTextView,favorTextView;
-	private ArrayList<ZKTopic> zkTopics_list=new ArrayList<>();
+	private TextView shareTextView, readTextView, favorTextView;
+	private ArrayList<ZKTopic> zkTopics_list = new ArrayList<>();
 	private static final String[] SHOWTIPS = { "作者：", "机构：", "出处：", "关键词：",
 			"分类号：" };
 	private DatabaseHelper databaseHelper = null;
 	private MenuItem menuItem_favor;
-	private boolean isfavor =false;
-	private boolean isCanRead = false;//是否可以阅读
+	private boolean isfavor = false;
+	private boolean isCanRead = false;// 是否可以阅读
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -61,7 +62,7 @@ public class DetailContentActivity extends BaseActionBarActivity implements OnCl
 		initfirstView();
 		queryDB();
 		getDate(requestId);
-		
+
 	}
 
 	private void initfirstView() {
@@ -77,10 +78,10 @@ public class DetailContentActivity extends BaseActionBarActivity implements OnCl
 		classid.setText(BaseTools.formaddTips((BaseTools.formContent(zkTopic
 				.getClass_()) + BaseTools.formaaddBracket(zkTopic
 				.getClasstypes())), SHOWTIPS[4]));
-		if(!TextUtils.isEmpty(zkTopic.getRemarkC())){
+		if (!TextUtils.isEmpty(zkTopic.getRemarkC())) {
 			tips.setVisibility(View.VISIBLE);
 			abst.setText(zkTopic.getRemarkC());
-		}else{
+		} else {
 			tips.setVisibility(View.GONE);
 		}
 	}
@@ -101,14 +102,23 @@ public class DetailContentActivity extends BaseActionBarActivity implements OnCl
 		favorTextView.setOnClickListener(this);
 		readTextView.setOnClickListener(this);
 		DBManager manager = new DBManager(this);
-		if(manager.isFavoriteTopic(zkTopic)){
-			favorTextView.setText("取消收藏");
-		}else{
-			favorTextView.setText("收藏");
+		if (manager.isFavoriteTopic(zkTopic)) {
+			changeDisplayContent_Favor("取消收藏",R.drawable.favored);
 		}
-		if(manager.isDownload(requestId)){
+		// else{
+		// favorTextView.setText("收藏");
+		// }
+		if (manager.isDownload(requestId)) {
 			isCanRead = true;
 		}
+	}
+
+	private void changeDisplayContent_Favor(String title,int id) {
+		favorTextView.setText(title);
+		Drawable drawable = getResources().getDrawable(id);
+		drawable.setBounds(0, 0, drawable.getMinimumWidth(),
+				drawable.getMinimumHeight());// 必须设置图片大小，否则不显示
+		favorTextView.setCompoundDrawables(null, drawable, null, null);
 	}
 
 	private void getDate(String requestId2) {
@@ -154,17 +164,17 @@ public class DetailContentActivity extends BaseActionBarActivity implements OnCl
 		private void isFavor(ZKContent topic) {
 			Log.i(LOG_TAG, "isFavor");
 			for (ZKTopic zkTopic : zkTopics_list) {
-				if(zkTopic.getId().equals(topic.getId())&&zkTopic.getType().equals(topic.getType())){
-					isfavor=true;
+				if (zkTopic.getId().equals(topic.getId())
+						&& zkTopic.getType().equals(topic.getType())) {
+					isfavor = true;
 					return;
 				}
 			}
-				isfavor=false;;
+			isfavor = false;
+			;
 		}
 
 	};
-	
-	
 
 	private void setView() {
 		title.setText(topic.getTitleC());
@@ -177,24 +187,24 @@ public class DetailContentActivity extends BaseActionBarActivity implements OnCl
 		classid.setText(SHOWTIPS[5] + topic.getClass_() + topic.getClasstypes());
 	}
 
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.detail_content, menu);
-		menuItem_favor=menu.findItem(R.id.action_addfavor);
-		return true;
-	}
-	
-	@Override
-	public boolean onPrepareOptionsMenu(Menu menu) {
-		// TODO Auto-generated method stub
-		if(isfavor){
-			menuItem_favor.setTitle(R.string.action_cancelfavor);
-		}else{
-			menuItem_favor.setTitle(R.string.action_addfavor);
-		}
-		return super.onPrepareOptionsMenu(menu);
-	}
+	// @Override
+	// public boolean onCreateOptionsMenu(Menu menu) {
+	// // Inflate the menu; this adds items to the action bar if it is present.
+	// getMenuInflater().inflate(R.menu.detail_content, menu);
+	// menuItem_favor=menu.findItem(R.id.action_addfavor);
+	// return true;
+	// }
+	//
+	// @Override
+	// public boolean onPrepareOptionsMenu(Menu menu) {
+	// // TODO Auto-generated method stub
+	// if(isfavor){
+	// menuItem_favor.setTitle(R.string.action_cancelfavor);
+	// }else{
+	// menuItem_favor.setTitle(R.string.action_addfavor);
+	// }
+	// return super.onPrepareOptionsMenu(menu);
+	// }
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
@@ -208,14 +218,14 @@ public class DetailContentActivity extends BaseActionBarActivity implements OnCl
 			return true;
 		}
 		if (id == R.id.action_addfavor) {
-			if(isfavor){
-			deleteDB(zkTopic);
-			}else{
-			saveDB(zkTopic);
+			if (isfavor) {
+				deleteDB(zkTopic);
+			} else {
+				saveDB(zkTopic);
 			}
 			return true;
 		}
-		if( id == android.R.id.home){
+		if (id == android.R.id.home) {
 
 			finish();
 			return true;
@@ -223,12 +233,11 @@ public class DetailContentActivity extends BaseActionBarActivity implements OnCl
 
 		return super.onOptionsItemSelected(item);
 	}
-	
+
 	private void queryDB() {
 		try {
-			Dao<ZKTopic, Integer> favorDao = getHelper()
-					.getFavorDao();
-			zkTopics_list =  (ArrayList<ZKTopic>) favorDao.queryForAll();
+			Dao<ZKTopic, Integer> favorDao = getHelper().getFavorDao();
+			zkTopics_list = (ArrayList<ZKTopic>) favorDao.queryForAll();
 			for (ZKTopic zkTopic : zkTopics_list) {
 				Log.i(LOG_TAG + "--getdatafromdb", zkTopic.getTitleC());
 			}
@@ -236,39 +245,39 @@ public class DetailContentActivity extends BaseActionBarActivity implements OnCl
 			e.printStackTrace();
 		}
 	}
-	
+
 	protected void saveDB(ZKTopic zkTopic) {
 		try {
-			Dao<ZKTopic, Integer> favorDao = getHelper()
-					.getFavorDao();
+			Dao<ZKTopic, Integer> favorDao = getHelper().getFavorDao();
 			// ItemFollows itemFollows = new ItemFollows();
 			// store it in the database
-			//itemFollows.setDatetime(System.currentTimeMillis());
+			// itemFollows.setDatetime(System.currentTimeMillis());
 			favorDao.create(zkTopic);
 			Toast.makeText(this, "收藏成功", 1).show();
-			isfavor=true;
+			changeDisplayContent_Favor("取消收藏",R.drawable.favored);
+			isfavor = true;
 		} catch (SQLException e) {
 			e.printStackTrace();
 			Toast.makeText(this, "收藏失败", 1).show();
 		}
 	}
-	
+
 	protected void deleteDB(ZKTopic zkTopic) {
 		try {
-			Dao<ZKTopic, Integer> favorDao = getHelper()
-					.getFavorDao();
+			Dao<ZKTopic, Integer> favorDao = getHelper().getFavorDao();
 			// ItemFollows itemFollows = new ItemFollows();
 			// store it in the database
-			//itemFollows.setDatetime(System.currentTimeMillis());
+			// itemFollows.setDatetime(System.currentTimeMillis());
 			favorDao.delete(zkTopic);
 			Toast.makeText(this, "取消收藏成功", 1).show();
-			isfavor=false;
+			changeDisplayContent_Favor("收藏", R.drawable.favor);
+			isfavor = false;
 		} catch (SQLException e) {
 			e.printStackTrace();
 			Toast.makeText(this, "取消收藏失败", 1).show();
 		}
 	}
-	
+
 	private DatabaseHelper getHelper() {
 		if (databaseHelper == null) {
 			databaseHelper = OpenHelperManager.getHelper(this,
@@ -290,14 +299,14 @@ public class DetailContentActivity extends BaseActionBarActivity implements OnCl
 	public void onClick(View v) {
 		switch (v.getId()) {
 		case R.id.btn_item_favor:
-			if(isfavor){
+			if (isfavor) {
 				deleteDB(zkTopic);
-				}else{
+			} else {
 				saveDB(zkTopic);
-				}
+			}
 			break;
 		case R.id.btn_item_read:
-			if(isCanRead){
+			if (isCanRead) {
 				DBManager manager = new DBManager(DetailContentActivity.this);
 				String path = manager.getReadPath(requestId);
 				Uri uri = Uri.parse(path);
@@ -306,8 +315,8 @@ public class DetailContentActivity extends BaseActionBarActivity implements OnCl
 				intent.setAction(Intent.ACTION_VIEW);
 				intent.setData(uri);
 				startActivity(intent);
-			}else{
-				Toast.makeText(this, "文章未下载,暂时无法阅读",1).show();
+			} else {
+				Toast.makeText(this, "文章未下载,暂时无法阅读", 1).show();
 			}
 			break;
 		case R.id.btn_item_share:
@@ -317,7 +326,6 @@ public class DetailContentActivity extends BaseActionBarActivity implements OnCl
 		default:
 			break;
 		}
-		
-		
+
 	}
 }
