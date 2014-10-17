@@ -29,7 +29,9 @@ import android.widget.TextView;
 
 import com.android.volley.Request.Method;
 import com.android.volley.Response.Listener;
+import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.ImageLoader.ImageListener;
 import com.cqvip.zlfassist.R;
 import com.cqvip.zlfassist.adapter.ZKTopicListAdapter;
 import com.cqvip.zlfassist.base.BaseActionBarActivity;
@@ -37,6 +39,7 @@ import com.cqvip.zlfassist.bean.EBook;
 import com.cqvip.zlfassist.bean.ItemFollows;
 import com.cqvip.zlfassist.bean.PeriodicalYear;
 import com.cqvip.zlfassist.bean.ZKPeriodical;
+import com.cqvip.zlfassist.bitmap.BitmapCache;
 import com.cqvip.zlfassist.constant.C;
 import com.cqvip.zlfassist.http.HttpUtils;
 import com.cqvip.zlfassist.http.VolleyManager;
@@ -245,7 +248,7 @@ public class ZKPeriodicalInfoActivity extends BaseActionBarActivity implements  
 		//期刊日期
 		txt_date = (TextView) findViewById(R.id.txt_year_month);
 //		//图片
-//		img = (ImageView) findViewById(R.id.periodical_icon_img);
+		img = (ImageView) findViewById(R.id.periodical_icon_img);
 		
 	}
 	private void initView(ZKPeriodical periodical) {
@@ -258,6 +261,17 @@ public class ZKPeriodicalInfoActivity extends BaseActionBarActivity implements  
 		organ.setText(BaseTools.addTips(SHOWTITLE[4],periodical.getOrganizers()));
 		fund.setText(BaseTools.addTips(SHOWTITLE[5],periodical.getFunds()));
 	//	remark.setText(periodical.get);
+		if (!TextUtils.isEmpty(periodical.getMediapic())) {
+			
+			ImageLoader mImageLoader = new ImageLoader(mQueue,BitmapCache.cache);
+			ImageListener listener = ImageLoader.getImageListener(img,
+					R.drawable.default_periodical, R.drawable.default_periodical);
+			mImageLoader.get(periodical.getMediapic(), listener);
+	    	
+	    } else {
+	    	img.setImageDrawable(context.getResources().getDrawable(
+	    			R.drawable.default_periodical));
+	    }
 		
 		//初始化期刊日期
 		if(yearlist==null){
