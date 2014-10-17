@@ -1,14 +1,18 @@
 package com.cqvip.zlfassist.db;
 
 import java.sql.SQLException;
+import java.util.List;
 
 import android.content.Context;
-import android.widget.Toast;
+import android.database.Cursor;
+import android.text.TextUtils;
 
+import com.cqvip.zlfassist.bean.DownloaderSimpleInfo;
 import com.cqvip.zlfassist.bean.ItemFollows;
 import com.cqvip.zlfassist.zkbean.ZKTopic;
 import com.j256.ormlite.android.apptools.OpenHelperManager;
 import com.j256.ormlite.dao.Dao;
+import com.mozillaonline.providers.DownloadManager;
 
 public class DBManager {
 
@@ -22,6 +26,80 @@ public class DBManager {
 			databaseHelper = OpenHelperManager.getHelper(context,DatabaseHelper.class);
 		}
 		return databaseHelper;
+	}
+	/**
+	 * 获取阅读路径
+	 * @param id
+	 * @return
+	 */
+	public String  getReadPath(String id){
+		try {
+			Dao<DownloaderSimpleInfo, Integer> favorDao = getHelper().getDownloaderSimpleInfoDao();
+			List<DownloaderSimpleInfo>	lists = favorDao.queryForEq("id",id);
+			if(lists!=null&&!lists.isEmpty()){
+				long downloadid = lists.get(0).getDownloadId();
+				Cursor cursor =	getCursor(context,downloadid);
+				if(cursor!=null){
+					int   mIdColumnId = cursor .getColumnIndexOrThrow(DownloadManager.COLUMN_ID);
+					for (cursor.moveToFirst(); !cursor.isAfterLast(); cursor
+							.moveToNext()) {
+						    if (cursor.getLong(mIdColumnId) == downloadid) {
+						  	  int  mLocalUriColumnId = cursor
+									    .getColumnIndexOrThrow(DownloadManager.COLUMN_LOCAL_URI);
+							  String path =  cursor.getString(mLocalUriColumnId);
+						    	if(!TextUtils.isEmpty(path)){
+						    		return path;
+						    	}
+						    	}
+						    }
+						    }
+				}
+			return null;
+			} catch (SQLException e) {
+				e.printStackTrace();
+				return null;
+			}
+	}
+	/**
+	 * 判断是否下载
+	 * @param id
+	 * @return
+	 */
+	public boolean isDownload(String id){
+		try {
+		Dao<DownloaderSimpleInfo, Integer> favorDao = getHelper().getDownloaderSimpleInfoDao();
+		List<DownloaderSimpleInfo>	lists = favorDao.queryForEq("id",id);
+		if(lists!=null&&!lists.isEmpty()){
+			long downloadid = lists.get(0).getDownloadId();
+			Cursor cursor =	getCursor(context,downloadid);
+			if(cursor!=null){
+				int   mIdColumnId = cursor .getColumnIndexOrThrow(DownloadManager.COLUMN_ID);
+				for (cursor.moveToFirst(); !cursor.isAfterLast(); cursor
+						.moveToNext()) {
+					    if (cursor.getLong(mIdColumnId) == downloadid) {
+					  	  int  mLocalUriColumnId = cursor
+								    .getColumnIndexOrThrow(DownloadManager.COLUMN_LOCAL_URI);
+						  String path =  cursor.getString(mLocalUriColumnId);
+					    	if(!TextUtils.isEmpty(path)){
+					    		return true;
+					    	}
+					    	}
+					    }
+					    }
+			}
+		return false;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return false;
+		}
+	}
+	
+	private Cursor getCursor(Context context2, long downloadid) {
+		DownloadManager mDownloadManager = new DownloadManager(context2.getContentResolver(),context2.getPackageName());
+			mDownloadManager.setAccessAllDownloads(true);
+			DownloadManager.Query baseQuery = new DownloadManager.Query()
+				.setOnlyIncludeVisibleInDownloadsUi(true);
+			return  mDownloadManager.query(baseQuery);
 	}
 	/**
 	 * 收藏文章
@@ -79,7 +157,11 @@ public class DBManager {
 			return false;
 		}
 	}
-
+	/**
+	 * 删除关注对象
+	 * @param itemFollows
+	 * @return
+	 */
 	public boolean deleteDB(ItemFollows itemFollows) {
 		try {
 			Dao<ItemFollows, Integer> itemFollowsDao = getHelper()

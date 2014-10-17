@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -17,6 +19,7 @@ import android.widget.Toast;
 
 import com.android.volley.Request.Method;
 import com.android.volley.Response.Listener;
+import com.artifex.mupdfdemo.MuPDFActivity;
 import com.cqvip.zlfassist.R;
 import com.cqvip.zlfassist.base.BaseActionBarActivity;
 import com.cqvip.zlfassist.bean.ItemFollows;
@@ -44,6 +47,7 @@ public class DetailContentActivity extends BaseActionBarActivity implements OnCl
 	private DatabaseHelper databaseHelper = null;
 	private MenuItem menuItem_favor;
 	private boolean isfavor =false;
+	private boolean isCanRead = false;//是否可以阅读
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -101,6 +105,9 @@ public class DetailContentActivity extends BaseActionBarActivity implements OnCl
 			favorTextView.setText("取消收藏");
 		}else{
 			favorTextView.setText("收藏");
+		}
+		if(manager.isDownload(requestId)){
+			isCanRead = true;
 		}
 	}
 
@@ -290,7 +297,18 @@ public class DetailContentActivity extends BaseActionBarActivity implements OnCl
 				}
 			break;
 		case R.id.btn_item_read:
-			
+			if(isCanRead){
+				DBManager manager = new DBManager(DetailContentActivity.this);
+				String path = manager.getReadPath(requestId);
+				Uri uri = Uri.parse(path);
+				Intent intent = new Intent(this, MuPDFActivity.class);
+				intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+				intent.setAction(Intent.ACTION_VIEW);
+				intent.setData(uri);
+				startActivity(intent);
+			}else{
+				Toast.makeText(this, "文章未下载,暂时无法阅读",1).show();
+			}
 			break;
 		case R.id.btn_item_share:
 			BaseTools.bookshare_bysharesdk(this, zkTopic, null);

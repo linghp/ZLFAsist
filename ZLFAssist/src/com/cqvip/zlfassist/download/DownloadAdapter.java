@@ -117,7 +117,15 @@ public class DownloadAdapter extends CursorAdapter {
 	retrieveAndSetIcon(convertView);
 
 	//String title = mCursor.getString(mTitleColumnId);
-	String title = downloaderSimpleInfos.get(mCursor.getPosition()).getName();
+	String title="";
+	if(downloaderSimpleInfos.size()>0){
+	try {
+		title = downloaderSimpleInfos.get(mCursor.getPosition()).getName();
+	} catch (Exception e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	}
+	}
 	long totalBytes = mCursor.getLong(mTotalBytesColumnId);
 	long currentBytes = mCursor.getLong(mCurrentBytesColumnId);
 	int status = mCursor.getInt(mStatusColumnId);

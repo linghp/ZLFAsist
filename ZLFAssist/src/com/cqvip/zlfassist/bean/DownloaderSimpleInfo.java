@@ -33,6 +33,14 @@ public class DownloaderSimpleInfo {
 	
 	@DatabaseField
 	private long datetime;
+	
+	@DatabaseField
+	private String filepath;
+
+
+	public String getFilepath() {
+		return filepath;
+	}
 
 
 	public DownloaderSimpleInfo() {
@@ -73,6 +81,18 @@ public class DownloaderSimpleInfo {
 		this.url = url;
 		this.datetime=System.currentTimeMillis();
 	}
+
+	public DownloaderSimpleInfo(long downloadId, String id, String name,
+			String url, long datetime, String filepath) {
+		super();
+		this.downloadId = downloadId;
+		this.id = id;
+		this.name = name;
+		this.url = url;
+		this.datetime = datetime;
+		this.filepath = filepath;
+	}
+
 
 	@Override
 	public boolean equals(Object o) {
