@@ -24,29 +24,30 @@ public class ZKPeriodical implements Serializable {
 	 */
 	private static final long serialVersionUID = 5074005664334226259L;
 	private String _id;
-	private String gch; // id
-	private String gch5; // id
-	private String titleC; // id
-	private String aliasid; // ����
-	private String zkfwcount;// Ӣ������
-	private String zkfwinfo;// ͼƬ
-	private String issn;// ����
-	private String subjects; // ͳһ����
+	private String gch; // 
+	private String gch5; // 
+	private String titleC; // 
+	private String aliasid; // 
+	private String zkfwcount;// 
+	private String zkfwinfo;// 
+	private String issn;// 
+	private String subjects; // 
 
-	private String organizers;// ���ͳһ����
-	private String publisher;// ����
-	private String lngrangeid; // ���
-	private String zkbycount;// ���ܵ�λ
-	private String mediatypeid; // ���쵥λ
-	private String zkhindex;// ����
-	private String numcount;// �¿�
-	private String periodtype;// ���ٿ�
+	private String organizers;// 
+	private String publisher;// 
+	private String lngrangeid; // 
+	private String zkbycount;// 
+	private String mediatypeid; 
+	private String zkhindex;// 
+	private String numcount;// 
+	private String periodtype;// 
 	private String classtypes;
 	private String funds;
 	private String lastnum;
 	private String cn;
 	private String writers;
 	private String impactfactor;
+	private String mediapic;//图片
 	private ArrayList<PeriodicalYear> yearsnumlist;
 	
 	public ZKPeriodical() {
@@ -80,6 +81,7 @@ public class ZKPeriodical implements Serializable {
 				cn = checkJson(json,"cn");
 				writers = checkJson(json,"writers");
 				impactfactor = checkJson(json,"impactfactor");
+				mediapic = checkJson(json,"mediapic");
 				yearsnumlist = formList(jsonArray);
 			
 	}
@@ -217,6 +219,10 @@ public class ZKPeriodical implements Serializable {
 
 	public String getFunds() {
 		return funds;
+	}
+
+	public String getMediapic() {
+		return mediapic;
 	}
 
 }
