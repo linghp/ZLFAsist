@@ -129,7 +129,6 @@ public class DisplayFollowActivity extends BaseActionBarActivity implements
 		public void onResponse(String response) {
 			if(customProgressDialog!=null&&customProgressDialog.isShowing())
 			customProgressDialog.dismiss();
-			
 			try {
 				JudgeResult result = new JudgeResult(response);
 				if(result.getState().endsWith("00")){
@@ -137,18 +136,19 @@ public class DisplayFollowActivity extends BaseActionBarActivity implements
 					//插入数据库
 					DBManager dao = new DBManager(DisplayFollowActivity.this);
 				  	boolean isSucess = dao.saveDB(item);
-				  	if(isSucess){
-				  		getdatafromdb();
+				  	if(!isSucess){
+				
+				  		Toast.makeText(DisplayFollowActivity.this, "关注失败",1).show();
 				  	}
+				}else{
+					Toast.makeText(DisplayFollowActivity.this, "关注失败",1).show();
+			  		
 				}
 			} catch (JSONException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			
-			
-			
-			
+			getdatafromdb();
 		}
 	};
 

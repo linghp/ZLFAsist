@@ -92,8 +92,8 @@ public class AddFavorActivity extends BaseActionBarActivity implements OnItemCli
 					}else{
 					//插入数据库	
 						boolean isSucess = dao.saveTopic(item);
-						if(isSucess){
-							getdatafromdb();
+						if(!isSucess){
+						Toast.makeText(AddFavorActivity.this, "收藏失败",1).show();
 						}
 					}
 				}
@@ -101,7 +101,7 @@ public class AddFavorActivity extends BaseActionBarActivity implements OnItemCli
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			
+			getdatafromdb();
 		}
 	};
 	 @Override
