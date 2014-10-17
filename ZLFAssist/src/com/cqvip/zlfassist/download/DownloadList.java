@@ -147,7 +147,7 @@ public class DownloadList extends ActionBarActivity implements
 
     private void setupViews() {
 	setContentView(R.layout.download_list);
-	setTitle(getText(R.string.download_title));
+	//setTitle(getText(R.string.download_title));
 
 
 	mListView = (ListView) findViewById(R.id.size_ordered_list);

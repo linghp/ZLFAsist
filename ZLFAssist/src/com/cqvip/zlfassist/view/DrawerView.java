@@ -13,7 +13,6 @@ import com.cqvip.zlfassist.R;
 import com.cqvip.zlfassist.activity.AddFavorActivity;
 import com.cqvip.zlfassist.activity.DisplayFollowActivity;
 import com.cqvip.zlfassist.activity.NotifactionUpdateActivity;
-import com.cqvip.zlfassist.download.DownloadAdapter;
 import com.cqvip.zlfassist.download.DownloadList;
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu.OnClosedListener;

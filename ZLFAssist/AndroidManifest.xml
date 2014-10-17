@@ -18,21 +18,21 @@
 
     <!-- Allows access to the Download Manager -->
     <permission
-        android:name="com.mozillaonline.permission.ACCESS_DOWNLOAD_MANAGER"
+        android:name="com.cqvip.zlfassist.permission.ACCESS_DOWNLOAD_MANAGER"
         android:description="@string/permdesc_downloadManager"
         android:label="@string/permlab_downloadManager"
         android:protectionLevel="normal" />
 
     <!-- Allows advanced access to the Download Manager -->
     <permission
-        android:name="com.mozillaonline.permission.ACCESS_DOWNLOAD_MANAGER_ADVANCED"
+        android:name="com.cqvip.zlfassist.permission.ACCESS_DOWNLOAD_MANAGER_ADVANCED"
         android:description="@string/permdesc_downloadManagerAdvanced"
         android:label="@string/permlab_downloadManagerAdvanced"
         android:protectionLevel="normal" />
 
     <!-- Allows to send broadcasts on download completion -->
     <permission
-        android:name="com.mozillaonline.permission.SEND_DOWNLOAD_COMPLETED_INTENTS"
+        android:name="com.cqvip.zlfassist.permission.SEND_DOWNLOAD_COMPLETED_INTENTS"
         android:description="@string/permdesc_downloadCompletedIntent"
         android:label="@string/permlab_downloadCompletedIntent"
         android:protectionLevel="normal" />
@@ -90,6 +90,7 @@
         </activity>
         <activity
             android:name=".activity.NotifactionUpdateActivity"
+             android:label="@string/notification"
             android:screenOrientation="portrait" >
         </activity>
         <activity
@@ -121,7 +122,7 @@
         </activity>
         <activity
             android:name=".activity.DisplayFollowActivity"
-            android:label="@string/title_activity_display_follow"
+            android:label="@string/follow"
             android:parentActivityName=".activity.MainActivity"
             android:screenOrientation="portrait" >
             <meta-data
@@ -171,15 +172,15 @@
         <!-- download -->
         <activity
             android:name=".download.DownloadList"
+             android:label="@string/download"
             android:screenOrientation="portrait" >
         </activity>
 
         <provider
             android:name="com.mozillaonline.providers.downloads.DownloadProvider"
-            android:authorities="com.mozillaonline.downloads" />
+            android:authorities="com.cqvip.zlfassist.downloads" />
 
         <service android:name="com.mozillaonline.providers.downloads.DownloadService" />
-
         <receiver
             android:name="com.mozillaonline.providers.downloads.DownloadReceiver"
             android:exported="false" >
