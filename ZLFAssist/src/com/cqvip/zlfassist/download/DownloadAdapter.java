@@ -31,6 +31,7 @@ import android.database.Cursor;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.text.format.Formatter;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -42,6 +43,7 @@ import android.widget.TextView;
 
 import com.cqvip.zlfassist.R;
 import com.cqvip.zlfassist.bean.DownloaderSimpleInfo;
+import com.cqvip.zlfassist.tools.MyLogger;
 import com.mozillaonline.providers.DownloadManager;
 import com.mozillaonline.providers.downloads.ui.DownloadItem;
 import com.mozillaonline.providers.downloads.ui.DownloadItem.DownloadSelectListener;
@@ -174,10 +176,11 @@ public class DownloadAdapter extends CursorAdapter {
 	    return mDateFormat.format(date);
 	} else {
 		String tempString=mTimeFormat.format(date);
+		//MyLogger.i(tempString);
 		if(tempString.startsWith("AM")){
-		tempString.replace("AM", "上午");
+			tempString=tempString.replace("AM", "上午");
 		}else if(tempString.startsWith("PM")){
-		tempString.replace("PM", "下午");
+			tempString=tempString.replace("PM", "下午");
 		}
 	    return tempString;
 	}

@@ -132,6 +132,7 @@ public class ItemFollows implements Serializable {
 	public static ItemFollows formObject(String result) throws JSONException{
 		GeneralResult gr = new GeneralResult(result);
 		String res = gr.getResult();
+		Log.i("ItemFollows formObject", res);
 		if (!TextUtils.isEmpty(res)) {
 			JSONObject jsonObject = new JSONObject(res);
 			String type = jsonObject.getString("type");

@@ -68,7 +68,7 @@ public class AddFollowActivity extends BaseActionBarActivity implements
 	private int page_search, page_category;// 搜索的页数和关注的页数
 	// private ItemFollowsAdapter searchAdapter;
 	private Lv_search_adapter searchAdapter;
-	private ArrayList<ItemFollows> searchlists=new ArrayList<>();
+	private ArrayList<ItemFollows> searchlists=new ArrayList<>();//搜索结果
 	private String keywordString;
 	private String requestType;
 

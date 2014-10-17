@@ -42,4 +42,12 @@ public class BaseActionBarActivity extends ActionBarActivity {
 		super.onPause();
 		MobclickAgent.onPause(this);
 	}
+	
+	@Override
+	protected void onDestroy() {
+		if(customProgressDialog!=null&&customProgressDialog.isShowing()){
+			customProgressDialog.dismiss();
+		}
+		super.onDestroy();
+	}
 }

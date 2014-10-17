@@ -131,7 +131,7 @@ public class DisplayFollowActivity extends BaseActionBarActivity implements
 			customProgressDialog.dismiss();
 			try {
 				JudgeResult result = new JudgeResult(response);
-				if(result.getState().endsWith("00")){
+				if(result.getState().equals("00")){
 					ItemFollows item = ItemFollows.formObject(response);
 					//插入数据库
 					DBManager dao = new DBManager(DisplayFollowActivity.this);

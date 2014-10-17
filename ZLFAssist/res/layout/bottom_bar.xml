@@ -2,53 +2,44 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="48.0dip"
-     android:gravity="center"
-    android:orientation="horizontal" 
-    android:background="@color/bottom_bar_color">
+    android:background="@color/bottom_bar_color"
+    android:gravity="center"
+    android:orientation="horizontal" >
 
-     
-
-       
     <TextView
         android:id="@+id/btn_item_favor"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1"
+        android:drawableTop="@drawable/favor"
         android:ellipsize="marquee"
-         android:textColor="@android:color/black"
-         android:paddingBottom="3dip"
-        android:drawableTop="@android:drawable/ic_menu_add"
         android:gravity="center"
-        android:textSize="9sp"
-        android:text="收藏" />
+        android:paddingBottom="3dip"
+        android:text="收藏"
+        android:textSize="9sp" />
 
-          <TextView 
-              android:id="@+id/btn_item_share"
-               android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-             android:paddingBottom="3dip"
-            android:text="分享"
-            android:ellipsize="marquee"
-               android:textColor="@android:color/black"
-            android:textSize="9sp"
-            android:gravity="center"
-			android:drawableTop="@android:drawable/ic_menu_share"              
-              />
-          <TextView 
-              android:id="@+id/btn_item_read"
-               android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:textSize="9sp"
-             android:paddingBottom="3dip"
-            android:layout_weight="1"
-            android:ellipsize="marquee"
-            android:text="阅读"
-             android:textColor="@android:color/black"
-            android:gravity="center"
-			android:drawableTop="@android:drawable/ic_menu_view"              
-              />
-          
-          
-          
+    <TextView
+        android:id="@+id/btn_item_share"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:drawableTop="@android:drawable/ic_menu_share"
+        android:ellipsize="marquee"
+        android:gravity="center"
+        android:paddingBottom="3dip"
+        android:text="分享"
+        android:textSize="9sp" />
+
+    <TextView
+        android:id="@+id/btn_item_read"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:drawableTop="@android:drawable/ic_menu_view"
+        android:ellipsize="marquee"
+        android:gravity="center"
+        android:paddingBottom="3dip"
+        android:text="阅读"
+        android:textSize="9sp" />
+
 </LinearLayout>
