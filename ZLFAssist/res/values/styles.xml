@@ -160,5 +160,9 @@
     <style name="subscribe_more_tip_text" parent="@style/subscribe_my_tip_text">
         <item name="android:textSize">13.0sp</item>
     </style>
+    <style name="detailcontentbottom">
+        <item name="android:textSize">10sp</item>
+        <item name="android:textColor">@android:color/white</item>
+    </style>
 
 </resources>

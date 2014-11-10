@@ -4,7 +4,7 @@
     android:layout_height="48.0dip"
     android:background="@color/bottom_bar_color"
     android:gravity="center"
-    android:orientation="horizontal" >
+    android:orientation="horizontal" android:paddingBottom="2dip">
 
     <TextView
         android:id="@+id/btn_item_favor"
@@ -14,9 +14,9 @@
         android:drawableTop="@drawable/favor"
         android:ellipsize="marquee"
         android:gravity="center"
-        android:paddingBottom="3dip"
         android:text="收藏"
-        android:textSize="9sp" />
+        style="@style/detailcontentbottom"
+         />
 
     <TextView
         android:id="@+id/btn_item_share"
@@ -26,9 +26,8 @@
         android:drawableTop="@android:drawable/ic_menu_share"
         android:ellipsize="marquee"
         android:gravity="center"
-        android:paddingBottom="3dip"
         android:text="分享"
-        android:textSize="9sp" />
+        style="@style/detailcontentbottom" />
 
     <TextView
         android:id="@+id/btn_item_read"
@@ -38,8 +37,7 @@
         android:drawableTop="@android:drawable/ic_menu_view"
         android:ellipsize="marquee"
         android:gravity="center"
-        android:paddingBottom="3dip"
         android:text="阅读"
-        android:textSize="9sp" />
+        style="@style/detailcontentbottom" />
 
 </LinearLayout>

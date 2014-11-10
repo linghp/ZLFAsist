@@ -61,5 +61,8 @@
     <color name="subscribe_item_selected_bg_night">#ff252525</color>
     <color name="subscribe_item_selected_stroke_night">#ffbc494d</color>
     <color name="subscribe_item_disabled_bg_night">#ff2b2b2b</color>
+    
+    <color name="umeng_fb_color_btn_normal">#333333</color>
+    <color name="umeng_fb_color_btn_pressed">#1495F7</color>
 
 </resources>

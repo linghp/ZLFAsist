@@ -8,6 +8,7 @@ import android.util.DisplayMetrics;
 import cn.sharesdk.onekeyshare.OnekeyShare;
 
 import com.cqvip.zlfassist.R;
+import com.cqvip.zlfassist.constant.C;
 import com.cqvip.zlfassist.zkbean.ZKTopic;
 
 public class BaseTools {
@@ -40,10 +41,10 @@ public class BaseTools {
 				if (mbook != null&&mcontext!=null) {
 			final OnekeyShare oks = new OnekeyShare();
 			oks.setNotification(R.drawable.ic_launcher, mcontext.getResources().getString(R.string.app_name));
-			oks.setAddress("12345678901");
+			//oks.setAddress("12345678901");
 			oks.setTitle(mcontext.getResources().getString(R.string.share));
 			oks.setTitleUrl("http://www.cqvip.com/");
-			oks.setText("深职院图书馆友情分享:《" + mbook.getTitleC()+"》");
+			oks.setText("中文期刊助手友情分享:《" + mbook.getTitleC()+"》  "+C.ARTICLE_DETAIL_PRE+mbook.getId());
 			oks.setImagePath("");
 			//String imageurl=mbook.getCover_path();
 //			if(!TextUtils.isEmpty(imageurl)){
@@ -59,6 +60,8 @@ public class BaseTools {
 //			oks.setVenueDescription("This is a beautiful place!");
 //			oks.setLatitude(35.4964560f);
 //			oks.setLongitude(139.746093f);
+			// 令编辑页面显示为Dialog模式
+			oks.setDialogMode();
 			oks.setSilent(false);
 //			if (platform != null) {
 //				oks.setPlatform(platform);

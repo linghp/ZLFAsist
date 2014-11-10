@@ -1,111 +1,104 @@
 <?xml version="1.0" encoding="utf-8"?>
 <DevInfor>
- 
-    <ShareSDK 
-        AppKey = "3531a6327bef"/> <!-- AppKey="104972cdd48" "23a9371d3a8" "8f9693cdcb4"-->
-    
+
+    <ShareSDK AppKey="3531a6327bef" />
+    <!-- AppKey="104972cdd48" "23a9371d3a8" "8f9693cdcb4" -->
+
     <SinaWeibo
+        AppKey="4012884214"
+        AppSecret="a69e0b7f400b88f2432915ef8fea7174"
+        Enable="true"
         Id="1"
-        SortId="1"
-        AppKey="3604342474"
-        AppSecret="f6936468468f6ff474ff3aa90f5e2c07"
-        RedirectUrl="http://cqvip.com/"
-        ShortLinkConversationEnable="true" />
+        RedirectUrl="http://www.wandoujia.com/apps/com.cqvip.zlfassist"
+        ShareByAppClient="true"
+        ShortLinkConversationEnable="true"
+        SortId="1" />
 
     <TencentWeibo
-        Id="2" 
-        SortId="2"
-        AppKey="801307650"
-        AppSecret="ae36f4ee3946e1cbb98d6965b0b2ff5c"
-        RedirectUri="http://sharesdk.cn"
-        ShortLinkConversationEnable="true" />
+        AppKey="801547844"
+        AppSecret="824b1934ebad2b8421134a2efc80ba89"
+        Enable="false"
+        Id="2"
+        RedirectUri="http://www.wandoujia.com/apps/com.cqvip.zlfassist"
+        ShortLinkConversationEnable="true"
+        SortId="2" />
+
+    <!--
+    	Wechat微信和WechatMoments微信朋友圈的appid是一样的；
+    
+                       注意：开发者不能用我们这两个平台的appid,否则分享不了
+    
+       	  微信测试的时候，微信测试需要先签名打包出apk,
+		sample测试微信，要先签名打包，keystore在sample项目中，密码123456
+		
+		BypassApproval是绕过审核的标记，设置为true后AppId将被忽略，故不经过
+		审核的应用也可以执行分享，但是仅限于分享文字和图片，不能分享其他类型，
+		默认值为false。此外，微信收藏不支持此字段。
+    -->
+
+    <Wechat
+        AppId="wxe142ab7f5ed1cb6f"
+        AppSecret="ea3dbccb377899e954603512b78ee0d6"
+        BypassApproval="false"
+        Enable="true"
+        Id="4"
+        SortId="4" />
+
+    <WechatMoments
+        AppId="wxe142ab7f5ed1cb6f"
+        AppSecret="ea3dbccb377899e954603512b78ee0d6"
+        BypassApproval="false"
+        Enable="true"
+        Id="5"
+        SortId="5" />
+
+    <WechatFavorite
+        AppId="wx4868b35061f87885"
+        AppSecret="64020361b8ec4c99936c0e3999a9f249"
+        Enable="false"
+        Id="6"
+        SortId="6" />
+
+    <!-- ShareByAppClient标识是否使用微博客户端分享，默认是false -->
+
+    <QQ
+        AppId="1103385867"
+        AppKey="yOmiwdrVXuMlsB0M"
+        Enable="true"
+        Id="6"
+        ShareByAppClient="true"
+        ShortLinkConversationEnable="true"
+        SortId="6" />
 
     <QZone
-        Id="3"
-        SortId="3"
-        AppId="100371282"
-        AppKey="aed9b0303e3ed1e27bae87c33761161d"
-        ShortLinkConversationEnable="true" />
- <!--  
-    <Wechat
-        Id="4"
-        SortId="4"
-        AppId="wx722922f3a5c136d0"
-        ShortLinkConversationEnable="true" />
-    
-    <WechatMoments
-        Id="5"
-        SortId="5"
-        AppId="wx722922f3a5c136d0"
-        ShortLinkConversationEnable="true" />
-    
-    <WechatFavorite
-        Id="6"
-        SortId="6"
-        AppId="wx722922f3a5c136d0"
-        AppSecret="64020361b8ec4c99936c0e3999a9f249"
-        Enable="true" />   
-            -->    
-    <Wechat
-        Id="4"
-        SortId="4"
-        AppId="wx4868b35061f87885"
-        AppSecret="64020361b8ec4c99936c0e3999a9f249"
-        BypassApproval="false"
-        Enable="true" />
+        AppId="1103385867"
+        AppKey="yOmiwdrVXuMlsB0M"
+        Enable="true"
+        Id="7"
+        RedirectUri="http://www.cqvip.com"
+        ShortLinkConversationEnable="true"
+        SortId="7" />
 
-    <WechatMoments
-        Id="5"
-        SortId="5"
-        AppId="wx4868b35061f87885"
-        AppSecret="64020361b8ec4c99936c0e3999a9f249"
-        BypassApproval="true"
-        Enable="true" />
-        
-	<WechatFavorite
-        Id="6"
-        SortId="6"
-        AppId="wx4868b35061f87885"
-        AppSecret="64020361b8ec4c99936c0e3999a9f249"
-        Enable="false" />
-	<QQ
-        Id="6"
-        SortId="6"
-        AppId="100546583"
-        AppKey="1b3e2b33fd99ddfb97a2b6f8ecaf8bbb"
-        ShortLinkConversationEnable="true" />
-    
-    <Email
-        Id="11" 
-        SortId="11"
-        ShortLinkConversationEnable="true" />
-    
-    <ShortMessage
-        Id="12" 
-        SortId="12"
-        ShortLinkConversationEnable="true" />
-    
-   
-    
     <Douban
+        ApiKey="074fba921906dafd15ef2fb64b1490f7"
         Id="15"
-        SortId="15"
-        ApiKey="07ae0bea501b4ef0170a23bef051ecd0"
-        Secret="e9f2c242a4411d88"
-        RedirectUri="http://cqvip.com/"
-        ShortLinkConversationEnable="true" />
-    
-      <YouDao
-        Id="17"
-        SortId="17"
-        HostType="product"
+        RedirectUri="http://www.cqvip.com"
+        Secret="cfce6d5b11d53677"
+        ShareByAppClient="true"
+        ShortLinkConversationEnable="true"
+        SortId="15" />
+
+    <YouDao
         ConsumerKey="dcde25dca105bcc36884ed4534dab940"
         ConsumerSecret="d98217b4020e7f1874263795f44838fe"
-        RedirectUri="http://www.sharesdk.cn"
-        Enable="true" />
-      
-              
-    <!-- 
+        Enable="false"
+        HostType="product"
+        Id="17"
+        RedirectUri="http://www.cqvip.com"
+        ShareByAppClient="true"
+        SortId="17" />
+
+    <!--
     	在中国大陆，印象笔记有两个服务器，一个是沙箱（sandbox），一个是生产服务器（china）。
     	一般你注册应用，它会先让你使用sandbox，当你完成测试以后，可以到
     	http://dev.yinxiang.com/support/上激活你的ConsumerKey，激活成功后，修改HostType
@@ -113,16 +106,26 @@
     	“product”。
     	
     	如果目标设备上已经安装了印象笔记客户端，ShareSDK允许应用调用本地API来完成分享，但
-    	是需要将应用信息中的“ShareByAppClient”设置为true，此字段默认值为false。
+    	是需要将应用信息中的“ShareByAppClient”设置为true，此字段默认值为false。
     -->
-    <Evernote
-        Id="19"
-        SortId="19"
-        HostType="sandbox"
-    	ConsumerKey="sharesdk-7807"
-		ConsumerSecret="d05bf86993836004"
-		ShareByAppClient="false"
-		Enable="true" />
 
-        
+    <Evernote
+        ConsumerKey="sharesdk-7807"
+        ConsumerSecret="d05bf86993836004"
+        Enable="true"
+        HostType="sandbox"
+        Id="19"
+        ShareByAppClient="true"
+        SortId="19" />
+
+    <Email
+        Id="20"
+        ShortLinkConversationEnable="true"
+        SortId="20" />
+
+    <ShortMessage
+        Id="21"
+        ShortLinkConversationEnable="true"
+        SortId="21" />
+
 </DevInfor>

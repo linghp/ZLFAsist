@@ -50,6 +50,7 @@ public class C {
 	public static final String PERFERENCE_TOPIC="topic_date";
 	public static final String PERFERENCE_PERODICAL ="media_date";
 	
-	
+	//文章详细前缀
+	public static final String  ARTICLE_DETAIL_PRE="http://qikan.cqvip.com/article/detail.aspx?id=";
 	
 }

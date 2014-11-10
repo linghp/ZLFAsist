@@ -1,6 +1,5 @@
 package com.cqvip.zlfassist.view;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 
 import android.app.Activity;
@@ -23,6 +22,7 @@ import com.mozillaonline.providers.DownloadManager;
 import com.mozillaonline.providers.DownloadManager.Request;
 import com.mozillaonline.providers.downloads.DownloadService;
 import com.readystatesoftware.viewbadger.BadgeView;
+import com.umeng.fb.FeedbackAgent;
 /** 
  * 自定义SlidingMenu 测拉菜单类
  * */
@@ -30,13 +30,15 @@ public class DrawerView implements OnClickListener{
 	private final Activity activity;
 	SlidingMenu localSlidingMenu;
 	//private SwitchButton night_mode_btn;
-	private View add_btn,down_btn,favor_btn,update_btn;
+	private View add_btn,down_btn,favor_btn,update_btn,feedback_btn;
 	private TextView night_mode_text;
 	private RelativeLayout setting_btn;
 	DownloadManager mDownloadManager;
 	BadgeView badge;
 	public static final int RESULT_FOLLOW=1;
 	private HashMap<String, Boolean> lists = null;
+	FeedbackAgent fb;
+	
 	public DrawerView(Activity activity) {
 		this.activity = activity;
 		mDownloadManager = new DownloadManager(activity.getContentResolver(),
@@ -79,6 +81,10 @@ public class DrawerView implements OnClickListener{
 			}
 		});
 		initView();
+		//用户反馈
+		fb = new FeedbackAgent(activity);
+        // check if the app developer has replied to the feedback or not.
+        fb.sync();
 		return localSlidingMenu;
 	}
 
@@ -98,12 +104,14 @@ public class DrawerView implements OnClickListener{
 		down_btn=localSlidingMenu.findViewById(R.id.down_btn);
 		favor_btn = localSlidingMenu.findViewById(R.id.favor_btn);
 		update_btn = localSlidingMenu.findViewById(R.id.mes_btn);
+		feedback_btn= localSlidingMenu.findViewById(R.id.feedback_btn);
 		TextView tv_refTextView =  (TextView) localSlidingMenu.findViewById(R.id.tv_ref_update);
 		 badge = new BadgeView(activity, tv_refTextView);
 		add_btn.setOnClickListener(this);
 		down_btn.setOnClickListener(this);
 		favor_btn.setOnClickListener(this);
 		update_btn.setOnClickListener(this);
+		feedback_btn.setOnClickListener(this);
 		
 		//night_mode_btn = (SwitchButton)localSlidingMenu.findViewById(R.id.night_mode_btn);
 //		night_mode_text = (TextView)localSlidingMenu.findViewById(R.id.night_mode_text);
@@ -152,6 +160,9 @@ public class DrawerView implements OnClickListener{
 			intent.putExtra("ids", lists);
 			activity.startActivity(intent);
 			activity.overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+			break;
+		case R.id.feedback_btn:
+			 fb.startFeedbackActivity();
 			break;
 //		case R.id.setting_btn:
 //			activity.startActivity(new Intent(activity,SettingsActivity.class));
