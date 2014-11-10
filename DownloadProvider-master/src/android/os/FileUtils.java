@@ -25,7 +25,6 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.regex.Pattern;
 
-
 /**
  * Tools for managing files.  Not for public consumption.
  * @hide
