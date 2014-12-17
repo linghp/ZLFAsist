@@ -30,6 +30,7 @@ public class NotifactionUpdateActivity extends BaseActionBarActivity implements 
 
 	private Context context;
 	private ListView listView;
+	private View mEmptyView;
 	private TopicUpdateListAdapter adapter;
 	private HashMap<String, Boolean> allIds = null;
 	private 	ArrayList<ZKTopic> updateList;
@@ -40,12 +41,18 @@ public class NotifactionUpdateActivity extends BaseActionBarActivity implements 
  		setContentView(R.layout.activity_notification);
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 		listView = (ListView) findViewById(R.id.lv_notification);
+		mEmptyView = findViewById(R.id.empty);
 		allIds = (HashMap<String, Boolean>) getIntent().getSerializableExtra("ids");
 		DBManager man = new DBManager(this);
 		if(allIds!=null&&!allIds.isEmpty()){
 		 updateList =sortLists(man.queryFavorits(),allIds);
 		}else{
 			updateList = man.queryFavorits();
+		}
+		if (updateList == null || updateList.size() == 0) {
+			mEmptyView.setVisibility(View.VISIBLE);
+		}else{
+			mEmptyView.setVisibility(View.GONE);
 		}
 		adapter = new TopicUpdateListAdapter(context, updateList);
 		listView.setAdapter(adapter);
