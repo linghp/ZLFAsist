@@ -76,7 +76,7 @@ public class DisplayFollowActivity extends BaseActionBarActivity implements
 	private ArrayList<ItemFollows> allFollowItem = new ArrayList<>();// 所有的关注
 	private ArrayList<ItemFollows> selectedFollowItem = new ArrayList<>();// 选中的关注
 	private boolean isFormScan = false;
-	
+
 	@Override
 	public void onCreate(Bundle bundle) {
 		super.onCreate(bundle);
@@ -101,48 +101,52 @@ public class DisplayFollowActivity extends BaseActionBarActivity implements
 		mList.setOnItemClickListener(this);
 		mList.setOnItemLongClickListener(this);
 		mSwipeRefreshWidget.setOnRefreshListener(this);
-		
+
 		isFormScan = getIntent().getBooleanExtra("flag", false);
-		if(isFormScan){
+		if (isFormScan) {
 			String idString = getIntent().getStringExtra("id");
 			String type = getIntent().getStringExtra("type");
-			//获取数据
-			getScanDate(idString,type);
-			
-		}else{
+			// 获取数据
+			getScanDate(idString, type);
 
-		getdatafromdb();
+		} else {
+
+			getdatafromdb();
 		}
 	}
 
 	private void getScanDate(String idString, String type) {
 		customProgressDialog.show();
-		 HashMap<String, String> gparams = new HashMap<String, String>();
-			gparams.put("key", idString);
-			gparams.put("type", type.toLowerCase());
-			Log.i("param","result:"+idString+type);
-		   VolleyManager.requestVolley(gparams, C.SERVER+C.URL_FOLLOW_LIST, Method.POST, backlistener, errorListener, mQueue);
+		HashMap<String, String> gparams = new HashMap<String, String>();
+		gparams.put("key", idString);
+		gparams.put("type", type.toLowerCase());
+		Log.i("param", "result:" + idString + type);
+		VolleyManager.requestVolley(gparams, C.SERVER + C.URL_FOLLOW_LIST,
+				Method.POST, backlistener, errorListener, mQueue);
 	}
 
 	Listener<String> backlistener = new Listener<String>() {
 		@Override
 		public void onResponse(String response) {
-			if(customProgressDialog!=null&&customProgressDialog.isShowing())
-			customProgressDialog.dismiss();
+			if (customProgressDialog != null
+					&& customProgressDialog.isShowing())
+				customProgressDialog.dismiss();
 			try {
 				JudgeResult result = new JudgeResult(response);
-				if(result.getState().equals("00")){
+				if (result.getState().equals("00")) {
 					ItemFollows item = ItemFollows.formObject(response);
-					//插入数据库
+					// 插入数据库
 					DBManager dao = new DBManager(DisplayFollowActivity.this);
-				  	boolean isSucess = dao.saveDB(item);
-				  	if(!isSucess){
-				
-				  		Toast.makeText(DisplayFollowActivity.this, "关注失败",1).show();
-				  	}
-				}else{
-					Toast.makeText(DisplayFollowActivity.this, "关注失败",1).show();
-			  		
+					boolean isSucess = dao.saveDB(item);
+					if (!isSucess) {
+
+						Toast.makeText(DisplayFollowActivity.this, "关注失败", 1)
+								.show();
+					}
+				} else {
+					Toast.makeText(DisplayFollowActivity.this, "关注失败", 1)
+							.show();
+
 				}
 			} catch (JSONException e) {
 				// TODO Auto-generated catch block
@@ -152,8 +156,6 @@ public class DisplayFollowActivity extends BaseActionBarActivity implements
 		}
 	};
 
-	
-	
 	@Override
 	public void onRefresh() {
 		refresh();
@@ -181,7 +183,7 @@ public class DisplayFollowActivity extends BaseActionBarActivity implements
 			myStartActivity();
 			return true;
 		case android.R.id.home:
-			if(isFormScan){
+			if (isFormScan) {
 				setResult(RESULT_OK);
 			}
 			finish();
@@ -189,11 +191,11 @@ public class DisplayFollowActivity extends BaseActionBarActivity implements
 		}
 		return false;
 	}
+
 	private void myStartActivity() {
-		
-		startActivityForResult(new Intent(this, AddFollowActivity.class),1);
-		overridePendingTransition(R.anim.slide_in_right,
-				R.anim.slide_out_left);
+
+		startActivityForResult(new Intent(this, AddFollowActivity.class), 1);
+		overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
 	}
 
 	private void refresh() {
@@ -227,17 +229,31 @@ public class DisplayFollowActivity extends BaseActionBarActivity implements
 
 	private void clearSelection() {
 		selectedFollowItem.clear();
-		showOrHideSelectionMenu();
+		showOrHideSelectionMenu2(true);
 		mList.invalidateViews();
 	}
-
 	@Override
 	public void onItemClick(AdapterView<?> parent, View view, int position,
 			long id) {
 		if (position == allFollowItem.size()) {
 			myStartActivity();
-		} else if (isedit) {
-
+		} else if (!isedit) {
+			ItemFollows item = allFollowItem.get(position);
+			Intent _intent;
+			// Book book = lists.get(position-1);
+			if (item != null) {
+				if (item.getType().equals(C.MEDIA)) {
+					_intent = new Intent(DisplayFollowActivity.this,
+							ZKPeriodicalInfoActivity.class);
+				} else {
+					_intent = new Intent(DisplayFollowActivity.this,
+							ZKFollowinfoMainActivity.class);
+				}
+				Bundle bundle = new Bundle();
+				bundle.putSerializable("item", item);
+				_intent.putExtra("info", bundle);
+				startActivity(_intent);
+			}
 		}
 	}
 
@@ -253,7 +269,7 @@ public class DisplayFollowActivity extends BaseActionBarActivity implements
 	public boolean onItemLongClick(AdapterView<?> parent, View view,
 			int position, long id) {
 		isedit = true;
-		mList.invalidateViews();
+		showOrHideSelectionMenu2(false);
 		// mList.invalidate();
 		return true;
 	}
@@ -341,7 +357,7 @@ public class DisplayFollowActivity extends BaseActionBarActivity implements
 					} else {
 						selectedFollowItem.add(list.get(position));
 					}
-					showOrHideSelectionMenu();
+					showOrHideSelectionMenu2(false);
 				}
 			});
 			return convertView;
@@ -369,6 +385,39 @@ public class DisplayFollowActivity extends BaseActionBarActivity implements
 			mSelectionMenuView.setVisibility(View.GONE);
 			mSelectionMenuView.startAnimation(AnimationUtils.loadAnimation(
 					this, R.anim.footer_disappear));
+		}else{
+			
+		}
+	}
+	private void showOrHideSelectionMenu2(boolean isCancel) {
+		mList.invalidateViews();
+		//是否是空，如果是空，按钮灰色
+		boolean shouldBeVisible = selectedFollowItem.isEmpty();
+		//是否可见
+		boolean isVisible = mSelectionMenuView.getVisibility() == View.VISIBLE;
+		
+		if(isCancel){
+			mSelectionMenuView.setVisibility(View.GONE);
+			mSelectionMenuView.startAnimation(AnimationUtils.loadAnimation(
+					this, R.anim.footer_disappear));
+			
+		}else{
+		if(!isVisible){
+			mSelectionMenuView.setVisibility(View.VISIBLE);
+			mSelectionMenuView.startAnimation(AnimationUtils.loadAnimation(
+					this, R.anim.footer_appear));
+			if (shouldBeVisible) {
+				delete.setEnabled(false);
+			}else{
+				delete.setEnabled(true);
+			}
+		}else{
+			if (shouldBeVisible) {
+				delete.setEnabled(false);
+			}else{
+				delete.setEnabled(true);
+			}
+		}
 		}
 	}
 

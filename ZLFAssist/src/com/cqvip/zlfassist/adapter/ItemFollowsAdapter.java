@@ -68,7 +68,12 @@ public class ItemFollowsAdapter extends AdapterBase<ItemFollows> {
 		}else{
 			holder.about.setVisibility(View.GONE);
 		}
-		holder.subject.setText("主题："+itemFollows.getSubject());
+		if(!TextUtils.isEmpty(itemFollows.getSubject())){
+			holder.subject.setVisibility(View.VISIBLE);
+			holder.subject.setText("主题："+itemFollows.getSubject());
+		}else{
+			holder.subject.setVisibility(View.GONE);
+		}
 		return convertView;
 	}
 

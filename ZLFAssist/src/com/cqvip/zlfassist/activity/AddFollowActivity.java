@@ -13,6 +13,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.widget.SearchView;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -590,8 +591,9 @@ public class AddFollowActivity extends BaseActionBarActivity implements
 				convertView = LayoutInflater.from(context).inflate(
 						R.layout.activity_my_follow_item2, null);
 				holder = new ViewHolder();
-				holder.title = (TextView) convertView
-						.findViewById(R.id.tv_subcategory);
+				holder.title = (TextView) convertView.findViewById(R.id.tv_subcategory_title);
+				holder.about = (TextView) convertView.findViewById(R.id.tv_subcategory_about);
+				holder.subject = (TextView) convertView.findViewById(R.id.tv_subcategory_subjects);
 				holder.iv_add = (ImageView) convertView
 						.findViewById(R.id.iv_add);
 				holder.iv_add.setOnClickListener((AddFollowActivity) context);
@@ -610,13 +612,29 @@ public class AddFollowActivity extends BaseActionBarActivity implements
 				holder.iv_add.setTag(R.id.itemfollow_add_tag, false);
 				// Log.i("getView2", "2");
 			}
-			holder.title.setText(subcategoryNames.get(position).getName());
+			ItemFollows itemFollows = subcategoryNames.get(position);
+			holder.title.setText(itemFollows.getName());
+			if(!TextUtils.isEmpty(itemFollows.getAbout())){
+				holder.about.setVisibility(View.VISIBLE);
+				holder.about.setText("单位："+itemFollows.getAbout());
+				}else{
+					holder.about.setVisibility(View.GONE);
+			}
+			if(!TextUtils.isEmpty(itemFollows.getSubject())){
+				holder.subject.setVisibility(View.VISIBLE);
+				holder.subject.setText("主题："+itemFollows.getSubject());
+			}else{
+				holder.subject.setVisibility(View.GONE);
+			}
+			
 			holder.iv_add.setTag(position);
 			return convertView;
 		}
 
 		class ViewHolder {
 			TextView title;
+			TextView subject;
+			TextView about;
 			ImageView iv_add;
 		}
 	}
@@ -659,8 +677,9 @@ public class AddFollowActivity extends BaseActionBarActivity implements
 				convertView = LayoutInflater.from(context).inflate(
 						R.layout.activity_my_follow_item2, null);
 				holder = new ViewHolder();
-				holder.title = (TextView) convertView
-						.findViewById(R.id.tv_subcategory);
+				holder.title = (TextView) convertView.findViewById(R.id.tv_subcategory_title);
+				holder.about = (TextView) convertView.findViewById(R.id.tv_subcategory_about);
+				holder.subject = (TextView) convertView.findViewById(R.id.tv_subcategory_subjects);
 				holder.iv_add = (ImageView) convertView
 						.findViewById(R.id.iv_add);
 				convertView.setTag(holder);
@@ -691,12 +710,27 @@ public class AddFollowActivity extends BaseActionBarActivity implements
 				holder.iv_add
 						.setBackgroundResource(R.drawable.biz_news_column_subscribe_add_selector);
 			}
-			holder.title.setText(subcategoryNames.get(position).getName());
+			ItemFollows itemFollows = subcategoryNames.get(position);
+			holder.title.setText(itemFollows.getName());
+			if(!TextUtils.isEmpty(itemFollows.getAbout())){
+				holder.about.setVisibility(View.VISIBLE);
+				holder.about.setText("单位："+itemFollows.getAbout());
+				}else{
+					holder.about.setVisibility(View.GONE);
+			}
+			if(!TextUtils.isEmpty(itemFollows.getSubject())){
+				holder.subject.setVisibility(View.VISIBLE);
+				holder.subject.setText("主题："+itemFollows.getSubject());
+			}else{
+				holder.subject.setVisibility(View.GONE);
+			}
 			return convertView;
 		}
 
 		class ViewHolder {
 			TextView title;
+			TextView subject;
+			TextView about;
 			ImageView iv_add;
 		}
 	}
