@@ -69,12 +69,27 @@
                 android:layout_weight="1.0" />
         </LinearLayout>
 
-        <com.cqvip.zlfassist.freshlistview.FreshListView
-            android:id="@+id/lv_search"
+        <FrameLayout
+            android:id="@+id/fl_search"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
-            android:padding="8dp"
-            android:visibility="gone" android:background="@android:color/white"/>
+            android:visibility="gone" >
+
+            <com.cqvip.zlfassist.freshlistview.FreshListView
+                android:id="@+id/lv_search"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:background="@android:color/white"
+                android:padding="8dp" />
+
+            <TextView
+                android:id="@+id/empty"
+                style="@style/noresult"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:gravity="center"
+                android:text="@string/nosearchresult" />
+        </FrameLayout>
     </FrameLayout>
 
 </LinearLayout>
