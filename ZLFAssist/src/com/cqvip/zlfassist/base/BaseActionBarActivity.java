@@ -2,6 +2,7 @@ package com.cqvip.zlfassist.base;
 
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.Response.ErrorListener;
@@ -24,11 +25,10 @@ public class BaseActionBarActivity extends ActionBarActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		
-		
 		mQueue = Volley.newRequestQueue(this);
 		customProgressDialog = CustomProgressDialog.createDialog(this);
 		errorListener = new ErrorVolleyThrow(this, customProgressDialog);
+		Log.i("BaseActionBarActivity", getClass().getSimpleName());
 	}
 	@Override
 	protected void onResume() {

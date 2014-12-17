@@ -68,7 +68,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         style="@style/TextContentMiddleStyle"
-        android:layout_below="@+id/tv_tips_abst"/>
+        android:layout_below="@+id/tv_tips_abst"
+        android:layout_marginBottom="48dp"
+        />
 
 </RelativeLayout>
 </ScrollView>

@@ -33,7 +33,7 @@
                   android:layout_height="fill_parent"
                   android:text="@string/no_downloads"
                   android:gravity="center"
-                  android:textStyle="bold"/>
+                  style="@style/noresult"/>
     </FrameLayout>
 
     <!-- The selection menu that pops up from the bottom of the screen -->

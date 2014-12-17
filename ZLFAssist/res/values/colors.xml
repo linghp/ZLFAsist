@@ -16,7 +16,8 @@
     <color name="color4">#fff4b400</color>
     <color name="blue_title">#FF0099CC</color>
     <color name="yellow">#FF8105</color>
-    <color name="gree">#49A415</color>
+    <color name="green">#49A415</color>
+    <color name="gray">#C2C2C2</color>
     <!-- scan -->
     <color name="transparent">#00000000</color>
     <color name="viewfinder_frame">#ff000000</color>

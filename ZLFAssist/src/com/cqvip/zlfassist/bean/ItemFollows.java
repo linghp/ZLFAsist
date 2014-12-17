@@ -83,42 +83,42 @@ public class ItemFollows implements Serializable {
 		this.type = type;
 		switch (type) {
 		case C.MEDIA:
-			id = result.getString("_id");
-			gch = result.getString("gch");
-			name = result.getString("media");
-			subject = result.getString("subjects");
-			about = result.getString("publisher");
+			id = result.optString("_id");
+			gch = result.optString("gch");
+			name = result.optString("media");
+			subject = result.optString("subjects");
+			about = result.optString("publisher");
 			break;
 		case C.SUBJECT:
-			id = result.getString("_id");
-			name = result.getString("subject");
-			subject = result.getString("subjects");
+			id = result.optString("_id");
+			name = result.optString("subject");
+			subject = result.optString("subjects");
 			break;
 		case C.WRITER:
-			id = result.getString("_id");
-			name = result.getString("writer");
-			subject = result.getString("subjects");
-			about = result.getString("organ");
+			id = result.optString("_id");
+			name = result.optString("writer");
+			subject = result.optString("subjects");
+			about = result.optString("organ");
 			break;
 		case C.ORGAN:
-			id = result.getString("_id");
-			name = result.getString("organ");
-			subject = result.getString("subjects");
+			id = result.optString("_id");
+			name = result.optString("organ");
+			subject = result.optString("subjects");
 			break;
 		case C.DOMAIN:
-			id = result.getString("_id");
-			name = result.getString("classtypename");
-			subject = result.getString("subjects");
+			id = result.optString("_id");
+			name = result.optString("classtypename");
+			subject = result.optString("subjects");
 			break;
 		case C.AREA:
-			id = result.getString("_id");
-			name = result.getString("areaname");
-			subject = result.getString("subjects");
+			id = result.optString("_id");
+			name = result.optString("areaname");
+			subject = result.optString("subjects");
 			break;
 		case C.FUND:
-			id = result.getString("_id");
-			name = result.getString("fund");
-			subject = result.getString("subjects");
+			id = result.optString("_id");
+			name = result.optString("fund");
+			subject = result.optString("subjects");
 			break;
 		default:
 			break;
@@ -145,7 +145,7 @@ public class ItemFollows implements Serializable {
 
 	public static ArrayList<ItemFollows> formList(String result)
 			throws JSONException {
-		//Log.i("JSONException","result"+result);
+		Log.i("JSONException","result"+result);
 		GeneralResult gr = new GeneralResult(result);
 		String res = gr.getResult();
 		if (!TextUtils.isEmpty(res)) {
