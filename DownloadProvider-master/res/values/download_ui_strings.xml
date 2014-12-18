@@ -75,8 +75,6 @@
     <string name="download_error">Failed</string>
 
     <!-- Dialog/toast messages -->
-
-
     <!--
          Title of dialog that is shown when the user clicks a download for which no file is
          available, either because the download hasn't started or because the download failed
