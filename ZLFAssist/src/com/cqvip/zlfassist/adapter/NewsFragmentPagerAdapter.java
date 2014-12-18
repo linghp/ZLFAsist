@@ -57,7 +57,7 @@ public class NewsFragmentPagerAdapter extends FragmentPagerAdapter {
 	@Override
 	public Object instantiateItem(ViewGroup container, final int position) {
 		Object obj = super.instantiateItem(container, position);
-		Log.i("instantiateItem", "instantiateItem");
+		//Log.i("instantiateItem", "instantiateItem");
 		return obj;
 	}
 

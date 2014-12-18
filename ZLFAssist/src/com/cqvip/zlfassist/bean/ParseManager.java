@@ -17,12 +17,12 @@ public class ParseManager<T> {
 	public   ArrayList<T> formList(String result) throws JSONException{
 		GeneralResult gr = new GeneralResult(result);
 		String res = gr.getResult();
-		Log.i("fromJson", res);
+		//Log.i("fromJson", res);
 		if(!TextUtils.isEmpty(res)){
 			JSONObject json = new JSONObject(gr.getResult());
 			Type listType = new TypeToken<ArrayList<T>>(){}.getType();
 			ArrayList<T> lists= new Gson().fromJson(json.getString("list"), listType);
-			Log.i("fromJson","lsits"+lists.size());
+			//Log.i("fromJson","lsits"+lists.size());
 			return lists;
 		}
 		return null;

@@ -106,7 +106,7 @@ public class ZKTopicListFragment extends BaseFrgment implements OnItemClickListe
 if (lists != null && !lists.isEmpty()) {
 					listview.setVisibility(View.VISIBLE);
 					listview.setRefreshSuccess("加载成功"); // 通知加载成功
-					Log.i("VISIBLE","lists"+lists.size());
+					//Log.i("VISIBLE","lists"+lists.size());
 					noResult_rl.setVisibility(View.GONE);
 					adapter = new ZKTopicListAdapter(getActivity(), lists);
 					if(lists.size()<C.DEFAULT_COUNT){

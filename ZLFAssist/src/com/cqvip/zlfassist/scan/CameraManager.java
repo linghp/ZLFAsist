@@ -225,17 +225,17 @@ public final class CameraManager {
       
       int leftOffset =screenResolution.x/ 10;
       int topOffset = screenResolution.y/10;
-      Log.i("CameraManager1", ""+leftOffset);
-      Log.i("CameraManager2", ""+topOffset);
+      //Log.i("CameraManager1", ""+leftOffset);
+      //Log.i("CameraManager2", ""+topOffset);
       int width = screenResolution.x-2*leftOffset;
-      Log.i("CameraManager3", ""+screenResolution.x);
+      //Log.i("CameraManager3", ""+screenResolution.x);
 //      if (width < MIN_FRAME_WIDTH) {
 //        width = MIN_FRAME_WIDTH;
 //      } else if (width > MAX_FRAME_WIDTH) {
 //        width = MAX_FRAME_WIDTH;
 //      }
       int height = screenResolution.y -2*topOffset-CaptureActivity.statusBarHeight;
-      Log.i("CameraManager4", ""+screenResolution.y);
+      //Log.i("CameraManager4", ""+screenResolution.y);
 //      if (height < MIN_FRAME_HEIGHT) {
 //        height = MIN_FRAME_HEIGHT;
 //      } else if (height > MAX_FRAME_HEIGHT) {

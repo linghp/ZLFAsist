@@ -90,7 +90,7 @@ public class ChannelItem implements Serializable {
 	public boolean equals(Object o) {
 		if(o instanceof ChannelItem){
 			ChannelItem t=(ChannelItem) o;
-		//	Log.i("equals", this.id+"----"+t.getId());
+		//	//Log.i("equals", this.id+"----"+t.getId());
 			return this.getType().equals(t.getType());
 		}
 		return super.equals(o);

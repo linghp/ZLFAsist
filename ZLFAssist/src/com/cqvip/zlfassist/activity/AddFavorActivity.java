@@ -75,7 +75,7 @@ public class AddFavorActivity extends BaseActionBarActivity implements
 		HashMap<String, String> gparams = new HashMap<String, String>();
 		gparams.put("key", topicid);
 		gparams.put("type", "article");
-		Log.i("param", "result:" + topicid + "article");
+		//Log.i("param", "result:" + topicid + "article");
 		VolleyManager.requestVolley(gparams, C.SERVER + C.URL_TOPIC_DETAIL,
 				Method.POST, backlistener, errorListener, mQueue);
 
@@ -166,7 +166,7 @@ public class AddFavorActivity extends BaseActionBarActivity implements
 			Dao<ZKTopic, Integer> favorDao = getHelper().getFavorDao();
 			ArrayList<ZKTopic> temp = (ArrayList<ZKTopic>) favorDao
 					.queryBuilder().orderBy("datetime", false).query();
-			Log.i("getdatafromdb", temp.size() + "");
+			//Log.i("getdatafromdb", temp.size() + "");
 			lists.clear();
 			if (temp == null || temp.size() == 0) {
 				mEmptyView.setVisibility(View.VISIBLE);

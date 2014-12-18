@@ -95,7 +95,7 @@ public class AddFollowActivity extends BaseActionBarActivity implements
 			itemFollowDBList = (ArrayList<ItemFollows>) itemFollowsDao
 					.queryForAll();
 			for (ItemFollows itemFollows : itemFollowDBList) {
-				Log.i(LOG_TAG + "--getdatafromdb", itemFollows.getName());
+				//Log.i(LOG_TAG + "--getdatafromdb", itemFollows.getName());
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -126,7 +126,7 @@ public class AddFollowActivity extends BaseActionBarActivity implements
 		lv_subcategory.setOnLoadMoreStartListener(new OnStartListener() {
 			@Override
 			public void onStart() {
-				Log.i(LOG_TAG, "setOnLoadMoreStartListener");
+				//Log.i(LOG_TAG, "setOnLoadMoreStartListener");
 				page_category++;
 				getDateMore(requestType, backlistener_more_subcategory,
 						page_category, C.DEFAULT_COUNT);
@@ -190,7 +190,7 @@ public class AddFollowActivity extends BaseActionBarActivity implements
 		Map<String, String> gparams = new HashMap<String, String>();
 		gparams = new HashMap<String, String>();
 		gparams.put("object", mtype);
-		Log.i("mtype", mtype);
+		//Log.i("mtype", mtype);
 		gparams.put("sort", "score");
 		gparams.put("pageindex", page_category + "");
 		gparams.put("pagesize", defaultCount + "");
@@ -247,7 +247,7 @@ public class AddFollowActivity extends BaseActionBarActivity implements
 					lv_subcategory.startLoadMore(); // 开启LoadingMore功能
 				}
 				// if (lists != null && !lists.isEmpty()) {
-				// // Log.i("VISIBLE", "lists" + lists.size());
+				// // //Log.i("VISIBLE", "lists" + lists.size());
 				// // noResult_rl.setVisibility(View.GONE);
 				// // searchAdapter = new Lv_search_adapter(context, lists);
 				// if (lists.size() < C.DEFAULT_COUNT) {
@@ -275,13 +275,11 @@ public class AddFollowActivity extends BaseActionBarActivity implements
 	Listener<String> backlistener_more_subcategory = new Listener<String>() {
 		@Override
 		public void onResponse(String response) {
-			Log.i("backlistener_more_subcategory",
-					"backlistener_more_subcategory");
+			//Log.i("backlistener_more_subcategory","backlistener_more_subcategory");
 			try {
 				ArrayList<ItemFollows> lists = (ArrayList<ItemFollows>) ItemFollows
 						.formList(response);
-				Log.i("backlistener_more_subcategory--lists.size()",
-						lists.size() + "");
+				//Log.i("backlistener_more_subcategory--lists.size()",lists.size() + "");
 				// subcategoryNameList.clear();
 				subcategoryNameList.addAll(lists);
 				lv_subcategory_adapter.notifyDataSetChanged();
@@ -303,10 +301,10 @@ public class AddFollowActivity extends BaseActionBarActivity implements
 				} else if (lists != null && lists.size() > 0) {
 					lv_subcategory_adapter.notifyDataSetChanged();
 					lv_subcategory.stopLoadMore();
-					Log.i("stopLoadMore", "stopLoadMore");
+					//Log.i("stopLoadMore", "stopLoadMore");
 				} else {
 					lv_subcategory.stopLoadMore();
-					Log.i("stopLoadMore", "stopLoadMore");
+					//Log.i("stopLoadMore", "stopLoadMore");
 				}
 
 				// lv_subcategory.setAdapter(lv_subcategory_adapter);
@@ -389,7 +387,7 @@ public class AddFollowActivity extends BaseActionBarActivity implements
 		gparams.put("keyword", keyword);
 		gparams.put("pagesize", defaultCount + "");
 		gparams.put("pageindex", page + "");
-		Log.i("keyword", "keyword" + keyword);
+		//Log.i("keyword", "keyword" + keyword);
 		VolleyManager.requestVolley(gparams, C.SERVER + C.URL_SEARCH,
 				Method.POST, back_search_listener, errorListener, mQueue);
 	}
@@ -402,7 +400,7 @@ public class AddFollowActivity extends BaseActionBarActivity implements
 		gparams.put("keyword", keyword);
 		gparams.put("pagesize", defaultCount + "");
 		gparams.put("pageindex", page + "");
-		Log.i("keyword", "keyword" + keyword);
+		//Log.i("keyword", "keyword" + keyword);
 		VolleyManager.requestVolley(gparams, C.SERVER + C.URL_SEARCH,
 				Method.POST, back_search_Morelistener, errorListener, mQueue);
 	}
@@ -425,7 +423,7 @@ public class AddFollowActivity extends BaseActionBarActivity implements
 					searchlists .addAll(ItemFollows.formList(response));
 					//lv_search.setVisibility(View.VISIBLE);
 					// lv_search.setRefreshSuccess("加载成功"); // 通知加载成功
-					Log.i("VISIBLE", "lists" + searchlists.size());
+					//Log.i("VISIBLE", "lists" + searchlists.size());
 					// noResult_rl.setVisibility(View.GONE);
 					searchAdapter = new Lv_search_adapter(context, searchlists);
 					if (searchlists.size() < C.DEFAULT_COUNT) {
@@ -538,7 +536,7 @@ public class AddFollowActivity extends BaseActionBarActivity implements
 			// } else {
 			// holder.title.setBackgroundColor(Color.WHITE);
 			// }
-			// Log.i(TAG, position+"--lv_category_getView");
+			// //Log.i(TAG, position+"--lv_category_getView");
 			// holder.title.setText(categoryNames[position]);
 			// if(convertView==null)
 			convertView = LayoutInflater.from(context).inflate(
@@ -551,7 +549,7 @@ public class AddFollowActivity extends BaseActionBarActivity implements
 			} else {
 				title.setBackgroundColor(Color.WHITE);
 			}
-			// Log.i(TAG, position + "--lv_category_getView");
+			// //Log.i(TAG, position + "--lv_category_getView");
 			title.setText(categoryNames.get(position).getName());
 			convertView.setTag(categoryNames.get(position).getType());
 			return convertView;
@@ -609,12 +607,12 @@ public class AddFollowActivity extends BaseActionBarActivity implements
 				holder.iv_add
 						.setBackgroundResource(R.drawable.biz_news_column_subscribe_cancel);
 				holder.iv_add.setTag(R.id.itemfollow_add_tag, true);
-				// Log.i("getView1", subcategoryNames.get(position).getId());
+				// //Log.i("getView1", subcategoryNames.get(position).getId());
 			} else {
 				holder.iv_add
 						.setBackgroundResource(R.drawable.biz_news_column_subscribe_add_selector);
 				holder.iv_add.setTag(R.id.itemfollow_add_tag, false);
-				// Log.i("getView2", "2");
+				// //Log.i("getView2", "2");
 			}
 			ItemFollows itemFollows = subcategoryNames.get(position);
 			holder.title.setText(itemFollows.getName());
@@ -694,7 +692,7 @@ public class AddFollowActivity extends BaseActionBarActivity implements
 
 				@Override
 				public void onClick(View v) {
-					Log.i(TAG, "onClick--iv_add");
+					//Log.i(TAG, "onClick--iv_add");
 					ItemFollows itemFollows_temp = subcategoryNames
 							.get(position);
 					if (itemFollowDBList.contains(itemFollows_temp)) {
@@ -749,7 +747,7 @@ public class AddFollowActivity extends BaseActionBarActivity implements
 			}
 			requestType = (String) view.getTag();
 			lv_category_adapter.setSelectItem(position);
-			// Log.i(TAG + "onItemClick", position +
+			// //Log.i(TAG + "onItemClick", position +
 			// "--lv_category_onItemClick");
 			// lv_category_adapter.notifyDataSetChanged();
 			// subcategoryNameList.clear();
@@ -757,9 +755,9 @@ public class AddFollowActivity extends BaseActionBarActivity implements
 			// lv_subcategory.setAdapter(lv_subcategory_adapter);
 			// lv_subcategory_adapter.notifyDataSetChanged();
 			String tag = (String) view.getTag();
-			Log.i(LOG_TAG, tag);
+			//Log.i(LOG_TAG, tag);
 			ArrayList<ItemFollows> arrayList_temp = allItemFollowMap.get(tag);
-			Log.i("allItemFollowMap", arrayList_temp.size() + "");
+			//Log.i("allItemFollowMap", arrayList_temp.size() + "");
 			if (arrayList_temp != null && arrayList_temp.size() > 0) {
 				subcategoryNameList.clear();
 				subcategoryNameList.addAll(arrayList_temp);
@@ -780,7 +778,7 @@ public class AddFollowActivity extends BaseActionBarActivity implements
 	public void onClick(View v) {
 		switch (v.getId()) {
 		case R.id.iv_add:
-			Log.i(TAG, "onClick--iv_add");
+			//Log.i(TAG, "onClick--iv_add");
 			if ((boolean) v.getTag(R.id.itemfollow_add_tag)) {
 				deleteDB(subcategoryNameList.get((int) v.getTag()));
 			} else {

@@ -120,7 +120,7 @@ public class DisplayFollowActivity extends BaseActionBarActivity implements
 		HashMap<String, String> gparams = new HashMap<String, String>();
 		gparams.put("key", idString);
 		gparams.put("type", type.toLowerCase());
-		Log.i("param", "result:" + idString + type);
+		//Log.i("param", "result:" + idString + type);
 		VolleyManager.requestVolley(gparams, C.SERVER + C.URL_FOLLOW_LIST,
 				Method.POST, backlistener, errorListener, mQueue);
 	}
@@ -261,7 +261,7 @@ public class DisplayFollowActivity extends BaseActionBarActivity implements
 		// TODO Auto-generated method stub
 		super.onActivityResult(requestCode, resultCode, data);
 		getdatafromdb();
-		Log.i("onActivityResult", "display");
+		//Log.i("onActivityResult", "display");
 	}
 
 	@Override
@@ -321,7 +321,7 @@ public class DisplayFollowActivity extends BaseActionBarActivity implements
 				// if(position>=mList.getFirstVisiblePosition()&&position<=mList.getLastVisiblePosition()){
 				// if (isChecked) {
 				// mSelectedIds.add(list.get(position));
-				// Log.i("onCheckedChanged", list.get(position));
+				// //Log.i("onCheckedChanged", list.get(position));
 				// } else {
 				// mSelectedIds.remove(list.get(position));
 				// }
@@ -350,7 +350,7 @@ public class DisplayFollowActivity extends BaseActionBarActivity implements
 				@Override
 				public void onClick(View v) {
 					holder.cb.toggle();
-					Log.i("getView", "onClick--" + position);
+					//Log.i("getView", "onClick--" + position);
 					if (selectedFollowItem.contains(list.get(position))) {
 						selectedFollowItem.remove(list.get(position));
 					} else {
@@ -444,7 +444,7 @@ public class DisplayFollowActivity extends BaseActionBarActivity implements
 			allFollowItem.clear();
 			ArrayList<ItemFollows> temp = (ArrayList<ItemFollows>) itemFollowsDao
 					.queryBuilder().orderBy("datetime", false).query();
-			Log.i("getdatafromdb", allFollowItem.size() + "");
+			//Log.i("getdatafromdb", allFollowItem.size() + "");
 			allFollowItem.addAll(temp);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block

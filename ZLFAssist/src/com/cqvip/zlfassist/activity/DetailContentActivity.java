@@ -141,10 +141,10 @@ public class DetailContentActivity extends BaseActionBarActivity implements
 				customProgressDialog.dismiss();
 			try {
 				JudgeResult result = new JudgeResult(response);
-				Log.i("backlistener", "response=======" + response);
+				//Log.i("backlistener", "response=======" + response);
 				if (result.getState().equals("00")) {
 					topic = ZKContent.formObject(response);
-					Log.i("topic", topic.toString());
+					//Log.i("topic", topic.toString());
 					if (topic != null) {
 						isFavor(topic);
 						// setView();
@@ -162,7 +162,7 @@ public class DetailContentActivity extends BaseActionBarActivity implements
 		}
 
 		private void isFavor(ZKContent topic) {
-			Log.i(LOG_TAG, "isFavor");
+			//Log.i(LOG_TAG, "isFavor");
 			for (ZKTopic zkTopic : zkTopics_list) {
 				if (zkTopic.getId().equals(topic.getId())
 						&& zkTopic.getType().equals(topic.getType())) {
@@ -239,7 +239,7 @@ public class DetailContentActivity extends BaseActionBarActivity implements
 			Dao<ZKTopic, Integer> favorDao = getHelper().getFavorDao();
 			zkTopics_list = (ArrayList<ZKTopic>) favorDao.queryForAll();
 			for (ZKTopic zkTopic : zkTopics_list) {
-				Log.i(LOG_TAG + "--getdatafromdb", zkTopic.getTitleC());
+				//Log.i(LOG_TAG + "--getdatafromdb", zkTopic.getTitleC());
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
