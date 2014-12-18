@@ -514,7 +514,6 @@ public class AddFollowActivity extends BaseActionBarActivity implements
 		public long getItemId(int position) {
 			return position;
 		}
-
 		@Override
 		public View getView(int position, View convertView, ViewGroup parent) {
 			// 注释此块是因为当点击item后，滑动listview，有的item值为空，不解。
