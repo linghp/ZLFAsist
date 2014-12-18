@@ -504,7 +504,6 @@ public class AddFollowActivity extends BaseActionBarActivity implements
 		public int getCount() {
 			return categoryNames.size();
 		}
-
 		@Override
 		public Object getItem(int position) {
 			return categoryNames.get(position);
