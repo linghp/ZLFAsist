@@ -55,6 +55,8 @@ public class AddFollowActivity extends BaseActionBarActivity implements
 	private final String LOG_TAG = getClass().getSimpleName();
 	private ListView lv_category;
 	private FreshListView lv_subcategory, lv_search;
+	private View fl_search;
+	private View mEmptyView;
 	private Lv_subcategory_adapter lv_subcategory_adapter;
 	private Lv_category_adapter lv_category_adapter;
 	public final static String TAG = "AddFollowActivity";
@@ -104,6 +106,8 @@ public class AddFollowActivity extends BaseActionBarActivity implements
 		context = this;
 		lv_category = (ListView) findViewById(R.id.lv_category);
 		lv_subcategory = (FreshListView) findViewById(R.id.lv_subcategory);
+		fl_search=findViewById(R.id.fl_search);
+		mEmptyView = findViewById(R.id.empty);
 		lv_search = (FreshListView) findViewById(R.id.lv_search);
 		ViewSetting.settingListview(lv_subcategory, this);
 		ViewSetting.settingListview(lv_search, this);
@@ -327,8 +331,8 @@ public class AddFollowActivity extends BaseActionBarActivity implements
 
 			@Override
 			public boolean onClose() {
-				lv_search.setVisibility(View.GONE);
-				lv_search.startAnimation(AnimationUtils.loadAnimation(
+				fl_search.setVisibility(View.GONE);
+				fl_search.startAnimation(AnimationUtils.loadAnimation(
 						AddFollowActivity.this, R.anim.header_disappear));
 				return false;
 			}
@@ -431,8 +435,10 @@ public class AddFollowActivity extends BaseActionBarActivity implements
 						lv_search.setAdapter(searchAdapter);
 						lv_search.startLoadMore(); // 开启LoadingMore功能
 					}
+					mEmptyView.setVisibility(View.GONE);
 				} else {
-					
+					mEmptyView.setVisibility(View.VISIBLE);
+					searchAdapter.notifyDataSetChanged();
 				}
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -442,9 +448,9 @@ public class AddFollowActivity extends BaseActionBarActivity implements
 			searchView.clearFocus();
 			//hideKeybord();
 			
-			if (lv_search.getVisibility() == View.GONE) {
-				lv_search.setVisibility(View.VISIBLE);
-				lv_search.startAnimation(AnimationUtils.loadAnimation(
+			if (fl_search.getVisibility() == View.GONE) {
+				fl_search.setVisibility(View.VISIBLE);
+				fl_search.startAnimation(AnimationUtils.loadAnimation(
 						AddFollowActivity.this, R.anim.header_appear));
 			}
 		}
@@ -455,7 +461,7 @@ public class AddFollowActivity extends BaseActionBarActivity implements
 			try {
 				ArrayList<ItemFollows> lists = ItemFollows.formList(response);
 				if (lists != null && !lists.isEmpty()) {
-					lv_search.setVisibility(View.VISIBLE);
+					fl_search.setVisibility(View.VISIBLE);
 					// lv_search.setRefreshSuccess("加载成功"); // 通知加载成功
 					// noResult_rl.setVisibility(View.GONE);
 					if (lists != null && !lists.isEmpty()
