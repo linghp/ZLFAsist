@@ -17,6 +17,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v4.widget.SwipeRefreshLayout.OnRefreshListener;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -308,8 +309,9 @@ public class DisplayFollowActivity extends BaseActionBarActivity implements
 				holder = new ViewHolder();
 				convertView = inflater.inflate(
 						R.layout.item_displayfollow_list, null);
-				holder.title = (TextView) convertView
-						.findViewById(R.id.tv_name);
+				holder.title = (TextView) convertView.findViewById(R.id.tv_follow_title);
+				holder.about = (TextView) convertView.findViewById(R.id.tv_follow_about);
+				holder.subject = (TextView) convertView.findViewById(R.id.tv_follow_subjects);
 				holder.cb = (CheckBox) convertView.findViewById(R.id.check);
 
 				// holder.cb
@@ -334,7 +336,21 @@ public class DisplayFollowActivity extends BaseActionBarActivity implements
 			} else {
 				holder = (ViewHolder) convertView.getTag();
 			}
-			holder.title.setText(list.get(position).getName());
+			
+			ItemFollows itemFollows = list.get(position);
+			holder.title.setText(itemFollows.getName());
+			if(!TextUtils.isEmpty(itemFollows.getAbout())){
+				holder.about.setVisibility(View.VISIBLE);
+				holder.about.setText("单位："+itemFollows.getAbout());
+				}else{
+					holder.about.setVisibility(View.GONE);
+			}
+			if(!TextUtils.isEmpty(itemFollows.getSubject())){
+				holder.subject.setVisibility(View.VISIBLE);
+				holder.subject.setText("主题："+itemFollows.getSubject());
+			}else{
+				holder.subject.setVisibility(View.GONE);
+			}
 			holder.cb.setChecked(false);
 			if (isedit) {
 				holder.cb.setVisibility(View.VISIBLE);
@@ -364,6 +380,8 @@ public class DisplayFollowActivity extends BaseActionBarActivity implements
 
 		class ViewHolder {
 			TextView title;
+			TextView about;
+			TextView subject;
 			CheckBox cb;
 		}
 	}

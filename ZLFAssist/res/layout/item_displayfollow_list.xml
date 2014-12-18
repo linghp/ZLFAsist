@@ -1,26 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="horizontal" android:padding="8dp"
-    android:paddingTop="8dp" android:paddingBottom="8dp"
-    >
-   
-    <TextView
-        android:id="@+id/tv_name"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_vertical"
-        android:layout_marginLeft="5dp"
-        android:layout_weight="1"
-        android:text="444444444444"
-        android:textSize="17sp"
-        android:textColor="@color/default_text" />
-    
-    <CheckBox 
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center"
+    android:orientation="horizontal"
+    android:padding="8dp" >
+
+      <CheckBox 
         android:id="@+id/check"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
         android:visibility="gone"
         />
-</LinearLayout>
+    
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_toLeftOf="@+id/check"
+        android:gravity="left"
+        android:padding="8dp" >
+        <TextView
+            android:id="@+id/tv_follow_title"
+            style="@style/TextTitleMiddleBlueStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="2dip"
+             />
+        <TextView
+            android:id="@+id/tv_follow_about"
+            style="@style/TextContentMiddleStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tv_follow_title"
+            android:paddingLeft="1dip"
+            />
+        <TextView
+            android:id="@+id/tv_follow_subjects"
+            style="@style/TextContentMiddleStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tv_follow_about"
+            android:maxLines="1"
+            android:paddingLeft="1dip"
+             />
+    </RelativeLayout>
+
+</RelativeLayout>
