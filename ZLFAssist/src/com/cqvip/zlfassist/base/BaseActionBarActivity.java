@@ -28,7 +28,7 @@ public class BaseActionBarActivity extends ActionBarActivity {
 		mQueue = Volley.newRequestQueue(this);
 		customProgressDialog = CustomProgressDialog.createDialog(this);
 		errorListener = new ErrorVolleyThrow(this, customProgressDialog);
-		//Log.i("BaseActionBarActivity", getClass().getSimpleName());
+		Log.i("BaseActionBarActivity", getClass().getSimpleName());
 	}
 	@Override
 	protected void onResume() {

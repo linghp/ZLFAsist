@@ -8,10 +8,11 @@
         android:icon="@drawable/displayfollow_add"
         app:showAsAction="ifRoom"
         android:title="add"/>
+    <!--  
     <item
         android:id="@+id/force_refresh"
         android:icon="@drawable/displayfollow_refresh_selector"
-        app:showAsAction="ifRoom"
+        app:
         android:title="Refresh"/>
-
+-->
 </menu>

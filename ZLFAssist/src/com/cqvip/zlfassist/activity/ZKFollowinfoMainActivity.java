@@ -59,6 +59,7 @@ public class ZKFollowinfoMainActivity extends BaseActionBarActivity implements O
 		requestid = perio.getId();
 		requesttype = perio.getType();
 		findView();
+		customProgressDialog.show();
 		initdate(requesttype,requestid,1,C.DEFAULT_COUNT);
 	}
 	/**
@@ -74,8 +75,7 @@ public class ZKFollowinfoMainActivity extends BaseActionBarActivity implements O
 		gparams.put("id", requestid2);
 		gparams.put("pagesize", defaultCount+"");
 		gparams.put("pageindex", page+"");
-		customProgressDialog.show();
-		//Log.i("gparams",requestid2+"relation"+requesttype2);
+		Log.i("gparams",requestid2+"relation"+requesttype2);
 		VolleyManager.requestVolley(gparams, C.SERVER +C.URL_TOPIC_LIST,
 				Method.POST,backlistener,  errorListener, mQueue);
 	}
@@ -85,9 +85,8 @@ public class ZKFollowinfoMainActivity extends BaseActionBarActivity implements O
 		gparams.put("id", requestid2);
 		gparams.put("pagesize", defaultCount+"");
 		gparams.put("pageindex", page+"");
-		customProgressDialog.show();
 		//Log.i("gparams",requestid2+"relation"+requesttype2);
-		VolleyManager.requestVolley(gparams, C.SERVER_URL +C.URL_TOPIC_LIST,
+		VolleyManager.requestVolley(gparams, C.SERVER +C.URL_TOPIC_LIST,
 				Method.POST,backmorelistener,  errorListener, mQueue);
 	}
 	private void findView() {
@@ -149,8 +148,7 @@ public class ZKFollowinfoMainActivity extends BaseActionBarActivity implements O
 	Listener<String> backmorelistener = new Listener<String>() {
 		@Override
 		public void onResponse(String response) {
-			if(customProgressDialog!=null&&customProgressDialog.isShowing())
-				customProgressDialog.dismiss();
+
 			try {
 				ArrayList<ZKTopic> lists = ZKTopic.formList(response);
 				if (lists != null && !lists.isEmpty()) {

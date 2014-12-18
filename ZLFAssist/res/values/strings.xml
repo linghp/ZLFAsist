@@ -9,7 +9,7 @@
     <string name="title_activity_welcom">WelcomActivity</string>
     <string name="favor">文章收藏</string>
     <string name="nofavor">无文章收藏</string>
-    <string name="follow">主题关注</string>
+    <string name="follow">添加关注</string>
     <string name="download">下载管理</string>
     <string name="notification">引用通知</string>
     <string name="nonotification">无引用通知</string>
