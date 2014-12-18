@@ -226,7 +226,6 @@ public class DisplayFollowActivity extends BaseActionBarActivity implements
 			break;
 		}
 	}
-
 	private void clearSelection() {
 		selectedFollowItem.clear();
 		showOrHideSelectionMenu2(true);
