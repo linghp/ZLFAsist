@@ -480,12 +480,12 @@ public class ZKTopic implements Serializable{
 	public   static ArrayList<ZKTopic> formList(String result) throws JSONException{
 		GeneralResult gr = new GeneralResult(result);
 		String res = gr.getResult();
-		Log.i("fromJson", res);
+		//Log.i("fromJson", res);
 		if(!TextUtils.isEmpty(res)){
 			JSONObject json = new JSONObject(gr.getResult());
 			Type listType = new TypeToken<ArrayList<ZKTopic>>(){}.getType();
 			ArrayList<ZKTopic> lists= new Gson().fromJson(json.getString("list"), listType);
-			Log.i("fromJson","lsits"+lists.size());
+			//Log.i("fromJson","lsits"+lists.size());
 			return lists;
 		}
 		return null;
@@ -494,7 +494,7 @@ public class ZKTopic implements Serializable{
 	public static ZKTopic formObject(String result) throws JSONException{
 		GeneralResult gr = new GeneralResult(result);
 		String res = gr.getResult();
-		Log.i("fromJson", res);
+		//Log.i("fromJson", res);
 		if(!TextUtils.isEmpty(res)){
 			JSONObject json = new JSONObject(gr.getResult());
 			ZKTopic obj= new Gson().fromJson(json.getString("obj"), ZKTopic.class);
@@ -506,7 +506,7 @@ public class ZKTopic implements Serializable{
 //	public boolean equals(Object o) {
 //		if(o instanceof ZKContent){
 //			ZKContent t=(ZKContent) o;
-//			Log.i("ZKTopic", this.id+"----"+t.getId()+"   "+this.type+"----"+t.getType());
+//			//Log.i("ZKTopic", this.id+"----"+t.getId()+"   "+this.type+"----"+t.getType());
 //			return this.getId().equals(t.getId())&&this.getType().equals(t.getType());
 //		}
 //		return super.equals(o);

@@ -57,7 +57,7 @@ public class ZKFollowListFragment extends BaseFrgment implements OnItemClickList
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		Log.i("ZKFollowListFragment", "onCreateView");
+		//Log.i("ZKFollowListFragment", "onCreateView");
 		View v = inflater.inflate(R.layout.follow_fragment_news, null);
 		listview = (ListView) v.findViewById(R.id.lv_fresh);
 		noResult_rl = (RelativeLayout) v.findViewById(R.id.noresult_rl);
@@ -66,7 +66,7 @@ public class ZKFollowListFragment extends BaseFrgment implements OnItemClickList
        // ViewSetting.settingListview(listview,getActivity());
       
        // itemFollows_List=(ArrayList<ItemFollows>) getArguments().getSerializable("itemfollows_list");
-        Log.i("ZKFollowListFragment", itemFollows_List.size()+"--"+getArguments().getString("type"));
+        //Log.i("ZKFollowListFragment", itemFollows_List.size()+"--"+getArguments().getString("type"));
         String type = getArguments().getString("type");
         if(type.equals(C.MEDIA)){
         	//获取更新数据
@@ -90,7 +90,7 @@ public class ZKFollowListFragment extends BaseFrgment implements OnItemClickList
 		String datetimeString =getActivity().getSharedPreferences(C.PERFERENCE_UPDATE, getActivity().MODE_PRIVATE).
 				getString(C.PERFERENCE_TOPIC, "0");
 		map.put("datetime",datetimeString);
-		Log.i("getDate","key"+keysString);
+		//Log.i("getDate","key"+keysString);
 		VolleyManager.requestVolley(map, C.SERVER+C.URL_UPDATE_PERICAL, Method.POST, backlistener, errorListener, mQueue);
 	}
 	

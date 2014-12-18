@@ -125,11 +125,11 @@ public class ZKFollowinfoUpActivity extends BaseActionBarActivity  {
 			customProgressDialog.dismiss();
 					try {
 						JudgeResult result = new JudgeResult(response);
-						Log.i("backlistener","response======="+response);
+						//Log.i("backlistener","response======="+response);
 						if(result.getState().equals("00")){
 						
 							ZKTopic_Info info =ZKTopic_Info.formObject(response);
-							 Log.i("topic", info.toString());
+							 //Log.i("topic", info.toString());
 							 if(info!=null){
 							 setView(info);
 							 }

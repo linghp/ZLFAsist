@@ -33,10 +33,10 @@ public class ErrorVolleyThrow implements ErrorListener {
 		if (dialog != null && dialog.isShowing()) {
 			dialog.dismiss();
 		}
-		Log.i("onErrorResponse", "111");
+		//Log.i("onErrorResponse", "111");
 		System.out.println(arg0.toString());
 		String info = VolleyErrorHelper.getMessage(arg0, context);
-		Log.i("info", info);
+		//Log.i("info", info);
 		Toast.makeText(context, info, Toast.LENGTH_LONG).show();
 	}
 

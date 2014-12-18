@@ -65,7 +65,7 @@ public class VolleyErrorHelper {
  */
  private static String handleServerError(Object err, Context context) {
      VolleyError error = (VolleyError) err;
- Log.i("handleServerError", error.toString());
+ //Log.i("handleServerError", error.toString());
      NetworkResponse response = error.networkResponse;
  
      if (response != null) {

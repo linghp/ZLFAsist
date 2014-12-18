@@ -50,7 +50,7 @@ public class FollowsFragment extends BaseFrgment implements OnItemClickListener 
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		followType = getArguments().getString("type");
-		Log.i("followType","followType"+followType);
+		//Log.i("followType","followType"+followType);
 		View v = inflater.inflate(R.layout.fragment_news, null);
 		listview = (FreshListView) v.findViewById(R.id.lv_fresh);
 		noResult_rl = (RelativeLayout) v.findViewById(R.id.noresult_rl);
@@ -91,7 +91,7 @@ public class FollowsFragment extends BaseFrgment implements OnItemClickListener 
 		gparams.put("object", key);
 		gparams.put("pagesize", defaultCount+"");
 		gparams.put("pageindex", page+"");
-		Log.i("key","key"+key);
+		//Log.i("key","key"+key);
 		VolleyManager.requestVolley(gparams, C.SERVER+C.URL_TOPLIST, Method.POST, backlistener, errorListener, mQueue);
 	}
 	private void loadMore(String key, int page, int defaultCount) {
@@ -113,7 +113,7 @@ public class FollowsFragment extends BaseFrgment implements OnItemClickListener 
 if (lists != null && !lists.isEmpty()) {
 					listview.setVisibility(View.VISIBLE);
 					listview.setRefreshSuccess("加载成功"); // 通知加载成功
-					Log.i("VISIBLE","lists"+lists.size());
+					//Log.i("VISIBLE","lists"+lists.size());
 					noResult_rl.setVisibility(View.GONE);
 					adapter = new ItemFollowsAdapter(getActivity(), lists);
 					if(lists.size()<C.DEFAULT_COUNT){

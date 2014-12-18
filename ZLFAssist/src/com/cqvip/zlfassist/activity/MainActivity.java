@@ -129,7 +129,7 @@ public class MainActivity extends FragmentActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		Log.i(LOG_TAG, "onCreate");
+		//Log.i(LOG_TAG, "onCreate");
 		myStartHelpActivity();
 		setContentView(R.layout.main);
 		mScreenWidth = BaseTools.getWindowsWidth(this);
@@ -177,19 +177,19 @@ public class MainActivity extends FragmentActivity {
 
 	// @Override
 	// protected void onStart() {
-	// Log.i(LOG_TAG, "onStart");
+	// //Log.i(LOG_TAG, "onStart");
 	// super.onStart();
 	// }
 	//
 	// @Override
 	// protected void onRestart() {
-	// Log.i(LOG_TAG, "onRestart");
+	// //Log.i(LOG_TAG, "onRestart");
 	// super.onRestart();
 	// }
 	//
 	// @Override
 	// protected void onResume() {
-	// Log.i(LOG_TAG, "onResume");
+	// //Log.i(LOG_TAG, "onResume");
 	// super.onResume();
 	// }
 
@@ -255,8 +255,7 @@ public class MainActivity extends FragmentActivity {
 
 					@Override
 					public boolean onLongClick(View v) {
-						Log.i("setOnLongClickListener",
-								"setOnLongClickListener");
+						//Log.i("setOnLongClickListener","setOnLongClickListener");
 						Intent intent = new Intent(MainActivity.this,
 								ChannelActivity.class);
 						startActivityForResult(intent, CHANNELREQUEST);
@@ -357,8 +356,7 @@ public class MainActivity extends FragmentActivity {
 
 						@Override
 						public boolean onLongClick(View v) {
-							Log.i("setOnLongClickListener",
-									"setOnLongClickListener");
+							//Log.i("setOnLongClickListener","setOnLongClickListener");
 							Intent intent = new Intent(MainActivity.this,
 									ChannelActivity.class);
 							startActivityForResult(intent, CHANNELREQUEST);
@@ -415,11 +413,11 @@ public class MainActivity extends FragmentActivity {
 			// data.putSerializable("itemfollows_list",
 			// allFollowMap_TopItem.get(userChannelList.get(i).getType()));
 			data.putString("type", userChannelList.get(i).getType());
-			Log.i("MainActivity_initFragment",
-					userChannelList.get(i).getType()
-							+ "--"
-							+ allFollowMap_TopItem.get(
-									userChannelList.get(i).getType()).size());
+			//Log.i("MainActivity_initFragment",
+//					userChannelList.get(i).getType()
+//							+ "--"
+//							+ allFollowMap_TopItem.get(
+//									userChannelList.get(i).getType()).size());
 			ZKFollowListFragment followsFragment = new ZKFollowListFragment(
 					allFollowMap_TopItem.get(userChannelList.get(i).getType()));
 			// PeriodicalListFragment newfragment = new
@@ -480,7 +478,7 @@ public class MainActivity extends FragmentActivity {
 					String datetimeString = getSharedPreferences(C.PERFERENCE_UPDATE, MODE_PRIVATE).
 							getString(C.PERFERENCE_TOPIC, "0");
 					map.put("datetime",datetimeString);
-					Log.i("getDate","key"+key);
+					//Log.i("getDate","key"+key);
 					VolleyManager.requestVolley(map, C.SERVER+C.URL_UPDATE_PERICAL, Method.POST, backlistener, errorListener, mQueue);
 					
 				
@@ -509,7 +507,7 @@ public class MainActivity extends FragmentActivity {
 		public void onResponse(String response) {
 //			if(customProgressDialog!=null&&customProgressDialog.isShowing())
 //			customProgressDialog.dismiss();
-			Log.i("tag",response);
+			//Log.i("tag",response);
 			GeneralResult result;
 			try {
 				result = new GeneralResult(response);
@@ -595,7 +593,7 @@ public class MainActivity extends FragmentActivity {
 		switch (requestCode) {
 		case DrawerView.RESULT_FOLLOW:
 			// if (resultCode == CHANNELRESULT) {
-			Log.i("onActivityResult", "onActivityResult");
+			//Log.i("onActivityResult", "onActivityResult");
 			getdatafromdb();
 			setChangelView();
 			// }
@@ -613,11 +611,11 @@ public class MainActivity extends FragmentActivity {
 		         } catch (IllegalArgumentException e) {
 		             signature = new byte[0];
 		         }
-		         Log.i("handleDecode", result+","+signature.length);
+		         //Log.i("handleDecode", result+","+signature.length);
 		         String resString = null;
 				try {
 					resString = new String(signature,"utf-8");
-					Log.i("handleDecode", resString);
+					//Log.i("handleDecode", resString);
 				} catch (UnsupportedEncodingException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -629,7 +627,7 @@ public class MainActivity extends FragmentActivity {
 			//文章收藏
 				 case "DOC":
 					 String  topicId = array[1];
-					 Log.i("handleFavor",array[1]);
+					 //Log.i("handleFavor",array[1]);
 					 //插库
 					 //跳转AddFavorActivity
 					 Intent intent = new Intent(MainActivity.this,AddFavorActivity.class);
@@ -642,7 +640,7 @@ public class MainActivity extends FragmentActivity {
 					//插库
 					String subjectType = array[1];
 					String  subjectId = array[2];
-					Log.i("handleFollow",array[1]+","+array[2]);
+					//Log.i("handleFollow",array[1]+","+array[2]);
 					//跳转
 					 Intent _intent = new Intent(MainActivity.this,DisplayFollowActivity.class);
 					 _intent.putExtra("flag",true);
@@ -659,7 +657,7 @@ public class MainActivity extends FragmentActivity {
 					long downloadid=startDownload(url);
 					DownloaderSimpleInfo downloaderSimpleInfo=new DownloaderSimpleInfo(downloadid,id, name, url);
 					saveDB(downloaderSimpleInfo);
-					Log.i("captureact", name+"--"+id+"--"+url);
+					//Log.i("captureact", name+"--"+id+"--"+url);
 					//跳转
 					Intent intent_download = new Intent(this,DownloadList.class);
 					startActivity(intent_download);
@@ -750,13 +748,12 @@ public class MainActivity extends FragmentActivity {
 					temp2.clear();
 					temp2.addAll(temp);
 				}
-				Log.i("MainActivity_getdatafromdb", temp.size() + "--"
-						+ itemFollows.getType());
+				//Log.i("MainActivity_getdatafromdb", temp.size() + "--"+ itemFollows.getType());
 				allFollowMap_TopItem.put(itemFollows.getType(),
 						alltypecontent_map.get(type));
 			}
 			keys = allFollowMap_TopItem.keySet();
-			Log.i("getdatafromdb", allFollowMap_TopItem.size() + "");
+			//Log.i("getdatafromdb", allFollowMap_TopItem.size() + "");
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -807,7 +804,7 @@ public class MainActivity extends FragmentActivity {
 
 				channelSortDao.delete(temp1);
 				for (ChannelItem channelItem3 : temp2) {
-					Log.i("getdatafromdb_sort", channelItem3.toString());
+					//Log.i("getdatafromdb_sort", channelItem3.toString());
 					channelSortDao.create(channelItem3);
 				}
 

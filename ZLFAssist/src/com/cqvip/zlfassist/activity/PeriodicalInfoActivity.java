@@ -295,7 +295,7 @@ public class PeriodicalInfoActivity extends BaseActivity {
 			if(customProgressDialog!=null&&customProgressDialog.isShowing())
 			customProgressDialog.dismiss();
 			progress.setVisibility(View.GONE);
-			Log.i(LOG_TAG+"backlistener_content", response);
+			//Log.i(LOG_TAG+"backlistener_content", response);
 			try {
 				//第一次setAdapter
 				if(isFirstFlag){
@@ -323,7 +323,7 @@ public class PeriodicalInfoActivity extends BaseActivity {
 		public void onResponse(String response) {
 			if(customProgressDialog!=null&&customProgressDialog.isShowing())
 			customProgressDialog.dismiss();
-			Log.i(LOG_TAG+"backlistener", response);
+			//Log.i(LOG_TAG+"backlistener", response);
 			try {
 				Periodical periodical =Periodical.formObject(response,Periodical.TASK_PERIODICAL_DETAIL);	
 				if(periodical!=null){

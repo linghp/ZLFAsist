@@ -98,7 +98,7 @@ public class DownloaderSimpleInfo {
 	public boolean equals(Object o) {
 		if(o instanceof DownloaderSimpleInfo){
 			DownloaderSimpleInfo t=(DownloaderSimpleInfo) o;
-		//	Log.i("equals", this.id+"----"+t.getId());
+		//	//Log.i("equals", this.id+"----"+t.getId());
 			return this.getDownloadId()==t.getDownloadId();
 		}
 		return super.equals(o);

@@ -132,7 +132,7 @@ public class ItemFollows implements Serializable {
 	public static ItemFollows formObject(String result) throws JSONException{
 		GeneralResult gr = new GeneralResult(result);
 		String res = gr.getResult();
-		Log.i("ItemFollows formObject", res);
+		//Log.i("ItemFollows formObject", res);
 		if (!TextUtils.isEmpty(res)) {
 			JSONObject jsonObject = new JSONObject(res);
 			String type = jsonObject.getString("type");
@@ -145,7 +145,7 @@ public class ItemFollows implements Serializable {
 
 	public static ArrayList<ItemFollows> formList(String result)
 			throws JSONException {
-		Log.i("JSONException","result"+result);
+		//Log.i("JSONException","result"+result);
 		GeneralResult gr = new GeneralResult(result);
 		String res = gr.getResult();
 		if (!TextUtils.isEmpty(res)) {
@@ -210,7 +210,7 @@ public class ItemFollows implements Serializable {
 	public boolean equals(Object o) {
 		if(o instanceof ItemFollows){
 			ItemFollows t=(ItemFollows) o;
-		//	Log.i("equals", this.id+"----"+t.getId());
+		//	//Log.i("equals", this.id+"----"+t.getId());
 			return this.getId().equals(t.getId())&&this.getType().equals(t.getType());
 		}
 		return super.equals(o);

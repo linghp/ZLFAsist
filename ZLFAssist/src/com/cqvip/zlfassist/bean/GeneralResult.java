@@ -29,7 +29,7 @@ public class GeneralResult {
 	   public static String formResult(String result) throws JSONException{
 		 GeneralResult objectGeneralResult =new  GeneralResult(result);
 		 String resString = objectGeneralResult.getResult();
-		 Log.i("strr",resString);
+		 //Log.i("strr",resString);
 		 return resString;
 	   }
 	public String getMsg() {

@@ -75,7 +75,7 @@ public class ZKFollowinfoMainActivity extends BaseActionBarActivity implements O
 		gparams.put("pagesize", defaultCount+"");
 		gparams.put("pageindex", page+"");
 		customProgressDialog.show();
-		Log.i("gparams",requestid2+"relation"+requesttype2);
+		//Log.i("gparams",requestid2+"relation"+requesttype2);
 		VolleyManager.requestVolley(gparams, C.SERVER +C.URL_TOPIC_LIST,
 				Method.POST,backlistener,  errorListener, mQueue);
 	}
@@ -86,7 +86,7 @@ public class ZKFollowinfoMainActivity extends BaseActionBarActivity implements O
 		gparams.put("pagesize", defaultCount+"");
 		gparams.put("pageindex", page+"");
 		customProgressDialog.show();
-		Log.i("gparams",requestid2+"relation"+requesttype2);
+		//Log.i("gparams",requestid2+"relation"+requesttype2);
 		VolleyManager.requestVolley(gparams, C.SERVER_URL +C.URL_TOPIC_LIST,
 				Method.POST,backmorelistener,  errorListener, mQueue);
 	}
@@ -125,7 +125,7 @@ public class ZKFollowinfoMainActivity extends BaseActionBarActivity implements O
 				if (lists != null && !lists.isEmpty()) {
 									listview.setVisibility(View.VISIBLE);
 									listview.setRefreshSuccess("加载成功"); // 通知加载成功
-									Log.i("VISIBLE","lists"+lists.size());
+									//Log.i("VISIBLE","lists"+lists.size());
 									noResult_rl.setVisibility(View.GONE);
 									adapter = new ZKTopicListAdapter(context, lists);
 									if(lists.size()<C.DEFAULT_COUNT){

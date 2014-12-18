@@ -45,7 +45,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 	@Override
 	public void onCreate(SQLiteDatabase db, ConnectionSource connectionSource) {
 		try {
-			Log.i(DatabaseHelper.class.getName(), "onCreate");
+			//Log.i(DatabaseHelper.class.getName(), "onCreate");
 			TableUtils.createTable(connectionSource, ItemFollows.class);
 			TableUtils.createTable(connectionSource, ZKTopic.class);
 			TableUtils.createTable(connectionSource, ChannelItem.class);
@@ -64,7 +64,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 	@Override
 	public void onUpgrade(SQLiteDatabase db, ConnectionSource connectionSource, int oldVersion, int newVersion) {
 		try {
-			Log.i(DatabaseHelper.class.getName(), "onUpgrade");
+			//Log.i(DatabaseHelper.class.getName(), "onUpgrade");
 			TableUtils.dropTable(connectionSource, ItemFollows.class, true);
 			TableUtils.dropTable(connectionSource, ZKTopic.class, true);
 			TableUtils.dropTable(connectionSource, ChannelItem.class, true);

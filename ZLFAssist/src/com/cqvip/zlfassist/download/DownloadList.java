@@ -339,7 +339,7 @@ public class DownloadList extends ActionBarActivity implements
 	} catch (IOException exc) {
 	    // close() failed, not a problem
 	}
-//	Log.i("path",pathString);
+//	//Log.i("path",pathString);
 //	File file = new File(pathString);
 //	if (file.exists()) {
 		// Intent intent = new
@@ -590,7 +590,7 @@ public class DownloadList extends ActionBarActivity implements
      */
     private void deleteDownload(long downloadId) {
     	deleteDB(new DownloaderSimpleInfo(downloadId,"", "", mCursor.getString(mCOLUMN_URI_index)));
-    	Log.i(LOG_TAG, mCursor.getString(mCOLUMN_URI_index));
+    	//Log.i(LOG_TAG, mCursor.getString(mCOLUMN_URI_index));
 	if (moveToDownload(downloadId)) {
 	    int status = mCursor.getInt(mStatusColumnId);
 	    boolean isComplete = status == DownloadManager.STATUS_SUCCESSFUL
@@ -709,7 +709,7 @@ public class DownloadList extends ActionBarActivity implements
 			downloaderSimpleInfos.clear();
 			ArrayList<DownloaderSimpleInfo> temp = (ArrayList<DownloaderSimpleInfo>) itemFollowsDao
 					.queryBuilder().orderBy("datetime", false).query();
-			Log.i("getdatafromdb", temp.size() + "");
+			//Log.i("getdatafromdb", temp.size() + "");
 			downloaderSimpleInfos.addAll(temp);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block

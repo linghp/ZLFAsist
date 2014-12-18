@@ -115,7 +115,7 @@ public class ChannelActivity extends BaseActionBarActivity {
 			userChannelList = (ArrayList<ChannelItem>) userAdapter
 					.getChannnelLst();
 			for (ChannelItem channelItem : userChannelList) {
-				Log.i(TAG, channelItem.toString());
+				//Log.i(TAG, channelItem.toString());
 				channelSortDao.create(channelItem);
 			}
 		} catch (SQLException e) {
