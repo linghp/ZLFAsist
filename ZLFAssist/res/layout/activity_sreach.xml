@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+    <include  layout="@layout/search_bar_layout"/>
+    
+    <com.cqvip.zlfassist.freshlistview.FreshListView 
+        android:id="@+id/sreach_list"
+          android:layout_width="match_parent"
+    android:layout_height="match_parent">
+        
+    </com.cqvip.zlfassist.freshlistview.FreshListView>
+    
+     <RelativeLayout
+        android:id="@+id/sreach_rl"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:visibility="gone" >
+
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="没有找到相关结果\n试试别的关键字吧!"
+            android:textColor="@android:color/darker_gray" />
+    </RelativeLayout>
+    
+
+</LinearLayout>

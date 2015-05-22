@@ -45,9 +45,11 @@
             android:id="@+id/title_parent"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="45dp"
+            android:layout_marginRight="45dp"
             android:layout_centerVertical="true" >
 
-            <TextView
+          <!--   <TextView
                 android:id="@+id/title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -56,7 +58,32 @@
                 android:paddingLeft="6.0dip"
                 android:paddingRight="6.0dip"
                 android:textSize="22sp"
-                android:text="@string/maintitlename" />
+                android:text="@string/maintitlename" /> -->
+                
+                <RelativeLayout   
+                    android:id="@+id/main_sreach_bar"
+                    android:layout_width="wrap_content"
+                android:layout_height="35dp"
+                android:background="@drawable/searchbar_textfield_background">
+                <TextView 
+                      android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_margin="8dp"
+                android:textSize="14dp"
+                android:text="中文期刊收索"
+                    />
+                <ImageView    
+                    android:layout_width="20dp"
+                android:layout_height="20dp"
+                 android:layout_margin="5dp"
+                android:src="@drawable/searchbar_textfield_search_icon"
+                 android:layout_alignParentRight="true"/>
+                    
+                </RelativeLayout >
+
+                
+
         </FrameLayout>
 
         <ImageView

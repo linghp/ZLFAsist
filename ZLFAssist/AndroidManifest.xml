@@ -162,6 +162,12 @@
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.NoTitleBar" >
         </activity>
+        
+           <activity
+            android:name=".activity.SreachActivity"
+             android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.NoTitleBar" >
+        </activity>
 
         <!-- scan -->
         <activity
@@ -296,6 +302,8 @@
             android:name="com.artifex.mupdfdemo.OutlineActivity"
             android:theme="@android:style/Theme.Light.NoTitleBar.Fullscreen" >
         </activity>
+        
+      
        
     </application>
 

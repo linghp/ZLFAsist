@@ -125,6 +125,7 @@ public class MainActivity extends FragmentActivity {
 	private static boolean isFirstCreate = true;
 
 	private DrawerView drawerView;
+	private RelativeLayout main_sreach_bar;
 	// private ArrayList<String> topItemType_List;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -205,6 +206,7 @@ public class MainActivity extends FragmentActivity {
 
 	/** 初始化layout控件 */
 	private void initView() {
+		main_sreach_bar=(RelativeLayout)findViewById(R.id.main_sreach_bar);
 		mColumnHorizontalScrollView = (ColumnHorizontalScrollView) findViewById(R.id.mColumnHorizontalScrollView);
 		mRadioGroup_content = (LinearLayout) findViewById(R.id.mRadioGroup_content);
 		ll_more_columns = (LinearLayout) findViewById(R.id.ll_more_columns);
@@ -262,6 +264,15 @@ public class MainActivity extends FragmentActivity {
 						return true;
 					}
 				});
+		main_sreach_bar.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				Intent intent=new Intent(MainActivity.this,SreachActivity.class);
+				startActivity(intent);
+			}
+		});
 
 		setChangelView();
 	}
