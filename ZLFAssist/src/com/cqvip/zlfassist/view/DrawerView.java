@@ -15,6 +15,7 @@ import com.cqvip.zlfassist.R;
 import com.cqvip.zlfassist.activity.AddFavorActivity;
 import com.cqvip.zlfassist.activity.DisplayFollowActivity;
 import com.cqvip.zlfassist.activity.NotifactionUpdateActivity;
+import com.cqvip.zlfassist.activity.UserInfoActivity;
 import com.cqvip.zlfassist.download.DownloadList;
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu.OnClosedListener;
@@ -30,7 +31,7 @@ public class DrawerView implements OnClickListener{
 	private final Activity activity;
 	SlidingMenu localSlidingMenu;
 	//private SwitchButton night_mode_btn;
-	private View add_btn,down_btn,favor_btn,update_btn,feedback_btn;
+	private View add_btn,down_btn,favor_btn,update_btn,feedback_btn,user_info_btn;
 	private TextView night_mode_text;
 	private RelativeLayout setting_btn;
 	DownloadManager mDownloadManager;
@@ -105,6 +106,7 @@ public class DrawerView implements OnClickListener{
 		favor_btn = localSlidingMenu.findViewById(R.id.favor_btn);
 		update_btn = localSlidingMenu.findViewById(R.id.mes_btn);
 		feedback_btn= localSlidingMenu.findViewById(R.id.feedback_btn);
+		user_info_btn=localSlidingMenu.findViewById(R.id.user_info_btn);
 		TextView tv_refTextView =  (TextView) localSlidingMenu.findViewById(R.id.tv_ref_update);
 		 badge = new BadgeView(activity, tv_refTextView);
 		add_btn.setOnClickListener(this);
@@ -112,7 +114,7 @@ public class DrawerView implements OnClickListener{
 		favor_btn.setOnClickListener(this);
 		update_btn.setOnClickListener(this);
 		feedback_btn.setOnClickListener(this);
-		
+		user_info_btn.setOnClickListener(this);
 		//night_mode_btn = (SwitchButton)localSlidingMenu.findViewById(R.id.night_mode_btn);
 //		night_mode_text = (TextView)localSlidingMenu.findViewById(R.id.night_mode_text);
 //		night_mode_btn.setOnCheckedChangeListener(new OnCheckedChangeListener() {
@@ -163,6 +165,9 @@ public class DrawerView implements OnClickListener{
 			break;
 		case R.id.feedback_btn:
 			 fb.startFeedbackActivity();
+			break;
+		case R.id.user_info_btn:
+			activity.startActivity(new Intent(activity,UserInfoActivity.class));
 			break;
 //		case R.id.setting_btn:
 //			activity.startActivity(new Intent(activity,SettingsActivity.class));

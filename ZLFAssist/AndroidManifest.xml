@@ -168,6 +168,16 @@
              android:screenOrientation="portrait"
             android:theme="@android:style/Theme.NoTitleBar" >
         </activity>
+         <activity
+            android:name=".activity.UserInfoActivity"
+             android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.NoTitleBar" >
+        </activity>
+          <activity
+            android:name=".activity.ActivityDlg"
+             android:screenOrientation="portrait"
+            >
+        </activity>
 
         <!-- scan -->
         <activity

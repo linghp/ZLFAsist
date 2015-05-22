@@ -15,6 +15,7 @@
     <string name="nonotification">无引用通知</string>
     <string name="nosearchresult">无搜索结果</string>
     <string name="feedback">用户反馈</string>
+    <string name="user_info">用户信息</string>
     <string name="tag_article">文章</string>
     <string name="tag_magazine">期刊</string>
     <string name="tag_topic">主题</string>
@@ -67,4 +68,11 @@
     <string name="umeng_fb_send">发送</string>
     <string name="umeng_fb_title">用户反馈</string>
     <string name="umeng_fb_powered_by">Powered by</string>
+    
+    <string name="btn_cancel">取消</string>
+     <string name="btn_confirm">确定</string>
+     <string name="login_title">用户登陆</string>
+     <string name="login_username">用户名</string>
+    <string name="login_password">秘密</string>
+     <string name="btn_login">登陆</string>
 </resources>

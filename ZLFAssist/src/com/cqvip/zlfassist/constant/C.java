@@ -20,6 +20,8 @@ public class C {
 	public final static   String URL_UPDATE_PERICAL= "GetNotice.ashx";
 	//搜索
 	public final static   String URL_SEARCH= "GetSearch.ashx";
+	//登陆
+	public final static   String URL_LOGIN= "Login.ashx";
 	
 	
 	public static final String BASE = "http://mobile.cqvip.com/qk/search.aspx?classid=2";

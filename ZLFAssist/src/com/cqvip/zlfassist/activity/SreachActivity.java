@@ -53,9 +53,7 @@ public class SreachActivity extends Activity implements OnItemClickListener {
 	private RelativeLayout sreach_rl;
 	private ZKTopicListAdapter adapter;
 	private EditText sreahtxt;
-	private int page;
-	private String requestid;
-	private String requesttype;
+	private int page;	
 	private Map<String, String> gparams;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
