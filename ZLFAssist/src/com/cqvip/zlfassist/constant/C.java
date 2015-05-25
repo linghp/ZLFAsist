@@ -22,6 +22,8 @@ public class C {
 	public final static   String URL_SEARCH= "GetSearch.ashx";
 	//登陆
 	public final static   String URL_LOGIN= "Login.ashx";
+	//下载
+	public final static   String URL_DOWNLOAD="GetDownloadUrl.ashx";
 	
 	
 	public static final String BASE = "http://mobile.cqvip.com/qk/search.aspx?classid=2";
@@ -43,7 +45,7 @@ public class C {
 	public static final String 	DOMAIN = "domain";
 	public static final String 	AREA = "area";
 	
-	public static final int DEFAULT_COUNT = 20;//默认20条
+	public static final int DEFAULT_COUNT = 5;//默认条数
 	public static final int SOCKET_TIMEOUT = 20000;//操时20s
 	
 	public static final int REQUEST_SCAN_CODE = 6;
@@ -51,6 +53,8 @@ public class C {
 	public static final String PERFERENCE_UPDATE = "update";
 	public static final String PERFERENCE_TOPIC="topic_date";
 	public static final String PERFERENCE_PERODICAL ="media_date";
+	public static  String username;
+	public static  String pws;
 	
 	//文章详细前缀
 	public static final String  ARTICLE_DETAIL_PRE="http://qikan.cqvip.com/article/detail.aspx?id=";

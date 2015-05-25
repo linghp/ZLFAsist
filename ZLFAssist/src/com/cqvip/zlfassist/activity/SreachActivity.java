@@ -103,7 +103,7 @@ public class SreachActivity extends Activity implements OnItemClickListener {
 	
 	private void getdate( int page) {
 		gparams = new HashMap<String, String>();
-		gparams.put("key", sreahtxt.getText().toString());
+		gparams.put("keyword", sreahtxt.getText().toString());
 		gparams.put("object", "article");
 		gparams.put("pagesize", C.DEFAULT_COUNT+"");
 		gparams.put("pageindex", page+"");

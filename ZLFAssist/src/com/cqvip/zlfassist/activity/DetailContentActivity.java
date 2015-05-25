@@ -5,10 +5,15 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.json.JSONObject;
+
+import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.MenuItem;
@@ -17,21 +22,30 @@ import android.view.View.OnClickListener;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.RequestQueue;
 import com.android.volley.Request.Method;
+import com.android.volley.Response.ErrorListener;
 import com.android.volley.Response.Listener;
+import com.android.volley.toolbox.Volley;
 import com.artifex.mupdfdemo.MuPDFActivity;
 import com.cqvip.zlfassist.R;
 import com.cqvip.zlfassist.base.BaseActionBarActivity;
+import com.cqvip.zlfassist.bean.DownloaderSimpleInfo;
 import com.cqvip.zlfassist.bean.JudgeResult;
 import com.cqvip.zlfassist.constant.C;
 import com.cqvip.zlfassist.db.DBManager;
 import com.cqvip.zlfassist.db.DatabaseHelper;
+import com.cqvip.zlfassist.download.DownloadList;
+import com.cqvip.zlfassist.exception.ErrorVolleyThrow;
 import com.cqvip.zlfassist.http.VolleyManager;
 import com.cqvip.zlfassist.tools.BaseTools;
+import com.cqvip.zlfassist.view.CustomProgressDialog;
 import com.cqvip.zlfassist.zkbean.ZKContent;
 import com.cqvip.zlfassist.zkbean.ZKTopic;
 import com.j256.ormlite.android.apptools.OpenHelperManager;
 import com.j256.ormlite.dao.Dao;
+import com.mozillaonline.providers.DownloadManager;
+import com.mozillaonline.providers.DownloadManager.Request;
 
 public class DetailContentActivity extends BaseActionBarActivity implements
 		OnClickListener {
@@ -49,6 +63,7 @@ public class DetailContentActivity extends BaseActionBarActivity implements
 	private MenuItem menuItem_favor;
 	private boolean isfavor = false;
 	private boolean isCanRead = false;// 是否可以阅读
+	
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -62,6 +77,7 @@ public class DetailContentActivity extends BaseActionBarActivity implements
 		initfirstView();
 		queryDB();
 		getDate(requestId);
+
 
 	}
 
@@ -176,16 +192,7 @@ public class DetailContentActivity extends BaseActionBarActivity implements
 
 	};
 
-	private void setView() {
-		title.setText(topic.getTitleC());
-		author.setText(SHOWTIPS[0] + topic.getShowwriter());
-		organ.setText(SHOWTIPS[1] + topic.getShoworgan());
-		comeform.setText(SHOWTIPS[2] + "《" + topic.getMediaC() + "》"
-				+ topic.getMediasQk());
-		abst.setText(SHOWTIPS[3] + topic.getRemarkC());
-		keyword.setText(SHOWTIPS[4] + topic.getKeywordC());
-		classid.setText(SHOWTIPS[5] + topic.getClass_() + topic.getClasstypes());
-	}
+	
 
 	// @Override
 	// public boolean onCreateOptionsMenu(Menu menu) {
@@ -294,6 +301,87 @@ public class DetailContentActivity extends BaseActionBarActivity implements
 			databaseHelper = null;
 		}
 	}
+	
+	private String getuserid()
+	{
+		SharedPreferences mySharedPreferences=getSharedPreferences("user_info", 
+				Activity.MODE_PRIVATE); 	
+		try{
+		JSONObject json = new JSONObject(mySharedPreferences.getString("usernamejsonstr", ""));
+		 return json.getString("userid");
+		}catch (Exception e)
+		{
+			return "";
+		}
+	}
+	
+	private void sendDownloadUrlCheck()
+	{
+		Map<String, String> gparams = new HashMap<String, String>();
+		gparams.put("userid", getuserid());
+		gparams.put("id", zkTopic.getId());
+
+		VolleyManager.requestVolley(gparams, C.SERVER +C.URL_DOWNLOAD,
+				Method.POST,dlurlbacklistener,  errorListener, mQueue);
+	}
+	
+	Listener<String> dlurlbacklistener = new Listener<String>() {
+		@Override
+		public void onResponse(String response) {
+			// TODO Auto-generated method stub
+			if (customProgressDialog != null
+					&& customProgressDialog.isShowing())
+				customProgressDialog.dismiss();
+			try {
+				JSONObject result = new JSONObject(response);
+				if (result.getInt("state")==0) {
+					result=result.getJSONObject("result");
+					downloadfile(result.getString("url"));
+				} else {
+					Toast.makeText(DetailContentActivity.this, result.getString("msg"), Toast.LENGTH_SHORT).show();
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+	};
+	
+	private void saveDB(DownloaderSimpleInfo downloaderSimpleInfo) {
+		try {
+			Dao<DownloaderSimpleInfo, Integer> downloaderSimpleInfoDao = getHelper()
+					.getDownloaderSimpleInfoDao();
+			downloaderSimpleInfoDao.create(downloaderSimpleInfo);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		// ChannelManage.getManage(AppApplication.getApp().getSQLHelper()).saveUserChannel(userAdapter.getChannnelLst());
+	}
+	 private long startDownload(String url) {
+			//String url = "http://www.pptok.com/wp-content/uploads/2012/06/huanbao-1.jpg";
+			//url = "http://www.it.com.cn/dghome/img/2009/06/23/17/090623_tv_tf2_13h.jpg";
+			//String url = "http://down.mumayi.com/41052/mbaidu";
+			Uri srcUri = Uri.parse(url);
+			DownloadManager.Request request = new Request(srcUri);
+			request.setDestinationInExternalPublicDir(
+				Environment.DIRECTORY_DOWNLOADS, "/");
+			request.setDescription("正在下载");
+			 DownloadManager mDownloadManager = new DownloadManager(getContentResolver(),
+					 getPackageName());
+			return mDownloadManager.enqueue(request);
+		    }
+	 
+	 public void  downloadfile(String url)
+	 {
+			long downloadid=startDownload(url);
+			DownloaderSimpleInfo downloaderSimpleInfo=new DownloaderSimpleInfo(downloadid,zkTopic.getId(), zkTopic.getTitleC(), url);
+			saveDB(downloaderSimpleInfo);
+			//Log.i("captureact", name+"--"+id+"--"+url);
+			//跳转
+			Intent intent_download = new Intent(this,DownloadList.class);
+			startActivity(intent_download);
+			finish();
+	 }
 
 	@Override
 	public void onClick(View v) {
@@ -316,7 +404,7 @@ public class DetailContentActivity extends BaseActionBarActivity implements
 				intent.setData(uri);
 				startActivity(intent);
 			} else {
-				Toast.makeText(this, "文章未下载,暂时无法阅读", 1).show();
+				sendDownloadUrlCheck();
 			}
 			break;
 		case R.id.btn_item_share:
