@@ -31,6 +31,7 @@ import com.cqvip.zlfassist.zkbean.ZKTopic;
 import com.j256.ormlite.dao.Dao;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -38,37 +39,52 @@ import android.os.Message;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.View.OnKeyListener;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.TextView.OnEditorActionListener;
 
-public class SreachActivity extends Activity implements OnItemClickListener {
+public class SearchActivity extends Activity implements OnItemClickListener {
 
 	protected RequestQueue mQueue;
 	protected ErrorListener errorListener;// 错误处理
 	protected CustomProgressDialog customProgressDialog;// 对话框
 	private FreshListView listview;
-	private RelativeLayout sreach_rl;
+	private RelativeLayout search_rl;
 	private ZKTopicListAdapter adapter;
-	private EditText sreahtxt;
+	private EditText search_txt;
 	private int page;	
 	private Map<String, String> gparams;
+	private ImageButton search_btn;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_sreach);
-		sreahtxt = (EditText) findViewById(R.id.et_search_keyword);
+		setContentView(R.layout.activity_search);
+		search_txt = (EditText) findViewById(R.id.et_search_keyword);
 		mQueue = Volley.newRequestQueue(this);
 		customProgressDialog = CustomProgressDialog.createDialog(this);
 		errorListener = new ErrorVolleyThrow(this, customProgressDialog);
+		search_btn=(ImageButton)findViewById(R.id.search_btn);
+		search_btn.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				hideKeybord();
+				page = 1;
+				 getdate(page);
+			}
+		});
 		
-		listview=(FreshListView)findViewById(R.id.sreach_list);
+		listview=(FreshListView)findViewById(R.id.search_list);
 		ViewSetting.settingListview(listview, this);
-		sreach_rl=(RelativeLayout)findViewById(R.id.sreach_rl);
-		sreahtxt.setOnEditorActionListener(new OnEditorActionListener() {
+		search_rl=(RelativeLayout)findViewById(R.id.search_rl);
+		search_txt.setOnEditorActionListener(new OnEditorActionListener() {
 
 			@Override
 			public boolean onEditorAction(TextView v, int actionId,
@@ -98,12 +114,21 @@ public class SreachActivity extends Activity implements OnItemClickListener {
 	          }
 	      });
 	      
-			listview.setOnItemClickListener(SreachActivity.this);
+			listview.setOnItemClickListener(SearchActivity.this);
 	}
 	
+	/**
+	 * 隐藏键盘
+	 */
+	private void hideKeybord() {
+		InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+		if (imm.isActive()) {
+			imm.hideSoftInputFromWindow(search_txt.getWindowToken(), 0);
+		}
+	}
 	private void getdate( int page) {
 		gparams = new HashMap<String, String>();
-		gparams.put("keyword", sreahtxt.getText().toString());
+		gparams.put("keyword", search_txt.getText().toString());
 		gparams.put("object", "article");
 		gparams.put("pagesize", C.DEFAULT_COUNT+"");
 		gparams.put("pageindex", page+"");
@@ -124,7 +149,7 @@ public class SreachActivity extends Activity implements OnItemClickListener {
 	public void onItemClick(FreshListView parent, View view, int position,
 			long id) {
 		ZKTopic zkTopic =  adapter.getList().get(position);
-		Intent _intent = new Intent(SreachActivity.this,DetailContentActivity.class);
+		Intent _intent = new Intent(SearchActivity.this,DetailContentActivity.class);
 		Bundle bundle = new Bundle();
 		bundle.putSerializable("item", zkTopic);
 		_intent.putExtra("info", bundle);
@@ -144,8 +169,8 @@ if (lists != null && !lists.isEmpty()) {
 					listview.setVisibility(View.VISIBLE);
 					listview.setRefreshSuccess("加载成功"); // 通知加载成功
 					//Log.i("VISIBLE","lists"+lists.size());
-					sreach_rl.setVisibility(View.GONE);
-					adapter = new ZKTopicListAdapter(SreachActivity.this, lists);
+					search_rl.setVisibility(View.GONE);
+					adapter = new ZKTopicListAdapter(SearchActivity.this, lists);
 					if(lists.size()<C.DEFAULT_COUNT){
 						listview.setAdapter(adapter);
 						listview.stopLoadMore();
@@ -156,7 +181,7 @@ if (lists != null && !lists.isEmpty()) {
 } else {
 					listview.setRefreshFail("加载失败");
 					listview.setVisibility(View.GONE);
-					sreach_rl.setVisibility(View.VISIBLE);
+					search_rl.setVisibility(View.VISIBLE);
 }
 				} catch (Exception e) {
 					// TODO Auto-generated catch block
@@ -175,7 +200,7 @@ if (lists != null && !lists.isEmpty()) {
 				if (lists != null && !lists.isEmpty()) {
 					listview.setVisibility(View.VISIBLE);
 					listview.setRefreshSuccess("加载成功"); // 通知加载成功
-					sreach_rl.setVisibility(View.GONE);
+					search_rl.setVisibility(View.GONE);
 					if (lists != null && !lists.isEmpty()&&lists.size()==C.DEFAULT_COUNT) {
 						adapter.addMoreData(lists);
 						listview.setLoadMoreSuccess();
@@ -188,7 +213,7 @@ if (lists != null && !lists.isEmpty()) {
 					}
 				} else {
 					listview.setVisibility(View.GONE);
-					sreach_rl.setVisibility(View.VISIBLE);
+					search_rl.setVisibility(View.VISIBLE);
 				}
 				
 			} catch (Exception e) {

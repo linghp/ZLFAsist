@@ -61,7 +61,7 @@
                 android:text="@string/maintitlename" /> -->
                 
                 <RelativeLayout   
-                    android:id="@+id/main_sreach_bar"
+                    android:id="@+id/main_search_bar"
                     android:layout_width="wrap_content"
                 android:layout_height="35dp"
                 android:background="@drawable/searchbar_textfield_background">

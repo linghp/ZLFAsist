@@ -46,6 +46,7 @@
     <ImageView style="@style/left_drawer_item_line" />
 
     <RelativeLayout
+        android:visibility="gone"
         android:id="@+id/mes_btn"
         style="@style/left_drawer_item_layout" >
 

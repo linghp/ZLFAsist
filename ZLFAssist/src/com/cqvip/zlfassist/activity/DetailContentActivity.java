@@ -63,7 +63,8 @@ public class DetailContentActivity extends BaseActionBarActivity implements
 	private MenuItem menuItem_favor;
 	private boolean isfavor = false;
 	private boolean isCanRead = false;// 是否可以阅读
-	
+	private String downurl;
+	private boolean autodown;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -77,9 +78,49 @@ public class DetailContentActivity extends BaseActionBarActivity implements
 		initfirstView();
 		queryDB();
 		getDate(requestId);
-
-
+		
+		downurl="";
+		autodown=false;
+		
+		if(getlogin())
+		{
+			setdownbtn(false);
+		}
+		else
+		{
+			setdownbtn(true);
+		}
+		getdownloadurl();
+		
 	}
+	
+	private boolean getlogin()
+	{
+		SharedPreferences mySharedPreferences=getSharedPreferences("user_info", 
+				Activity.MODE_PRIVATE);
+		 return mySharedPreferences.getBoolean("login_f", false);
+	}
+	
+	private void getdownloadurl()
+	{
+		if(getlogin())
+		{
+		sendDownloadUrlCheck();
+		}
+	}
+	
+	private void setdownbtn(boolean bshow)
+	{
+		if(bshow)
+		{
+			readTextView.setVisibility(View.VISIBLE);
+		}
+		else
+		{
+			readTextView.setVisibility(View.GONE);
+		}
+	}
+	
 
 	private void initfirstView() {
 		title.setText(zkTopic.getTitleC());
@@ -116,6 +157,7 @@ public class DetailContentActivity extends BaseActionBarActivity implements
 		readTextView = (TextView) findViewById(R.id.btn_item_read);
 		shareTextView.setOnClickListener(this);
 		favorTextView.setOnClickListener(this);
+		
 		readTextView.setOnClickListener(this);
 		DBManager manager = new DBManager(this);
 		if (manager.isFavoriteTopic(zkTopic)) {
@@ -336,9 +378,16 @@ public class DetailContentActivity extends BaseActionBarActivity implements
 				JSONObject result = new JSONObject(response);
 				if (result.getInt("state")==0) {
 					result=result.getJSONObject("result");
-					downloadfile(result.getString("url"));
+					downurl=result.getString("url");
+					setdownbtn(true);
+					if(autodown)
+					{
+					downloadfile(downurl);
+					}
 				} else {
-					Toast.makeText(DetailContentActivity.this, result.getString("msg"), Toast.LENGTH_SHORT).show();
+					downurl="";
+					setdownbtn(false);
+//					Toast.makeText(DetailContentActivity.this, result.getString("msg"), Toast.LENGTH_SHORT).show();
 				}
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -404,7 +453,21 @@ public class DetailContentActivity extends BaseActionBarActivity implements
 				intent.setData(uri);
 				startActivity(intent);
 			} else {
-				sendDownloadUrlCheck();
+				if(getlogin())
+				{
+					if(downurl.length()>0)
+					{
+					downloadfile(downurl);
+					}
+					else
+					{
+						Toast.makeText(DetailContentActivity.this, "该文章下载故障。", Toast.LENGTH_SHORT).show();
+					}
+				}
+				else
+				{
+					this.startActivityForResult(new Intent(DetailContentActivity.this,ActivityDlg.class), 1);
+				}
 			}
 			break;
 		case R.id.btn_item_share:
@@ -415,5 +478,19 @@ public class DetailContentActivity extends BaseActionBarActivity implements
 			break;
 		}
 
+	}
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		// TODO Auto-generated method stub
+		super.onActivityResult(requestCode, resultCode, data);
+		if(resultCode==1)
+		{
+			getdownloadurl();
+			autodown=true;
+		}
+		else
+		{
+			Toast.makeText(DetailContentActivity.this, "请在登录后阅读。", Toast.LENGTH_SHORT).show();
+		}
 	}
 }

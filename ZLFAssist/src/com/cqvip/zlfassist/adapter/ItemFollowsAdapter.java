@@ -37,7 +37,7 @@ public class ItemFollowsAdapter extends AdapterBase<ItemFollows> {
 		private TextView title;
 		private TextView subject;
 		private TextView about;
-		private ImageView tipsNew;
+//		private ImageView tipsNew;
 	}
 	
 	@Override
@@ -49,18 +49,18 @@ public class ItemFollowsAdapter extends AdapterBase<ItemFollows> {
 				holder.title = (TextView) convertView.findViewById(R.id.tv_follow_title);
 				holder.subject = (TextView) convertView.findViewById(R.id.tv_follow_topic);
 				holder.about = (TextView) convertView.findViewById(R.id.tv_follow_about);
-				holder.tipsNew = (ImageView) convertView.findViewById(R.id.img_new);
+//				holder.tipsNew = (ImageView) convertView.findViewById(R.id.img_new);
 				//holder.abstrac = (TextView) convertView.findViewById(R.id.tx_item_abstract);
 				convertView.setTag(holder);
 		}else{
 			holder = (ViewHolder) convertView.getTag();
 		}
 		ItemFollows itemFollows = mList.get(position);
-		if(itemFollows.isNew()){
-			holder.tipsNew.setVisibility(View.VISIBLE);
-		}else{
-			holder.tipsNew.setVisibility(View.INVISIBLE);
-		}
+//		if(itemFollows.isNew()){
+//			holder.tipsNew.setVisibility(View.VISIBLE);
+//		}else{
+//			holder.tipsNew.setVisibility(View.INVISIBLE);
+//		}
 		holder.title.setText(itemFollows.getName());
 		if(!TextUtils.isEmpty(itemFollows.getAbout())){
 		holder.about.setVisibility(View.VISIBLE);

@@ -2,18 +2,19 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical" >
+    android:orientation="vertical" 
+    >
     <include  layout="@layout/search_bar_layout"/>
     
     <com.cqvip.zlfassist.freshlistview.FreshListView 
-        android:id="@+id/sreach_list"
+        android:id="@+id/search_list"
           android:layout_width="match_parent"
     android:layout_height="match_parent">
         
     </com.cqvip.zlfassist.freshlistview.FreshListView>
     
      <RelativeLayout
-        android:id="@+id/sreach_rl"
+        android:id="@+id/search_rl"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"

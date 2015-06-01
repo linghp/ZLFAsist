@@ -177,7 +177,7 @@ public class AddFollowActivity extends BaseActionBarActivity implements
 		Map<String, String> gparams = new HashMap<String, String>();
 		gparams = new HashMap<String, String>();
 		gparams.put("object", type);
-		gparams.put("sort", "score");
+		gparams.put("sort", "zkbycount");
 		gparams.put("pagesize", pagesize + "");
 		gparams.put("pageindex", pageindex + "");
 		VolleyManager.requestVolley(gparams, C.SERVER + C.URL_TOPLIST,
@@ -191,7 +191,7 @@ public class AddFollowActivity extends BaseActionBarActivity implements
 		gparams = new HashMap<String, String>();
 		gparams.put("object", mtype);
 		//Log.i("mtype", mtype);
-		gparams.put("sort", "score");
+		gparams.put("sort", "zkbycount");
 		gparams.put("pageindex", page_category + "");
 		gparams.put("pagesize", defaultCount + "");
 		VolleyManager.requestVolley(gparams, C.SERVER + C.URL_TOPLIST,

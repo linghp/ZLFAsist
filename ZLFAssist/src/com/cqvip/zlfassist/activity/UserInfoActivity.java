@@ -15,6 +15,9 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -26,6 +29,7 @@ public class UserInfoActivity extends Activity{
 	private Map<String, String> gparams;
 	private TextView user_info_userNick,user_info_userName,user_info_userUnit;
 	private SharedPreferences mySharedPreferences;
+	private Button user_info_logout_btn;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +42,19 @@ public class UserInfoActivity extends Activity{
 		user_info_userNick=(TextView)findViewById(R.id.user_info_userNick);
 		user_info_userName=(TextView)findViewById(R.id.user_info_userName);
 		user_info_userUnit=(TextView)findViewById(R.id.user_info_userUnit);
+		
+		user_info_logout_btn=(Button)findViewById(R.id.user_info_logout_btn);
+		user_info_logout_btn.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				SharedPreferences.Editor editor = mySharedPreferences.edit(); 
+				editor.putBoolean("login_f", false);
+				editor.commit();
+				finish();
+			}
+		});
 		
 		mySharedPreferences= getSharedPreferences("user_info", 
 				Activity.MODE_PRIVATE); 
@@ -79,7 +96,7 @@ public class UserInfoActivity extends Activity{
 		super.onActivityResult(requestCode, resultCode, data);
 		if(resultCode==1)
 		{
-			
+			show_user_info();
 		}
 		else
 		{

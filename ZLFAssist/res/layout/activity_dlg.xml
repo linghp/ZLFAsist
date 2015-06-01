@@ -64,9 +64,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
         android:background="@drawable/login_layout_shape"
         android:paddingBottom="20dp"
-        android:visibility="gone" >
+        android:visibility="visible" >
 
         <LinearLayout
             android:id="@+id/ll_login_t"
@@ -89,57 +91,29 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/ll_login_t"
             android:orientation="vertical" >
-            <LinearLayout
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
-                android:layout_marginTop="20dp"
-                android:layout_gravity="center_horizontal"
-                android:orientation="horizontal" >
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/login_username"
-                    android:textColor="@color/txt_black"
-                    android:textStyle="bold"
-                    android:textSize="16sp" />
 
                 <AutoCompleteTextView
-                    android:id="@+id/log_in_username"
-                    android:layout_width="0dip"
-                    android:layout_weight="1"
-                    android:layout_height="40dp"
-                    android:inputType="number"
-                    android:singleLine="true" android:imeOptions="actionNext"/>
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
+                     android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
-                android:layout_marginTop="5dp"
-                android:layout_gravity="center_horizontal"
-                android:orientation="horizontal" >
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/login_password"
-                    android:textStyle="bold"
-                    android:textColor="@color/txt_black"
-                    android:textSize="16sp" />
+                android:layout_marginTop="20dp"
+                    android:id="@+id/log_in_username"
+                    android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+                   
+                    android:hint="@string/login_username"
+                    android:singleLine="true" android:imeOptions="actionNext"/>
 
                 <EditText
+                     android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginTop="5dp"
                     android:id="@+id/log_in_passwords"
-                    android:layout_width="0dip"
-                    android:layout_weight="1"
-                    android:layout_height="40dp"
+                  android:layout_width="match_parent"
+            android:layout_height="wrap_content"                   
+                     android:hint="@string/login_password"
                     android:inputType="textPassword"
                     android:singleLine="true" />
-            </LinearLayout>
+           
 
             <LinearLayout
                 android:layout_width="match_parent"

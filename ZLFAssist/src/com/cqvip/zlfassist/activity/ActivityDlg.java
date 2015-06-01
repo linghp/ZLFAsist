@@ -66,8 +66,6 @@ protected void onCreate(Bundle savedInstanceState) {
 	login_cancel_btn=(Button)findViewById(R.id.login_cancel_btn);
 	login_ok_btn=(Button)findViewById(R.id.login_ok_btn);
 	
-	log_in_username.setText("cy");
-	log_in_passwords.setText("cy");
 	
 	login_cancel_btn.setOnClickListener(new OnClickListener() {
 		

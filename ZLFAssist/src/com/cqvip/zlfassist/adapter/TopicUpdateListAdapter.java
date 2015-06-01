@@ -43,7 +43,7 @@ public class TopicUpdateListAdapter extends AdapterBase<ZKTopic> {
 		private TextView imburse;
 		private TextView abst;
 		private TextView keywords;
-		private ImageView tipsNew;
+//		private ImageView tipsNew;
 	}
 	@Override
 	protected View getExView(int position, View convertView, ViewGroup parent) {
@@ -57,18 +57,18 @@ public class TopicUpdateListAdapter extends AdapterBase<ZKTopic> {
 				holder.imburse = (TextView) convertView.findViewById(R.id.tv_topic_imburse);
 				holder.abst = (TextView) convertView.findViewById(R.id.tv_topic_abst);
 				holder.keywords = (TextView) convertView.findViewById(R.id.tv_topic_keyword);
-				holder.tipsNew = (ImageView) convertView.findViewById(R.id.img_new);
+//				holder.tipsNew = (ImageView) convertView.findViewById(R.id.img_new);
 				convertView.setTag(holder);
 		}else{
 			holder = (ViewHolder) convertView.getTag();
 		}
 		
 		ZKTopic  item = mList.get(position);
-		if(item.isNew()){
-			holder.tipsNew.setVisibility(View.VISIBLE);
-		}else{
-			holder.tipsNew.setVisibility(View.INVISIBLE);
-		}
+//		if(item.isNew()){
+//			holder.tipsNew.setVisibility(View.VISIBLE);
+//		}else{
+//			holder.tipsNew.setVisibility(View.INVISIBLE);
+//		}
 		holder.title.setText(item.getTitleC());
 		holder.writer.setText(BaseTools.formContent(item.getShowwriter()));
 		holder.perodical.setText(BaseTools.formPero(item.getMediaC())+BaseTools.formSecendContent(item.getMediasQk()));
